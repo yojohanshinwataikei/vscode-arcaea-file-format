@@ -1,0 +1,25 @@
+{
+    "name": "vscode-arcaea-file-format",
+    "displayName": "Vscode Arcaea File Format Support",
+    "description": "Util for reading and editing arcaea .aff files",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.33.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "arcaea-aff",
+            "aliases": ["Arcaea File Format", "arcaea-aff"],
+            "extensions": [".aff"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "arcaea-aff",
+            "scopeName": "source.arcaea-aff",
+            "path": "./syntaxes/arcaea-aff.tmLanguage.json"
+        }]
+    }
+}
