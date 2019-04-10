@@ -20,6 +20,12 @@
             "language": "arcaea-aff",
             "scopeName": "source.arcaea-aff",
             "path": "./syntaxes/arcaea-aff.tmLanguage.json"
-        }]
+        }],
+        "snippets": [
+            {
+                "language": "arcaea-aff",
+                "path": "./snippets.json"
+            }
+        ]
     }
 }
