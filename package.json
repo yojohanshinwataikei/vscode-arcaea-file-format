@@ -3,11 +3,13 @@
     "displayName": "Vscode Arcaea File Format Support",
     "description": "Util for reading and editing arcaea .aff files",
     "version": "0.0.1",
+    "publisher":"yojohanshinwataikei",
+    "repository": "github:yojohanshinwataikei/vscode-arcaea-file-format",
     "engines": {
         "vscode": "^1.33.0"
     },
     "categories": [
-        "Programming Languages"
+        "Other"
     ],
     "contributes": {
         "languages": [{
