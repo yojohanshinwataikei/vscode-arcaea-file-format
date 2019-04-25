@@ -1,33 +1,56 @@
 {
-    "name": "vscode-arcaea-file-format",
-    "displayName": "Vscode Arcaea File Format Support",
-    "description": "Util for reading and editing arcaea .aff files",
-    "version": "0.0.1",
-    "publisher":"yojohanshinwataikei",
-    "repository": "github:yojohanshinwataikei/vscode-arcaea-file-format",
-    "engines": {
-        "vscode": "^1.33.0"
-    },
-    "categories": [
-        "Other"
-    ],
-    "contributes": {
-        "languages": [{
-            "id": "arcaea-aff",
-            "aliases": ["Arcaea File Format", "arcaea-aff"],
-            "extensions": [".aff"],
-            "configuration": "./language-configuration.json"
-        }],
-        "grammars": [{
-            "language": "arcaea-aff",
-            "scopeName": "source.arcaea-aff",
-            "path": "./syntaxes/arcaea-aff.tmLanguage.json"
-        }],
-        "snippets": [
-            {
-                "language": "arcaea-aff",
-                "path": "./snippets.json"
-            }
-        ]
-    }
+	"name": "vscode-arcaea-file-format",
+	"displayName": "Vscode Arcaea File Format Support",
+	"description": "Util for reading and editing arcaea .aff files",
+	"license": "MIT",
+	"version": "0.0.1",
+	"publisher": "yojohanshinwataikei",
+	"repository": "github:yojohanshinwataikei/vscode-arcaea-file-format",
+	"engines": {
+		"vscode": "^1.33.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onLanguage:arcaea-aff"
+	],
+	"main": "./client/out/extension",
+	"contributes": {
+		"languages": [
+			{
+				"id": "arcaea-aff",
+				"aliases": [
+					"Arcaea File Format",
+					"arcaea-aff"
+				],
+				"extensions": [
+					".aff"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "arcaea-aff",
+				"scopeName": "source.arcaea-aff",
+				"path": "./syntaxes/arcaea-aff.tmLanguage.json"
+			}
+		],
+		"snippets": [
+			{
+				"language": "arcaea-aff",
+				"path": "./snippets.json"
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "cd client && npm run update-vscode && cd .. && npm run compile",
+		"compile": "tsc -b",
+		"watch": "tsc -b -w",
+		"postinstall": "cd client && npm install && cd ../server && npm install && cd .."
+	},
+	"devDependencies": {
+		"typescript": "^3.4.5"
+	}
 }
