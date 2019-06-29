@@ -1,4 +1,5 @@
 import * as lsp from "vscode-languageserver";
+import { checkAFF } from "./lang";
 
 let connection = lsp.createConnection()
 
@@ -19,15 +20,10 @@ documents.onDidChangeContent((change) => {
 
 const validateTextDocument = async (textDocument: lsp.TextDocument) => {
 	// TODO: AFF parsing
+	const errors=checkAFF(textDocument.getText())
+	console.log(errors)
 	connection.sendDiagnostics({
-		uri: textDocument.uri, diagnostics: [{
-			severity: lsp.DiagnosticSeverity.Information,
-			message: "This file is parsed by AFF-LSP",
-			range: {
-				start: { line: 0, character: 0 },
-				end: { line: 0, character: 0 }
-			}
-		}]
+		uri: textDocument.uri, diagnostics: errors
 	})
 }
 

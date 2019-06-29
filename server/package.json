@@ -8,6 +8,7 @@
 		"node": "*"
 	},
 	"dependencies": {
+		"chevrotain": "^4.8.1",
 		"vscode-languageserver": "^5.2.1"
 	}
 }
