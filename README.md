@@ -9,9 +9,34 @@ Util for reading and editing arcaea .aff files
 - [x] .aff File Format Parsing and Syntax Error Displaying
 	- [ ] Tuning the error recovery heuristics
 	- [ ] Use better customized error meassages
-- Semantic Problem Diagnostic and Displaying
+- Semantic Problem Diagnostic, Displaying and fix
 	- [ ] Check value format for known metadatas
 	- [ ] Type assert and sub-events check for known events
+	- [ ] `timing` third param
+	- [ ] Track id of normal note
+	- [ ] `arctap` time out of `arc`
+		- [ ] Fix: remove the `arctap`
+	- [ ] Negative length `arc` or not positive length `hold`
+		- [ ] Fix: remove the `hold` or `arc`
+	- [ ] Zero length `arc` with non-`s` type
+		- [ ] Fix: set type to `s`
+	- [ ] Empty `arc`
+		- [ ] Fix: remove the `arc`
+	- [ ] Duplicated `arctap`
+		- [ ] Fix: remove the `arctap`
+	- [ ] Wrong last param for `arc` with `arctap`
+		- [ ] Fix: set it to correct value
+	- [ ] Out of range `arc`
+	- [ ] `arc` and `hold` across the `timing`
+	- [ ] Duplicated floor notes
+		- [ ] Fix: merge the floor notes
+	- [ ] Simplifiable `arc` type
+		- [ ] Fix: set it to most simple type
 	- [ ] Listing more problems
 - Handful Editing Features
-	- [ ] Listing the operations
+	- [ ] Resort
+	- [ ] Mirroring
+	- [ ] Move in time
+	- [ ] Cut the `arc`
+	- [ ] Align to timing
+	- [ ] Listing more operations
