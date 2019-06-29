@@ -47,7 +47,7 @@ export class AFFParser extends CstParser{
 		this.SUBRULE(this.items)
 	})
 	constructor(){
-		super(tokenTypes)
+		super(tokenTypes,{recoveryEnabled:true})
 		this.performSelfAnalysis()
 	}
 }
