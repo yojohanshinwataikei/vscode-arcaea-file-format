@@ -47,6 +47,7 @@ export class AFFParser extends CstParser{
 		this.SUBRULE(this.items)
 	})
 	constructor(){
+		// see https://sap.github.io/chevrotain/docs/tutorial/step4_fault_tolerance.html for the error recovery heuristics
 		super(tokenTypes,{recoveryEnabled:true})
 		this.performSelfAnalysis()
 	}

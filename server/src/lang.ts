@@ -19,6 +19,7 @@ export const checkAFF = (content: lsp.TextDocument): lsp.Diagnostic[] => {
 			}
 		})))
 	}
+	// The error tokens is just ignored so we can find more errors in parsing stage
 	parser.input = lexingResult.tokens
 	parser.aff()
 	if (parser.errors.length > 0) {
