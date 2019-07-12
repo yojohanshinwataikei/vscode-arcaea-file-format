@@ -54,8 +54,6 @@ export const checkAFF = (content: lsp.TextDocument): lsp.Diagnostic[] => {
 				},
 			})) : undefined
 		})))
-		console.log(astResult.errors)
-		console.log(astResult.ast)
 	}
 	return errors
 }

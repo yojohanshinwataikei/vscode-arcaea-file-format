@@ -1,7 +1,7 @@
 import { DiagnosticSeverity } from "vscode-languageserver";
 import { CstChildrenDictionary, IToken, CstNode, ICstVisitor, CstNodeLocation, tokenLabel } from "chevrotain"
 import { BaseAffVisitor } from "./parser"
-import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent } from "./types"
+import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent, AFFTrackId, AFFInt, AFFColorId, AFFArcKind, AFFWord, affArcKinds, affTrackIds, affColorIds, affEffects, AFFEffect, AFFBool, affBools } from "./types"
 import { tokenTypes } from "./lexer";
 
 // This pass generate AST from CST.
@@ -196,11 +196,12 @@ const eventTransformer = {
 			return null
 		}
 		const time = checkValueType(errors, "tap", "time", "int", values, 0)
-		const track = checkValueType(errors, "tap", "track", "int", values, 1)
-		if (time === null || track === null) {
+		const rawTrackId = checkValueType(errors, "tap", "track-id", "int", values, 1)
+		const trackId = parseValue.trackId(errors, "tap", "track-id", rawTrackId)
+		if (time === null || trackId === null) {
 			return null
 		}
-		return { kind: "tap", time, track }
+		return { kind: "tap", time, trackId: trackId }
 	},
 	hold: (
 		errors: AFFError[],
@@ -216,11 +217,12 @@ const eventTransformer = {
 		}
 		const start = checkValueType(errors, "hold", "start", "int", values, 0)
 		const end = checkValueType(errors, "hold", "end", "int", values, 0)
-		const track = checkValueType(errors, "hold", "track", "int", values, 1)
-		if (start === null || end === null || track === null) {
+		const rawTrackId = checkValueType(errors, "hold", "track-id", "int", values, 1)
+		const trackId = parseValue.trackId(errors, "hold", "track-id", rawTrackId)
+		if (start === null || end === null || trackId === null) {
 			return null
 		}
-		return { kind: "hold", start, end, track, tagLocation }
+		return { kind: "hold", start, end, trackId: trackId, tagLocation }
 	},
 	arctap: (
 		errors: AFFError[],
@@ -275,12 +277,16 @@ const eventTransformer = {
 		const end = checkValueType(errors, "arc", "end", "int", values, 1)
 		const xStart = checkValueType(errors, "arc", "x-start", "float", values, 2)
 		const xEnd = checkValueType(errors, "arc", "x-end", "float", values, 3)
-		const arcKind = checkValueType(errors, "arc", "arc-kind", "word", values, 4)
+		const rawArcKind = checkValueType(errors, "arc", "arc-kind", "word", values, 4)
+		const arcKind = parseValue.arcKind(errors, "arc", "arc-kind", rawArcKind)
 		const yStart = checkValueType(errors, "arc", "y-start", "float", values, 5)
 		const yEnd = checkValueType(errors, "arc", "y-end", "float", values, 6)
-		const colorId = checkValueType(errors, "arc", "color-id", "int", values, 7)
-		const effect = checkValueType(errors, "arc", "effect", "word", values, 8)
-		const isLine = checkValueType(errors, "arc", "isline", "word", values, 9)
+		const rawColorId = checkValueType(errors, "arc", "color-id", "int", values, 7)
+		const colorId = parseValue.colorId(errors, "arc", "color-id", rawColorId)
+		const rawEffect = checkValueType(errors, "arc", "effect", "word", values, 8)
+		const effect = parseValue.effect(errors, "arc", "effect", rawEffect)
+		const rawIsLine = checkValueType(errors, "arc", "is-line", "word", values, 9)
+		const isLine = parseValue.bool(errors, "arc", "is-line", rawIsLine)
 		if (start === null || end === null ||
 			xStart === null || xEnd === null || arcKind === null ||
 			yStart === null || yEnd === null || colorId === null ||
@@ -312,4 +318,98 @@ const transformArcSubevents = (
 		}
 	}
 	return { data: arctaps, location: subeventsLocation }
+}
+
+const parseValue = {
+	trackId: (errors: AFFError[], eventKind: string, fieldname: string, int: WithLocation<AFFInt> | null): WithLocation<AFFTrackId> => {
+		if (int) {
+			const { data, location } = int
+			const intValue = data.value
+			if (!Number.isInteger(intValue)) {
+				throw new Error(`value in AFFInt(${intValue}) is not int`)
+			}
+			if (intValue < 1 || intValue > 4) {
+				errors.push({
+					message: `The value in the "${fieldname}" field of event with type "${eventKind}" should be one of ${[...affTrackIds.values()].join()}`,
+					location,
+					severity: DiagnosticSeverity.Error,
+				})
+				return null
+			}
+			return { data: { kind: "track-id", value: intValue } as AFFTrackId, location }
+		} else {
+			return null
+		}
+	},
+	colorId: (errors: AFFError[], eventKind: string, fieldname: string, int: WithLocation<AFFInt> | null): WithLocation<AFFColorId> => {
+		if (int) {
+			const { data, location } = int
+			const intValue = data.value
+			if (!Number.isInteger(intValue)) {
+				throw new Error(`value in AFFInt(${intValue}) is not int`)
+			}
+			if (intValue < 0 || intValue > 2) {
+				errors.push({
+					message: `The value in the "${fieldname}" field of event with type "${eventKind}" should be one of ${[...affColorIds.values()].join()}`,
+					location,
+					severity: DiagnosticSeverity.Error,
+				})
+				return null
+			}
+			return { data: { kind: "color-id", value: intValue } as AFFColorId, location }
+		} else {
+			return null
+		}
+	},
+	arcKind: (errors: AFFError[], eventKind: string, fieldname: string, word: WithLocation<AFFWord> | null): WithLocation<AFFArcKind> => {
+		if (word) {
+			const { data, location } = word
+			const wordValue = data.value
+			if (!affArcKinds.has(wordValue)) {
+				errors.push({
+					message: `The value in the "${fieldname}" field of event with type "${eventKind}" should be one of ${[...affArcKinds.values()].join()}`,
+					location,
+					severity: DiagnosticSeverity.Error,
+				})
+				return null
+			}
+			return { data: { kind: "arc-kind", value: wordValue } as AFFArcKind, location }
+		} else {
+			return null
+		}
+	},
+	effect: (errors: AFFError[], eventKind: string, fieldname: string, word: WithLocation<AFFWord> | null): WithLocation<AFFEffect> => {
+		if (word) {
+			const { data, location } = word
+			const wordValue = data.value
+			if (!affEffects.has(wordValue)) {
+				errors.push({
+					message: `The value in the "${fieldname}" field of event with type "${eventKind}" should be one of ${[...affEffects.values()].join()}`,
+					location,
+					severity: DiagnosticSeverity.Error,
+				})
+				return null
+			}
+			return { data: { kind: "effect", value: wordValue } as AFFEffect, location }
+		} else {
+			return null
+		}
+	},
+	bool: (errors: AFFError[], eventKind: string, fieldname: string, word: WithLocation<AFFWord> | null): WithLocation<AFFBool> => {
+		if (word) {
+			const { data, location } = word
+			const wordValue = data.value
+			if (!affBools.has(wordValue)) {
+				errors.push({
+					message: `The value in the "${fieldname}" field of event with type "${eventKind}" should be one of ${[...affBools.values()].join()}`,
+					location,
+					severity: DiagnosticSeverity.Error,
+				})
+				return null
+			}
+			return { data: { kind: "bool", value: wordValue === "true" } as AFFBool, location }
+		} else {
+			return null
+		}
+	}
 }

@@ -16,7 +16,7 @@ export interface AFFTimingEvent {
 export interface AFFTapEvent {
 	kind: "tap",
 	time: WithLocation<AFFInt>,
-	track: WithLocation<AFFInt>,
+	trackId: WithLocation<AFFTrackId>,
 }
 
 export interface AFFHoldEvent {
@@ -24,7 +24,7 @@ export interface AFFHoldEvent {
 	tagLocation: CstNodeLocation,
 	start: WithLocation<AFFInt>,
 	end: WithLocation<AFFInt>,
-	track: WithLocation<AFFInt>,
+	trackId: WithLocation<AFFTrackId>,
 }
 
 export interface AFFArcEvent {
@@ -34,12 +34,12 @@ export interface AFFArcEvent {
 	end: WithLocation<AFFInt>,
 	xStart: WithLocation<AFFFloat>,
 	xEnd: WithLocation<AFFFloat>,
-	arcKind: WithLocation<AFFWord>,
+	arcKind: WithLocation<AFFArcKind>,
 	yStart: WithLocation<AFFFloat>,
 	yEnd: WithLocation<AFFFloat>,
-	colorId: WithLocation<AFFInt>,
-	effect: WithLocation<AFFWord>,
-	isLine: WithLocation<AFFWord>,
+	colorId: WithLocation<AFFColorId>,
+	effect: WithLocation<AFFEffect>,
+	isLine: WithLocation<AFFBool>,
 	arctaps?: WithLocation<WithLocation<AFFArctapEvent>[]>,
 }
 
@@ -74,6 +74,42 @@ export type AFFValues={
 	word:AFFWord,
 }
 export type AFFValue = AFFValues[keyof AFFValues]
+
+export interface AFFTrackId {
+	kind: "track-id",
+	value: 1|2|3|4,
+}
+export const affTrackIds=new Set([1,2,3,4])
+
+export interface AFFColorId {
+	kind: "color-id",
+	value: 0|1|2,
+}
+export const affColorIds=new Set([0,1,2])
+
+export interface AFFEffect {
+	kind: "effect",
+	value: "none"|"full"|"incremental"
+}
+export const affEffects=new Set(["none","full","incremental"])
+
+export interface AFFArcKind {
+	kind: "arc-kind",
+	value: "b"|"s"|"si"|"so"|"sisi"|"siso"|"soso"|"sosi"
+}
+export const affArcKinds=new Set(["b","s","si","so","sisi","siso","soso","sosi"])
+
+export interface AFFBool {
+	kind: "bool",
+	value: boolean
+}
+export const affBools=new Set(["true","false"])
+
+
+export interface AFFBool {
+	kind: "bool",
+	value: boolean
+}
 
 export interface AFFMetadataEntry {
 	key: WithLocation<string>,
