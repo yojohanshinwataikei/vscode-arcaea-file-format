@@ -63,7 +63,7 @@ class ToASTVisitor extends BaseAffVisitor implements ICstVisitor<AFFError[], any
 		// type checks
 		const values = this.visit(ctx.values[0] as CstNode) as WithLocation<AFFValue>[]
 		const valuesLocation = (ctx.values[0] as CstNode).location
-		const subevents = ctx.subevents ? this.visit(ctx.subevents[0] as CstNode,errors) as WithLocation<AFFEvent>[] : null
+		const subevents = ctx.subevents ? this.visit(ctx.subevents[0] as CstNode, errors) as WithLocation<AFFEvent>[] : null
 		const subeventsLocation = ctx.subevents ? (ctx.subevents[0] as CstNode).location : null
 		if (ctx.word) {
 			const tag = ctx.word[0] as IToken
@@ -152,7 +152,7 @@ const checkValuesCount = (errors: AFFError[], kind: string, count: number, value
 	if (values.length !== count) {
 		// error: value count missmatch
 		errors.push({
-			message: `Event with type "${kind}" should have ${count} value(s) instead of ${values.length} value(s).`,
+			message: `Event with type "${kind}" should have ${count} field(s) instead of ${values.length} field(s).`,
 			location: valuesLocation,
 			severity: DiagnosticSeverity.Error,
 		})
@@ -161,12 +161,19 @@ const checkValuesCount = (errors: AFFError[], kind: string, count: number, value
 	return true
 }
 
-const checkValueType = <T extends keyof AFFValues>(errors: AFFError[], eventKind: string, kind: T, values: WithLocation<AFFValue>[], id: number): WithLocation<AFFValues[T]> | null => {
+const checkValueType = <T extends keyof AFFValues>(
+	errors: AFFError[],
+	eventKind: string,
+	fieldname: string,
+	kind: T,
+	values: WithLocation<AFFValue>[],
+	id: number
+): WithLocation<AFFValues[T]> | null => {
 	const value = values[id]
 	if (value.data.kind !== kind) {
 		// error: value type missmatch
 		errors.push({
-			message: `The ${id + 1}-st/nd/rd/th value of event with type "${eventKind}" should be "${kind}" instead of "${value.data.kind}"`,
+			message: `The value in the "${fieldname}" field of event with type "${eventKind}" should be "${kind}" instead of "${value.data.kind}"`,
 			location: values[id].location,
 			severity: DiagnosticSeverity.Error,
 		})
@@ -188,8 +195,8 @@ const eventTransformer = {
 		if (!checkValuesCount(errors, "tap", 2, values, valuesLocation)) {
 			return null
 		}
-		const time = checkValueType(errors, "tap", "int", values, 0)
-		const track = checkValueType(errors, "tap", "int", values, 1)
+		const time = checkValueType(errors, "tap", "time", "int", values, 0)
+		const track = checkValueType(errors, "tap", "track", "int", values, 1)
 		if (time === null || track === null) {
 			return null
 		}
@@ -207,9 +214,9 @@ const eventTransformer = {
 		if (!checkValuesCount(errors, "hold", 3, values, valuesLocation)) {
 			return null
 		}
-		const start = checkValueType(errors, "hold", "int", values, 0)
-		const end = checkValueType(errors, "hold", "int", values, 0)
-		const track = checkValueType(errors, "hold", "int", values, 1)
+		const start = checkValueType(errors, "hold", "start", "int", values, 0)
+		const end = checkValueType(errors, "hold", "end", "int", values, 0)
+		const track = checkValueType(errors, "hold", "track", "int", values, 1)
 		if (start === null || end === null || track === null) {
 			return null
 		}
@@ -227,7 +234,7 @@ const eventTransformer = {
 		if (!checkValuesCount(errors, "arctap", 1, values, valuesLocation)) {
 			return null
 		}
-		const time = checkValueType(errors, "arctap", "int", values, 0)
+		const time = checkValueType(errors, "arctap", "time", "int", values, 0)
 		if (time === null) {
 			return null
 		}
@@ -245,9 +252,9 @@ const eventTransformer = {
 		if (!checkValuesCount(errors, "timing", 3, values, valuesLocation)) {
 			return null
 		}
-		const time = checkValueType(errors, "timing", "int", values, 0)
-		const bpm = checkValueType(errors, "timing", "float", values, 1)
-		const segment = checkValueType(errors, "timing", "float", values, 2)
+		const time = checkValueType(errors, "timing", "time", "int", values, 0)
+		const bpm = checkValueType(errors, "timing", "bpm", "float", values, 1)
+		const segment = checkValueType(errors, "timing", "segment", "float", values, 2)
 		if (time === null || bpm === null || segment === null) {
 			return null
 		}
@@ -264,16 +271,16 @@ const eventTransformer = {
 		if (!checkValuesCount(errors, "arc", 10, values, valuesLocation)) {
 			return null
 		}
-		const start = checkValueType(errors, "arc", "int", values, 0)
-		const end = checkValueType(errors, "arc", "int", values, 1)
-		const xStart = checkValueType(errors, "arc", "float", values, 2)
-		const xEnd = checkValueType(errors, "arc", "float", values, 3)
-		const arcKind = checkValueType(errors, "arc", "word", values, 4)
-		const yStart = checkValueType(errors, "arc", "float", values, 5)
-		const yEnd = checkValueType(errors, "arc", "float", values, 6)
-		const colorId = checkValueType(errors, "arc", "int", values, 7)
-		const effect = checkValueType(errors, "arc", "word", values, 8)
-		const isLine = checkValueType(errors, "arc", "word", values, 9)
+		const start = checkValueType(errors, "arc", "start", "int", values, 0)
+		const end = checkValueType(errors, "arc", "end", "int", values, 1)
+		const xStart = checkValueType(errors, "arc", "x-start", "float", values, 2)
+		const xEnd = checkValueType(errors, "arc", "x-end", "float", values, 3)
+		const arcKind = checkValueType(errors, "arc", "arc-kind", "word", values, 4)
+		const yStart = checkValueType(errors, "arc", "y-start", "float", values, 5)
+		const yEnd = checkValueType(errors, "arc", "y-end", "float", values, 6)
+		const colorId = checkValueType(errors, "arc", "color-id", "int", values, 7)
+		const effect = checkValueType(errors, "arc", "effect", "word", values, 8)
+		const isLine = checkValueType(errors, "arc", "isline", "word", values, 9)
 		if (start === null || end === null ||
 			xStart === null || xEnd === null || arcKind === null ||
 			yStart === null || yEnd === null || colorId === null ||
