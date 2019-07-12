@@ -1,12 +1,11 @@
-import { AFFLexer } from "./lexer";
-import * as lsp from "vscode-languageserver";
-import { AFFParser } from "./parser";
-import { EOF } from "chevrotain";
-
-const parser = new AFFParser()
+import { AFFLexer } from "./lexer"
+import * as lsp from "vscode-languageserver"
+import { affParser } from "./parser"
+import { EOF } from "chevrotain"
+import { affToAST } from "./to-ast";
 
 export const checkAFF = (content: lsp.TextDocument): lsp.Diagnostic[] => {
-	let errors = []
+	let errors: lsp.Diagnostic[] = []
 	const text = content.getText()
 	const lexingResult = AFFLexer.tokenize(text)
 	if (lexingResult.errors.length > 0) {
@@ -20,10 +19,10 @@ export const checkAFF = (content: lsp.TextDocument): lsp.Diagnostic[] => {
 		})))
 	}
 	// The error tokens is just ignored so we can find more errors in parsing stage
-	parser.input = lexingResult.tokens
-	parser.aff()
-	if (parser.errors.length > 0) {
-		errors = errors.concat(parser.errors.map(e => ({
+	affParser.input = lexingResult.tokens
+	const parsingResult = affParser.aff()
+	if (affParser.errors.length > 0) {
+		errors = errors.concat(affParser.errors.map(e => ({
 			severity: lsp.DiagnosticSeverity.Error,
 			message: e.message,
 			range: e.token.tokenType === EOF ? {
@@ -35,6 +34,28 @@ export const checkAFF = (content: lsp.TextDocument): lsp.Diagnostic[] => {
 				}
 		})
 		))
+	} else {
+		const astResult = affToAST(parsingResult)
+		errors = errors.concat(astResult.errors.map(e => ({
+			severity: e.severity,
+			message: e.message,
+			range: {
+				start: { line: e.location.startLine - 1, character: e.location.startColumn - 1 },
+				end: { line: e.location.endLine - 1, character: e.location.endColumn },
+			},
+			relatedInformation: e.relatedInfo ? e.relatedInfo.map(info => ({
+				message: info.message,
+				location: {
+					uri: content.uri,
+					range: {
+						start: { line: info.location.startLine - 1, character: info.location.startColumn - 1 },
+						end: { line: info.location.endLine - 1, character: info.location.endColumn },
+					}
+				},
+			})) : undefined
+		})))
+		console.log(astResult.errors)
+		console.log(astResult.ast)
 	}
 	return errors
 }
