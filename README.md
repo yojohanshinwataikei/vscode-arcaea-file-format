@@ -11,9 +11,9 @@ Util for reading and editing arcaea .aff files
 	- [ ] Use better customized error meassages
 - Semantic Problem Diagnostic, Displaying and fix
 	- [ ] Check value format for known metadatas
-	- [ ] Type assert and sub-events check for known events
+	- [x] Type assert and sub-events check for known events
 	- [ ] `timing` third param
-	- [ ] Track id of normal note
+	- [x] Track id of normal note
 	- [ ] `arctap` time out of `arc`
 		- [ ] Fix: remove the `arctap`
 	- [ ] Negative length `arc` or not positive length `hold`
