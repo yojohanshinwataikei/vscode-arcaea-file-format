@@ -216,8 +216,8 @@ const eventTransformer = {
 			return null
 		}
 		const start = checkValueType(errors, "hold", "start", "int", values, 0)
-		const end = checkValueType(errors, "hold", "end", "int", values, 0)
-		const rawTrackId = checkValueType(errors, "hold", "track-id", "int", values, 1)
+		const end = checkValueType(errors, "hold", "end", "int", values, 1)
+		const rawTrackId = checkValueType(errors, "hold", "track-id", "int", values, 2)
 		const trackId = parseValue.trackId(errors, "hold", "track-id", rawTrackId)
 		if (start === null || end === null || trackId === null) {
 			return null
