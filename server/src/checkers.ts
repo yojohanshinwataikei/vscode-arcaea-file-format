@@ -1,8 +1,9 @@
 import { metadataChecker } from "./checker/metadata";
 import { valueRangeChecker } from "./checker/value-range"
+import { floatDigitChecker } from "./checker/float-digit";
 import { AFFFile, AFFError } from "./types"
 
-const checkers = [metadataChecker, valueRangeChecker]
+const checkers = [metadataChecker, valueRangeChecker, floatDigitChecker]
 
 export const processCheckers = (file: AFFFile): AFFError[] => {
 	let errors: AFFError[] = []
