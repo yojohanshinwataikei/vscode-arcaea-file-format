@@ -10,21 +10,23 @@ Util for reading and editing arcaea .aff files
 	- [ ] Tuning the error recovery heuristics
 	- [ ] Use better customized error meassages
 - Semantic Problem Diagnostic, Displaying and fix
-	- [ ] Check value format for known metadatas
+	- [x] Check value format for known metadatas
 	- [x] Type assert and sub-events check for known events
-	- [ ] `timing` third param
+	- [x] `timing` third param
 	- [x] Track id of normal note
-	- [ ] `arctap` time out of `arc`
+	- [x] `arctap` time out of `arc`
 		- [ ] Fix: remove the `arctap`
-	- [ ] Negative length `arc` or not positive length `hold`
+	- [x] Negative length `arc` or not positive length `hold`
 		- [ ] Fix: remove the `hold` or `arc`
-	- [ ] Zero length `arc` with non-`s` type
+	- [x] Zero length `arc` with non-`s` type
 		- [ ] Fix: set type to `s`
-	- [ ] Empty `arc`
+	- [x] Zero length `arc` with `arctap`
+		- [ ] Fix: remove the `arctap`
+	- [x] Empty `arc`
 		- [ ] Fix: remove the `arc`
 	- [ ] Duplicated `arctap`
 		- [ ] Fix: remove the `arctap`
-	- [ ] Wrong last param for `arc` with `arctap`
+	- [x] Wrong last param for `arc` with `arctap`
 		- [ ] Fix: set it to correct value
 	- [ ] Out of range `arc`
 	- [ ] `arc` and `hold` across the `timing`

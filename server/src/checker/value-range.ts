@@ -49,6 +49,20 @@ export const valueRangeChecker: AFFChecker = (file, errors) => {
 						location: location,
 					})
 				}
+				if (data.arcKind.data.value !== "s") {
+					errors.push({
+						message: `Arc event with zero time length should be "s" type.`,
+						severity: DiagnosticSeverity.Error,
+						location: data.arcKind.location,
+					})
+				}
+				if (data.arctaps) {
+					errors.push({
+						message: `Arc event with zero time length should not have arctap events on it.`,
+						severity: DiagnosticSeverity.Error,
+						location: data.arctaps.location,
+					})
+				}
 			}
 			if (data.effect.data.value !== "none") {
 				errors.push({
