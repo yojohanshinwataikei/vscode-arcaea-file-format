@@ -3,6 +3,8 @@ import * as lsp from "vscode-languageserver"
 import { affParser } from "./parser"
 import { EOF } from "chevrotain"
 import { affToAST } from "./to-ast";
+import { AFFError } from "./types";
+import { processCheckers } from "./checkers";
 
 export const checkAFF = (content: lsp.TextDocument): lsp.Diagnostic[] => {
 	let errors: lsp.Diagnostic[] = []
@@ -36,24 +38,28 @@ export const checkAFF = (content: lsp.TextDocument): lsp.Diagnostic[] => {
 		))
 	} else {
 		const astResult = affToAST(parsingResult)
-		errors = errors.concat(astResult.errors.map(e => ({
-			severity: e.severity,
-			message: e.message,
-			range: {
-				start: { line: e.location.startLine - 1, character: e.location.startColumn - 1 },
-				end: { line: e.location.endLine - 1, character: e.location.endColumn },
-			},
-			relatedInformation: e.relatedInfo ? e.relatedInfo.map(info => ({
-				message: info.message,
-				location: {
-					uri: content.uri,
-					range: {
-						start: { line: info.location.startLine - 1, character: info.location.startColumn - 1 },
-						end: { line: info.location.endLine - 1, character: info.location.endColumn },
-					}
-				},
-			})) : undefined
-		})))
+		errors = errors.concat(astResult.errors.map(e => transformAFFError(e, content.uri)))
+		const checkerErrors = processCheckers(astResult.ast)
+		errors = errors.concat(checkerErrors.map(e => transformAFFError(e, content.uri)))
 	}
 	return errors
 }
+
+const transformAFFError = (e: AFFError, uri: string): lsp.Diagnostic => ({
+	severity: e.severity,
+	message: e.message,
+	range: {
+		start: { line: e.location.startLine - 1, character: e.location.startColumn - 1 },
+		end: { line: e.location.endLine - 1, character: e.location.endColumn },
+	},
+	relatedInformation: e.relatedInfo ? e.relatedInfo.map(info => ({
+		message: info.message,
+		location: {
+			uri: uri,
+			range: {
+				start: { line: info.location.startLine - 1, character: info.location.startColumn - 1 },
+				end: { line: info.location.endLine - 1, character: info.location.endColumn },
+			}
+		},
+	})) : undefined
+})

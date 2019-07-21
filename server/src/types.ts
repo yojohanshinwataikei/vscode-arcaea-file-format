@@ -1,8 +1,8 @@
 import { CstNodeLocation } from "chevrotain"
 import { DiagnosticSeverity } from "vscode-languageserver";
 
-export interface WithLocation<T>{
-	data:T,
+export interface WithLocation<T> {
+	data: T,
 	location: CstNodeLocation,
 }
 export interface AFFTimingEvent {
@@ -54,13 +54,13 @@ export type AFFEvent = AFFItem | AFFArctapEvent
 
 export interface AFFInt {
 	kind: "int",
-	value:number,
+	value: number,
 }
 
 export interface AFFFloat {
 	kind: "float",
-	value:number,
-	digit:number,
+	value: number,
+	digit: number,
 }
 
 export interface AFFWord {
@@ -68,42 +68,42 @@ export interface AFFWord {
 	value: string
 }
 
-export type AFFValues={
-	int:AFFInt,
-	float:AFFFloat,
-	word:AFFWord,
+export type AFFValues = {
+	int: AFFInt,
+	float: AFFFloat,
+	word: AFFWord,
 }
 export type AFFValue = AFFValues[keyof AFFValues]
 
 export interface AFFTrackId {
 	kind: "track-id",
-	value: 1|2|3|4,
+	value: 1 | 2 | 3 | 4,
 }
-export const affTrackIds=new Set([1,2,3,4])
+export const affTrackIds = new Set([1, 2, 3, 4])
 
 export interface AFFColorId {
 	kind: "color-id",
-	value: 0|1|2,
+	value: 0 | 1 | 2,
 }
-export const affColorIds=new Set([0,1,2])
+export const affColorIds = new Set([0, 1, 2])
 
 export interface AFFEffect {
 	kind: "effect",
-	value: "none"|"full"|"incremental"
+	value: "none" | "full" | "incremental"
 }
-export const affEffects=new Set(["none","full","incremental"])
+export const affEffects = new Set(["none", "full", "incremental"])
 
 export interface AFFArcKind {
 	kind: "arc-kind",
-	value: "b"|"s"|"si"|"so"|"sisi"|"siso"|"soso"|"sosi"
+	value: "b" | "s" | "si" | "so" | "sisi" | "siso" | "soso" | "sosi"
 }
-export const affArcKinds=new Set(["b","s","si","so","sisi","siso","soso","sosi"])
+export const affArcKinds = new Set(["b", "s", "si", "so", "sisi", "siso", "soso", "sosi"])
 
 export interface AFFBool {
 	kind: "bool",
 	value: boolean
 }
-export const affBools=new Set(["true","false"])
+export const affBools = new Set(["true", "false"])
 
 
 export interface AFFBool {
@@ -116,9 +116,9 @@ export interface AFFMetadataEntry {
 	value: WithLocation<string>,
 }
 
-export interface AFFMetadata{
-	data:Map<string, WithLocation<AFFMetadataEntry>>
-	metaEndLocation:CstNodeLocation
+export interface AFFMetadata {
+	data: Map<string, WithLocation<AFFMetadataEntry>>
+	metaEndLocation: CstNodeLocation
 }
 
 export interface AFFFile {
@@ -137,3 +137,5 @@ export interface AFFError {
 	severity: DiagnosticSeverity,
 	relatedInfo?: AFFErrorRelatedInfo[],
 }
+
+export type AFFChecker = (file: AFFFile, errors: AFFError[]) => void
