@@ -1,0 +1,19 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"$id": "https://github.com/yojohanshinwataikei/vscode-arcaea-file-format/raw/master/json-scheme/packlist.json",
+	"title": "Arcaea packlist file",
+	"description": "The file where Arcaea reads metadatas of packs",
+	"type": "object",
+	"properties": {
+		"packs": {
+			"description": "The list of metadata of packs",
+			"type": "array",
+			"items": {
+				"$ref": "packdata.json"
+			}
+		}
+	},
+	"required": [
+		"packs"
+	]
+}

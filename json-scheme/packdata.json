@@ -1,0 +1,40 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"$id": "https://github.com/yojohanshinwataikei/vscode-arcaea-file-format/raw/master/json-scheme/packdata.json",
+	"title": "Arcaea pack metadata",
+	"description": "The metadatas of packs in Arcaea",
+	"type": "object",
+	"properties": {
+		"id":{
+			"type":"string",
+			"description": "The id of the pack, used in the songlist file"
+		},
+		"cost":{
+			"type":"integer",
+			"description": "The price of this pack in memories",
+			"minimum": 0
+		},
+		"custom_banner":{
+			"type":"boolean",
+			"description": "Is a custom banner included in the cover image of the pack"
+		},
+		"plus_character":{
+			"type":"integer",
+			"description": "The id of the associated partner of the pack, -1 if there are none associated partner",
+			"minimum": -1
+		},
+		"name_localized":{
+			"description": "The name of the pack, localized in various languages",
+			"$ref": "songdata.json#/definitions/localized_string"
+		},
+		"description_localized":{
+			"description": "The description of the pack used when the pack is not yet purchased, localized in various languages",
+			"$ref": "songdata.json#/definitions/localized_string"
+		}
+	},
+	"required": [
+		"id",
+		"cost",
+		"name_localized"
+	]
+}

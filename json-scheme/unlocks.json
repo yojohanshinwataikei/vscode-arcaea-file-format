@@ -1,0 +1,19 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"$id": "https://github.com/yojohanshinwataikei/vscode-arcaea-file-format/raw/master/json-scheme/unlocks.json",
+	"title": "Arcaea unlocks file",
+	"description": "The file where Arcaea reads unlock conditions of songs",
+	"type": "object",
+	"properties": {
+		"unlocks": {
+			"description": "The list of conditions of songs",
+			"type": "array",
+			"items": {
+				"$ref": "unlockdata.json"
+			}
+		}
+	},
+	"required": [
+		"unlocks"
+	]
+}

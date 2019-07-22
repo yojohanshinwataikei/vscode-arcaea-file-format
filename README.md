@@ -42,3 +42,7 @@ Util for reading and editing arcaea .aff files
 	- [ ] Cut the `arc`
 	- [ ] Align to timing
 	- [ ] Listing more operations
+- JSON validation of the `songlist` `packlist` `unlocks` files
+	- [x] `songlist`
+	- [x] `packlist`
+	- [x] `unlocks`

@@ -28,6 +28,14 @@
 					".aff"
 				],
 				"configuration": "./language-configuration.json"
+			},
+			{
+				"id": "json",
+				"filenames": [
+					"songlist",
+					"packlist",
+					"unlocks"
+				]
 			}
 		],
 		"grammars": [
@@ -41,6 +49,43 @@
 			{
 				"language": "arcaea-aff",
 				"path": "./snippets.json"
+			}
+		],
+		"jsonValidation": [
+			{
+				"fileMatch": "songlist",
+				"url": "./json-scheme/songlist.json"
+			},{
+				"fileMatch": "songlist.json",
+				"url": "./json-scheme/songlist.json"
+			},
+			{
+				"fileMatch": "songdata.json",
+				"url": "./json-scheme/songdata.json"
+			},
+			{
+				"fileMatch": "packlist",
+				"url": "./json-scheme/packlist.json"
+			},
+			{
+				"fileMatch": "packlist.json",
+				"url": "./json-scheme/packlist.json"
+			},
+			{
+				"fileMatch": "packdata.json",
+				"url": "./json-scheme/packdata.json"
+			},
+			{
+				"fileMatch": "unlocks",
+				"url": "./json-scheme/unlocks.json"
+			},
+			{
+				"fileMatch": "unlocks.json",
+				"url": "./json-scheme/unlocks.json"
+			},
+			{
+				"fileMatch": "unlockdata.json",
+				"url": "./json-scheme/unlockdata.json"
 			}
 		]
 	},
