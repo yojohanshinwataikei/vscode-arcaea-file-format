@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.2.0
+
+- Various simple file content checking
+- JSON Validation for the `songlist` `packlist` `unlocks` files
+
 ## 0.1.1
 
 - Fix a bug in type checking of hold event
