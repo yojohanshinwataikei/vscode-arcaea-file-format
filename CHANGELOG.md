@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.3.0
+
+- Check for duplicated `timing` define
+- Check for `arc` and `hold` items cut by `timing` event
+- Be more relax for endline token
+
 ## 0.2.0
 
 - Various simple file content checking
