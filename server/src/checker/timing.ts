@@ -18,7 +18,7 @@ const checkFirstTiming = (file: AFFFile, error: AFFError[]) => {
 	}
 	error.push({
 		message: `The first item in the aff file is not timing at zero timestamp`,
-		severity: DiagnosticSeverity.Error,
+		severity: DiagnosticSeverity.Information,
 		location: file.metadata.data.metaEndLocation,
 	})
 }
