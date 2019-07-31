@@ -40,10 +40,12 @@ class AFFParser extends CstParser {
 	public item = this.RULE("item", () => {
 		this.SUBRULE(this.event)
 		this.CONSUME(tokenTypes.semicolon)
-		this.CONSUME(tokenTypes.endline)
 	})
 	public items = this.RULE("items", () => {
-		this.MANY(() => this.SUBRULE(this.item))
+		this.MANY_SEP({
+			SEP: tokenTypes.endline,
+			DEF: () => this.OPTION(() => this.SUBRULE(this.item))
+		})
 	})
 	public aff = this.RULE("aff", () => {
 		this.SUBRULE(this.metadata)

@@ -26,7 +26,7 @@ const checkCutByTiming = (tag: string, timingData: TimingData[], start: number, 
 			severity: DiagnosticSeverity.Error,
 			location,
 			relatedInfo: cuters.map(timing => ({
-				message: `The timing event that cut the ${tag} item`,
+				message: `The timing event that cuts the ${tag} item`,
 				location: timing.item.location,
 			})),
 		})
