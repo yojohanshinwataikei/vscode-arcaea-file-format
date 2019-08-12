@@ -15,7 +15,7 @@ export const valueRangeChecker: AFFChecker = (file, errors) => {
 			if (data.bpm.data.value === 0 && data.segment.data.value !== 0) {
 				errors.push({
 					message: `Timing event with zero bpm should have zero beats per segment.`,
-					severity: DiagnosticSeverity.Error,
+					severity: DiagnosticSeverity.Information,
 					location: data.segment.location,
 				})
 			}
@@ -52,7 +52,7 @@ export const valueRangeChecker: AFFChecker = (file, errors) => {
 				if (data.arcKind.data.value !== "s") {
 					errors.push({
 						message: `Arc event with zero time length should be "s" type.`,
-						severity: DiagnosticSeverity.Error,
+						severity: DiagnosticSeverity.Information,
 						location: data.arcKind.location,
 					})
 				}
