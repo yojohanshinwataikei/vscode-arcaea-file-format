@@ -18,9 +18,15 @@ documents.onDidChangeContent((change) => {
 	validateTextDocument(change.document)
 })
 
+documents.onDidClose((change) => {
+	console.log(`close ${change.document.uri}`)
+	connection.sendDiagnostics({
+		uri: change.document.uri, diagnostics: []
+	})
+})
+
 const validateTextDocument = async (textDocument: lsp.TextDocument) => {
-	// TODO: AFF parsing
-	const errors=checkAFF(textDocument)
+	const errors = checkAFF(textDocument)
 	console.log(errors)
 	connection.sendDiagnostics({
 		uri: textDocument.uri, diagnostics: errors
