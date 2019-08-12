@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.3.1
+
+- Clean diagnostics on close
+- Adjust severity of some problem reports
+
 ## 0.3.0
 
 - Check for duplicated `timing` define
