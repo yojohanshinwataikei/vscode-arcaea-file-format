@@ -1,11 +1,12 @@
-import { metadataChecker } from "./checker/metadata";
+import { metadataChecker } from "./checker/metadata"
 import { valueRangeChecker } from "./checker/value-range"
-import { floatDigitChecker } from "./checker/float-digit";
+import { floatDigitChecker } from "./checker/float-digit"
 import { timingChecker } from "./checker/timing"
-import { cutByTimingChecker } from "./checker/cut-by-timing";
+import { cutByTimingChecker } from "./checker/cut-by-timing"
+import { arcPositionChecker } from "./checker/arc-position"
 import { AFFFile, AFFError } from "./types"
 
-const checkers = [metadataChecker, valueRangeChecker, floatDigitChecker, timingChecker, cutByTimingChecker]
+const checkers = [metadataChecker, valueRangeChecker, floatDigitChecker, timingChecker, cutByTimingChecker, arcPositionChecker]
 
 export const processCheckers = (file: AFFFile): AFFError[] => {
 	let errors: AFFError[] = []
