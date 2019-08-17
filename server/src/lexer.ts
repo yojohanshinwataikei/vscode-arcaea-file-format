@@ -19,12 +19,19 @@ const word = createToken({ name: "word", pattern: /[a-zA-Z]+/, categories: value
 const float = createToken({ name: "float", pattern: /-?[0-9]+\.[0-9]+/, categories: value })
 const int = createToken({ name: "int", pattern: /-?(?:0|[1-9][0-9]*)/, categories: value })
 
+// \s without \r\n
+const whitespace = createToken({
+	name: "whitespace",
+	pattern: /[ \f\t\v​\u00a0\u1680​\u180e\u2000​\u2001\u2002​\u2003\u2004​\u2005\u2006​\u2007\u2008​\u2009\u200a​\u2028\u2029​​\u202f\u205f​\u3000]+/,
+	group: "whitespace",
+})
+
 export const tokenTypes = { endline, colon, key, data, metaEnd, lParen, rParen, lBrack, rBrack, comma, semicolon, value, word, float, int }
 export const AFFLexer = new Lexer({
 	modes: {
 		meta: [endline, metaEnd, colon, key],
 		data: [data],
-		main: [endline, lParen, rParen, lBrack, rBrack, comma, semicolon, float, int, word]
+		main: [endline, whitespace, lParen, rParen, lBrack, rBrack, comma, semicolon, float, int, word]
 	},
 	defaultMode: "meta"
 })

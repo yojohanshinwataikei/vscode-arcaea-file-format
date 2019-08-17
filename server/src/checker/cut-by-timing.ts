@@ -6,7 +6,6 @@ import { AFFChecker, AFFError } from "../types"
 
 export const cutByTimingChecker: AFFChecker = (file, error) => {
 	const timingData = timings.get(file).datas
-	console.log(timingData)
 	for (const item of file.items) {
 		if (item.data.kind === "hold") {
 			checkCutByTiming("hold", timingData, item.data.start.data.value, item.data.end.data.value, item.location, error)

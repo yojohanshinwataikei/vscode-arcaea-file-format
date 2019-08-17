@@ -27,7 +27,6 @@ documents.onDidClose((change) => {
 
 const validateTextDocument = async (textDocument: lsp.TextDocument) => {
 	const errors = checkAFF(textDocument)
-	console.log(errors)
 	connection.sendDiagnostics({
 		uri: textDocument.uri, diagnostics: errors
 	})

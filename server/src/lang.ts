@@ -42,6 +42,14 @@ export const checkAFF = (content: lsp.TextDocument): lsp.Diagnostic[] => {
 		const checkerErrors = processCheckers(astResult.ast)
 		errors = errors.concat(checkerErrors.map(e => transformAFFError(e, content.uri)))
 	}
+	errors = lexingResult.groups.whitespace.map((t):lsp.Diagnostic => ({
+		severity: lsp.DiagnosticSeverity.Error,
+		message: `Unexpected whitespace`,
+		range: {
+			start: { line: t.startLine - 1, character: t.startColumn - 1 },
+			end: { line: t.endLine - 1, character: t.endColumn },
+		}
+	})).concat(errors)
 	return errors
 }
 
