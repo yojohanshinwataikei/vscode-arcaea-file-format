@@ -49,7 +49,8 @@ export interface AFFArctapEvent {
 	time: WithLocation<AFFInt>,
 }
 
-export type AFFItem = AFFTimingEvent | AFFTapEvent | AFFHoldEvent | AFFArcEvent
+export type AFFTrackItem = AFFTapEvent | AFFHoldEvent
+export type AFFItem = AFFTimingEvent | AFFTrackItem | AFFArcEvent
 export type AFFEvent = AFFItem | AFFArctapEvent
 
 export interface AFFInt {
@@ -79,13 +80,15 @@ export interface AFFTrackId {
 	kind: "track-id",
 	value: 1 | 2 | 3 | 4,
 }
-export const affTrackIds = new Set([1, 2, 3, 4])
+export type AFFTrackIdValue=AFFTrackId["value"]
+export const affTrackIds = new Set<AFFTrackIdValue>([1, 2, 3, 4])
 
 export interface AFFColorId {
 	kind: "color-id",
 	value: 0 | 1 | 2,
 }
-export const affColorIds = new Set([0, 1, 2])
+export type AFFColorIdValue=AFFColorId["value"]
+export const affColorIds = new Set<AFFColorIdValue>([0, 1, 2])
 
 export interface AFFEffect {
 	kind: "effect",
