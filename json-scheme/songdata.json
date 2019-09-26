@@ -127,6 +127,7 @@
 		"bpm",
 		"bpm_base",
 		"set",
+		"purchase",
 		"audioPreview",
 		"audioPreviewEnd",
 		"side",
