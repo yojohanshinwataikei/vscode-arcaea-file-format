@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.5.0
+
+- Check for overlapped `arctap` and floor(track) items
+- Change the behaviour for `arctap` on solid `arc`
+- Update `songlist` schema for the new day-night feature
+- Various `songlist` schema fix
+
 ## 0.4.0
 
 - Unexpected whitespace will not block other checks
@@ -19,7 +26,7 @@
 ## 0.2.0
 
 - Various simple file content checking
-- JSON Validation for the `songlist` `packlist` `unlocks` files
+- JSON validation for the `songlist` `packlist` `unlocks` files
 
 ## 0.1.1
 
