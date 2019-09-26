@@ -52,11 +52,25 @@
 		},
 		"world_unlock": {
 			"type": "boolean",
-			"description": "Should playing the song needs to get it unlocked in world mode "
+			"description": "Should playing the song needs to get it unlocked in world mode"
 		},
 		"bg": {
 			"type": "string",
 			"description": "The name of the background used when playing the song"
+		},
+		"bg_daynight":{
+			"type": "object",
+			"description": "The name of the background used when playing the song with a partner which can change the side of the song",
+			"properties": {
+				"day":{
+					"type": "string",
+					"description": "The name of the background used when playing the song in the day"
+				},
+				"night":{
+					"type": "string",
+					"description": "The name of the background used when playing the song in the night"
+				}
+			}
 		},
 		"date": {
 			"type": "integer",
@@ -111,6 +125,10 @@
 					"jacketOverride": {
 						"type": "boolean",
 						"description": "Is a different jacket used in the difficulty"
+					},
+					"jacket_night": {
+						"type": "string",
+						"description": "The name of the jacket used in the night in the difficulty"
 					}
 				},
 				"required": [
