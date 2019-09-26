@@ -58,15 +58,15 @@
 			"type": "string",
 			"description": "The name of the background used when playing the song"
 		},
-		"bg_daynight":{
+		"bg_daynight": {
 			"type": "object",
 			"description": "The name of the background used when playing the song with a partner which can change the side of the song",
 			"properties": {
-				"day":{
+				"day": {
 					"type": "string",
 					"description": "The name of the background used when playing the song in the day"
 				},
-				"night":{
+				"night": {
 					"type": "string",
 					"description": "The name of the background used when playing the song in the night"
 				}
@@ -118,8 +118,19 @@
 						"description": "The rating of the difficult, 0 for \"?\", 10 for \"9+\", 11 for \"10\" and 1~9 for corresponding number value"
 					},
 					"plusFingers": {
-						"type": "boolean",
 						"description": "Should this charts be played with more than two fingers.This field is not longer used",
+						"oneOf": [
+							{
+								"type": "boolean"
+							},
+							{
+								"type": "integer",
+								"enum": [
+									0,
+									1
+								]
+							}
+						],
 						"deprecated": true
 					},
 					"jacketOverride": {
