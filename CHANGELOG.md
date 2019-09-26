@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.4.0
+
+- Unexpected whitespace will not block other checks
+- Check for out of range `arc` items
+
 ## 0.3.1
 
 - Clean diagnostics on close

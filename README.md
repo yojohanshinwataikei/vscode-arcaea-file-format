@@ -29,7 +29,7 @@ Util for reading and editing arcaea .aff files
 		- [ ] Fix: remove the `arctap`
 	- [x] Wrong last param for `arc` with `arctap`
 		- [ ] Fix: set it to correct value
-	- [ ] Out of range `arc`
+	- [x] Out of range `arc`
 	- [x] `arc` and `hold` across the `timing`
 	- [ ] Duplicated floor notes
 		- [ ] Fix: merge the floor notes
