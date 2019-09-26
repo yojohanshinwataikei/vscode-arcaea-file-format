@@ -80,9 +80,9 @@ export const valueRangeChecker: AFFChecker = (file, errors) => {
 			}
 			if (!data.isLine.data.value && data.arctaps) {
 				errors.push({
-					message: `Arc event should not have arctap events on it when it is solid.`,
-					severity: DiagnosticSeverity.Error,
-					location: data.arctaps.location,
+					message: `Arc event with arctap events on it will be treated as not solid even it is specified as solid.`,
+					severity: DiagnosticSeverity.Warning,
+					location: data.isLine.location,
 				})
 			}
 			if (data.arctaps) {
