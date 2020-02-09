@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.6.1
+
+- Fix a description in the `unlocks` schema
+- Simplify development workflow
+
 ## 0.6.0
 
 - Update `unlocks` schema for new unlock conditions
