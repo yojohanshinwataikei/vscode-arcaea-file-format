@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.6.0
+
+- Update `unlocks` schema for new unlock conditions
+
 ## 0.5.0
 
 - Check for overlapped `arctap` and floor(track) items
