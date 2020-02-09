@@ -22,93 +22,7 @@
 			"type": "array",
 			"description": "The unlock conditions of the difficulty",
 			"items": {
-				"description": "A unlock condition",
-				"type": "object",
-				"properties": {
-					"type": {
-						"type": "integer",
-						"description": "The type of the unlock condition, 0 for fragments, 1 for grade on early charts, 101 for anomaly"
-					}
-				},
-				"oneOf": [
-					{
-						"properties": {
-							"type": {
-								"const": 0
-							},
-							"credit": {
-								"type": "integer",
-								"description": "The fragments needed to unlock the song"
-							}
-						},
-						"required": [
-							"credit"
-						]
-					},
-					{
-						"properties": {
-							"type": {
-								"const": 1
-							},
-							"song_id": {
-								"type": "string",
-								"description": "The id of the song needed to clear specified in songlist file"
-							},
-							"song_difficulty": {
-								"type": "integer",
-								"description": "The rating class of the difficulty that needs to clear, 0 for past, 1 for present and 2 for future",
-								"enum": [
-									0,
-									1,
-									2
-								]
-							},
-							"grade": {
-								"type": "integer",
-								"description": "The require grade to the charts when cleared, 0 for no limit, 1 for C, 2 for B, 3 for A, 4 for AA, 5 for EX",
-								"enum": [
-									0,
-									1,
-									2,
-									3,
-									4,
-									5
-								]
-							}
-						},
-						"required": [
-							"song_id",
-							"song_difficulty",
-							"grade"
-						]
-					},
-					{
-						"properties": {
-							"type": {
-								"const": 101
-							},
-							"min": {
-								"type": "integer",
-								"description": "The minimum progress when failed to unlock this song",
-								"minimum": 0,
-								"maximum": 100
-							},
-							"max": {
-								"type": "integer",
-								"description": "The maximum progress when failed to unlock this song",
-								"minimum": 0,
-								"maximum": 100
-							}
-						},
-						"required": [
-							"min",
-							"max"
-						]
-					}
-				],
-				"required": [
-					"type"
-				]
+				"$ref": "#/definitions/condition"
 			}
 		}
 	},
@@ -116,5 +30,194 @@
 		"songId",
 		"ratingClass",
 		"conditions"
-	]
+	],
+	"definitions": {
+		"condition": {
+			"description": "A unlock condition",
+			"type": "object",
+			"properties": {
+				"type": {
+					"type": "integer",
+					"description": "The type of the unlock condition, 0 for fragments, 1 for grade on early charts, 101 for anomaly"
+				}
+			},
+			"oneOf": [
+				{
+					"properties": {
+						"type": {
+							"const": 0
+						},
+						"credit": {
+							"type": "integer",
+							"description": "The fragments needed to unlock the song"
+						}
+					},
+					"required": [
+						"credit"
+					]
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 1
+						},
+						"song_id": {
+							"type": "string",
+							"description": "The id of the song needed to clear specified in songlist file"
+						},
+						"song_difficulty": {
+							"type": "integer",
+							"description": "The rating class of the difficulty that needs to clear, 0 for past, 1 for present and 2 for future",
+							"enum": [
+								0,
+								1,
+								2
+							]
+						},
+						"grade": {
+							"type": "integer",
+							"description": "The require grade to the charts when cleared, 0 for no limit, 1 for C, 2 for B, 3 for A, 4 for AA, 5 for EX",
+							"enum": [
+								0,
+								1,
+								2,
+								3,
+								4,
+								5
+							]
+						}
+					},
+					"required": [
+						"song_id",
+						"song_difficulty",
+						"grade"
+					]
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 2
+						},
+						"song_id": {
+							"type": "string",
+							"description": "The id of the song needed to play specified in songlist file"
+						},
+						"song_difficulty": {
+							"type": "integer",
+							"description": "The rating class of the difficulty that needs to clear, 0 for past, 1 for present and 2 for future",
+							"enum": [
+								0,
+								1,
+								2
+							]
+						}
+					},
+					"required": [
+						"song_id",
+						"song_difficulty"
+					]
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 3
+						},
+						"song_id": {
+							"type": "string",
+							"description": "The id of the song needed to clear specified in songlist file"
+						},
+						"song_difficulty": {
+							"type": "integer",
+							"description": "The rating class of the difficulty that needs to clear, 0 for past, 1 for present and 2 for future",
+							"enum": [
+								0,
+								1,
+								2
+							]
+						},
+						"grade": {
+							"type": "integer",
+							"description": "The require grade to the charts when cleared, 0 for no limit, 1 for C, 2 for B, 3 for A, 4 for AA, 5 for EX",
+							"enum": [
+								0,
+								1,
+								2,
+								3,
+								4,
+								5
+							]
+						},
+						"times": {
+							"type": "integer",
+							"description": "The required times of clear of the song with the specified grade",
+							"minimum": 1
+						}
+					},
+					"required": [
+						"song_id",
+						"song_difficulty",
+						"grade",
+						"times"
+					]
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 4
+						},
+						"conditions": {
+							"type": "array",
+							"description": "The available options of selectable conditions",
+							"items": {
+								"$ref": "#/definitions/condition"
+							}
+						}
+					},
+					"required": [
+						"conditions"
+					]
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 5
+						},
+						"rating": {
+							"type": "integer",
+							"description": "The required rating needed to unlock the song, 100 times of potential value"
+						}
+					},
+					"required": [
+						"rating"
+					]
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 101
+						},
+						"min": {
+							"type": "integer",
+							"description": "The minimum progress when failed to unlock this song",
+							"minimum": 0,
+							"maximum": 100
+						},
+						"max": {
+							"type": "integer",
+							"description": "The maximum progress when failed to unlock this song",
+							"minimum": 0,
+							"maximum": 100
+						}
+					},
+					"required": [
+						"min",
+						"max"
+					]
+				}
+			],
+			"required": [
+				"type"
+			]
+		}
+	}
 }
