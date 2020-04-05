@@ -1,5 +1,13 @@
 # Change Log
 
+## 0.7.0
+
+- Support for `camera` and `scenecontrol` event
+- Check for `camera` duration
+- Check for `camera` duplicated
+- Disable check for out of range `arc` items when memes items found
+- Various fix in the `songlist` schema
+
 ## 0.6.1
 
 - Fix a description in the `unlocks` schema

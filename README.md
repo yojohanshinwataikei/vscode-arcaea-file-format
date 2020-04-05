@@ -33,6 +33,7 @@ Util for reading and editing arcaea .aff files
 	- [x] `arc` and `hold` across the `timing`
 	- [x] Duplicated floor notes
 		- [ ] Fix: merge the floor notes
+	- [x] Duplicated `camera`
 	- [ ] Simplifiable `arc` type
 		- [ ] Fix: set it to most simple type
 	- [ ] Listing more problems
