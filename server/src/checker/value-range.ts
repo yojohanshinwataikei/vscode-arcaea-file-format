@@ -71,13 +71,6 @@ export const valueRangeChecker: AFFChecker = (file, errors) => {
 					location: data.effect.location,
 				})
 			}
-			if (data.colorId.data.value === 2) {
-				errors.push({
-					message: `Arc event with green color (2) should be only used in April Fools charts.`,
-					severity: DiagnosticSeverity.Warning,
-					location: data.colorId.location,
-				})
-			}
 			if (!data.isLine.data.value && data.arctaps) {
 				errors.push({
 					message: `Arc event with arctap events on it will be treated as not solid even it is specified as solid.`,

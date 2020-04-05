@@ -1,8 +1,12 @@
 import { DiagnosticSeverity } from "vscode-languageserver"
 import { CstNodeLocation } from "chevrotain"
 import { AFFChecker, AFFError } from "../types"
+import { allowMemes } from "../associated-data/allow-memes"
 
 export const arcPositionChecker: AFFChecker = (file, error) => {
+	if(allowMemes.get(file).enable){
+		return
+	}
 	for (const { data, location } of file.items) {
 		if (data.kind === "arc") {
 			const solid=!data.isLine.data.value
