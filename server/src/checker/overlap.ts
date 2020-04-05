@@ -1,6 +1,6 @@
 import { DiagnosticSeverity, Location } from "vscode-languageserver"
 import { CstNodeLocation } from "chevrotain"
-import { AFFChecker, AFFError, AFFTrackItem, WithLocation, AFFTrackIdValue } from "../types"
+import { AFFChecker, AFFError, AFFTrackItem, WithLocation, AFFTrackIdValue, AFFCameraEvent } from "../types"
 
 export const overlapChecker: AFFChecker = (file, error) => {
 	let trackRecord = new Map<AFFTrackIdValue, WithLocation<AFFTrackItem>[]>()
@@ -40,6 +40,7 @@ export const overlapChecker: AFFChecker = (file, error) => {
 	for (const items of trackRecord.values()) {
 		checkTrackOverlap(error, items)
 	}
+	checkCameraOverlap(error, file.items.filter((item): item is WithLocation<AFFCameraEvent> => item.data.kind === "camera"))
 }
 
 const checkTrackOverlap = (error: AFFError[], items: WithLocation<AFFTrackItem>[]) => {
@@ -82,6 +83,34 @@ const checkTrackOverlap = (error: AFFError[], items: WithLocation<AFFTrackItem>[
 				lastEnd = end
 				closed = false
 			}
+		}
+	}
+}
+
+const checkCameraOverlap = (error: AFFError[], cameras: WithLocation<AFFCameraEvent>[]) => {
+	const report = (location: CstNodeLocation, lastLocation: CstNodeLocation) => {
+		error.push({
+			message: `The camera item is overlapped with a previous camera item`,
+			severity: DiagnosticSeverity.Error,
+			location,
+			relatedInfo: [{
+				message: `The previous camera item`,
+				location: lastLocation
+			}]
+		})
+	}
+	const sortedByStart = cameras.sort((a, b) => a.data.time.data.value - b.data.time.data.value)
+	let lastLocation: CstNodeLocation | null = null
+	let lastEnd: number = -Infinity
+	for (const item of sortedByStart) {
+		const start = item.data.time.data.value
+		if (start < lastEnd) {
+			report(item.location, lastLocation)
+		}
+		const end = start + item.data.duration.data.value
+		if (end > lastEnd) {
+			lastLocation = item.location
+			lastEnd = end
 		}
 	}
 }

@@ -89,6 +89,14 @@ export const valueRangeChecker: AFFChecker = (file, errors) => {
 					}
 				}
 			}
+		}else if(data.kind==="camera"){
+			if(data.duration.data.value<0){
+				errors.push({
+					message: `Camera event should have non negative duration.`,
+					severity: DiagnosticSeverity.Error,
+					location: data.duration.location,
+				})
+			}
 		}
 	}
 }
