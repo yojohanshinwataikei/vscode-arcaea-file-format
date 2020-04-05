@@ -63,8 +63,15 @@ export interface AFFCameraEvent {
 	duration: WithLocation<AFFInt>
 }
 
+export interface AFFSceneControlEvent {
+	kind: "scenecontrol",
+	tagLocation: CstNodeLocation,
+	time: WithLocation<AFFInt>,
+	sceneControlKind: WithLocation<AFFSceneControlKind>
+}
+
 export type AFFTrackItem = AFFTapEvent | AFFHoldEvent
-export type AFFItem = AFFTimingEvent | AFFTrackItem | AFFArcEvent |AFFCameraEvent
+export type AFFItem = AFFTimingEvent | AFFTrackItem | AFFArcEvent | AFFCameraEvent | AFFSceneControlEvent
 export type AFFEvent = AFFItem | AFFArctapEvent
 
 export interface AFFInt {
@@ -116,12 +123,17 @@ export interface AFFArcKind {
 }
 export const affArcKinds = new Set(["b", "s", "si", "so", "sisi", "siso", "soso", "sosi"])
 
-
 export interface AFFCameraKind {
 	kind: "camera-kind",
 	value: "l" | "s" | "qi" | "qo" | "reset"
 }
 export const affCameraKinds = new Set(["l", "s", "qi", "qo", "reset"])
+
+export interface AFFSceneControlKind {
+	kind: "scenecontrol-kind",
+	value: "trackhide" | "trackshow"
+}
+export const affSceneControlKinds = new Set(["trackhide", "trackshow"])
 
 export interface AFFBool {
 	kind: "bool",

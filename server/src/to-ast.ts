@@ -1,7 +1,7 @@
 import { DiagnosticSeverity } from "vscode-languageserver";
 import { CstChildrenDictionary, IToken, CstNode, ICstVisitor, CstNodeLocation, tokenLabel } from "chevrotain"
 import { BaseAffVisitor } from "./parser"
-import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent, AFFTrackId, AFFInt, AFFColorId, AFFArcKind, AFFWord, affArcKinds, affTrackIds, affColorIds, affEffects, AFFEffect, AFFBool, affBools, AFFCameraEvent, AFFCameraKind, affCameraKinds } from "./types"
+import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent, AFFTrackId, AFFInt, AFFColorId, AFFArcKind, AFFWord, affArcKinds, affTrackIds, affColorIds, affEffects, AFFEffect, AFFBool, affBools, AFFCameraEvent, AFFCameraKind, affCameraKinds, AFFSceneControlEvent, AFFSceneControlKind, affSceneControlKinds } from "./types"
 import { tokenTypes } from "./lexer";
 
 // This pass generate AST from CST.
@@ -78,7 +78,9 @@ class ToASTVisitor extends BaseAffVisitor implements ICstVisitor<AFFError[], any
 				return eventTransformer.arctap(errors, values, valuesLocation, subevents, subeventsLocation, tagLocation)
 			} else if (tag.image === "camera") {
 				return eventTransformer.camera(errors, values, valuesLocation, subevents, subeventsLocation, tagLocation)
-			} {
+			} else if (tag.image === "scenecontrol") {
+				return eventTransformer.scenecontrol(errors, values, valuesLocation, subevents, subeventsLocation, tagLocation)
+			} else {
 				// error: unknown tag
 				errors.push({
 					message: `Unknown event type "${tag.image}".`,
@@ -322,16 +324,38 @@ const eventTransformer = {
 		const rawCameraKind = checkValueType(errors, "camera", "camera-kind", "word", values, 7)
 		const cameraKind = parseValue.cameraKind(errors, "camera", "camera-kind", rawCameraKind)
 		const duration = checkValueType(errors, "camera", "time", "int", values, 8)
-		if (time == null ||
-			translationX == null || translationY == null || translationZ == null ||
-			rotationX == null || rotationY == null || rotationZ == null ||
-			cameraKind == null || duration == null
+		if (time === null ||
+			translationX === null || translationY === null || translationZ === null ||
+			rotationX === null || rotationY === null || rotationZ === null ||
+			cameraKind === null || duration === null
 		) {
 			return null
 		}
 		return {
 			kind: "camera", time, translationX, translationY, translationZ, rotationX, rotationY, rotationZ, cameraKind, duration,
 			tagLocation
+		}
+	},
+	scenecontrol: (
+		errors: AFFError[],
+		values: WithLocation<AFFValue>[],
+		valuesLocation: CstNodeLocation,
+		subevents: WithLocation<AFFEvent>[] | null,
+		subeventsLocation: CstNodeLocation | null,
+		tagLocation: CstNodeLocation,
+	): AFFSceneControlEvent | null => {
+		rejectSubevent(errors, "scenecontrol", subevents, subeventsLocation)
+		if (!checkValuesCount(errors, "scenecontrol", 2, values, valuesLocation)) {
+			return null
+		}
+		const time = checkValueType(errors, "scenecontrol", "time", "int", values, 0)
+		const rawSceneControlKind = checkValueType(errors, "scenecontrol", "scenecontrol-kind", "word", values, 1)
+		const sceneControlKind = parseValue.sceneControlKind(errors, "scenecontrol", "scenecontrol-kind", rawSceneControlKind)
+		if (time === null || sceneControlKind === null) {
+			return null
+		}
+		return {
+			kind: "scenecontrol", time, sceneControlKind, tagLocation
 		}
 	}
 }
@@ -461,6 +485,23 @@ const parseValue = {
 				return null
 			}
 			return { data: { kind: "camera-kind", value: wordValue } as AFFCameraKind, location }
+		} else {
+			return null
+		}
+	},
+	sceneControlKind: (errors: AFFError[], eventKind: string, fieldname: string, word: WithLocation<AFFWord> | null): WithLocation<AFFSceneControlKind> => {
+		if (word) {
+			const { data, location } = word
+			const wordValue = data.value
+			if (!affSceneControlKinds.has(wordValue)) {
+				errors.push({
+					message: `The value in the "${fieldname}" field of event with type "${eventKind}" should be one of ${[...affSceneControlKinds.values()].join()}`,
+					location,
+					severity: DiagnosticSeverity.Error,
+				})
+				return null
+			}
+			return { data: { kind: "scenecontrol-kind", value: wordValue } as AFFSceneControlKind, location }
 		} else {
 			return null
 		}
