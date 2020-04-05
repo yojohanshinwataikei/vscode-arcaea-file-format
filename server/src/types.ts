@@ -49,8 +49,22 @@ export interface AFFArctapEvent {
 	time: WithLocation<AFFInt>,
 }
 
+export interface AFFCameraEvent {
+	kind: "camera"
+	tagLocation: CstNodeLocation,
+	time: WithLocation<AFFInt>,
+	translationX: WithLocation<AFFFloat>,
+	translationY: WithLocation<AFFFloat>,
+	translationZ: WithLocation<AFFFloat>,
+	rotationX: WithLocation<AFFFloat>,
+	rotationY: WithLocation<AFFFloat>,
+	rotationZ: WithLocation<AFFFloat>,
+	cameraKind: WithLocation<AFFCameraKind>
+	duration: WithLocation<AFFInt>
+}
+
 export type AFFTrackItem = AFFTapEvent | AFFHoldEvent
-export type AFFItem = AFFTimingEvent | AFFTrackItem | AFFArcEvent
+export type AFFItem = AFFTimingEvent | AFFTrackItem | AFFArcEvent |AFFCameraEvent
 export type AFFEvent = AFFItem | AFFArctapEvent
 
 export interface AFFInt {
@@ -80,14 +94,14 @@ export interface AFFTrackId {
 	kind: "track-id",
 	value: 1 | 2 | 3 | 4,
 }
-export type AFFTrackIdValue=AFFTrackId["value"]
+export type AFFTrackIdValue = AFFTrackId["value"]
 export const affTrackIds = new Set<AFFTrackIdValue>([1, 2, 3, 4])
 
 export interface AFFColorId {
 	kind: "color-id",
 	value: 0 | 1 | 2,
 }
-export type AFFColorIdValue=AFFColorId["value"]
+export type AFFColorIdValue = AFFColorId["value"]
 export const affColorIds = new Set<AFFColorIdValue>([0, 1, 2])
 
 export interface AFFEffect {
@@ -102,17 +116,18 @@ export interface AFFArcKind {
 }
 export const affArcKinds = new Set(["b", "s", "si", "so", "sisi", "siso", "soso", "sosi"])
 
+
+export interface AFFCameraKind {
+	kind: "camera-kind",
+	value: "l" | "s" | "qi" | "qo" | "reset"
+}
+export const affCameraKinds = new Set(["l", "s", "qi", "qo", "reset"])
+
 export interface AFFBool {
 	kind: "bool",
 	value: boolean
 }
 export const affBools = new Set(["true", "false"])
-
-
-export interface AFFBool {
-	kind: "bool",
-	value: boolean
-}
 
 export interface AFFMetadataEntry {
 	key: WithLocation<string>,

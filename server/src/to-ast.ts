@@ -1,7 +1,7 @@
 import { DiagnosticSeverity } from "vscode-languageserver";
 import { CstChildrenDictionary, IToken, CstNode, ICstVisitor, CstNodeLocation, tokenLabel } from "chevrotain"
 import { BaseAffVisitor } from "./parser"
-import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent, AFFTrackId, AFFInt, AFFColorId, AFFArcKind, AFFWord, affArcKinds, affTrackIds, affColorIds, affEffects, AFFEffect, AFFBool, affBools } from "./types"
+import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent, AFFTrackId, AFFInt, AFFColorId, AFFArcKind, AFFWord, affArcKinds, affTrackIds, affColorIds, affEffects, AFFEffect, AFFBool, affBools, AFFCameraEvent, AFFCameraKind, affCameraKinds } from "./types"
 import { tokenTypes } from "./lexer";
 
 // This pass generate AST from CST.
@@ -76,7 +76,9 @@ class ToASTVisitor extends BaseAffVisitor implements ICstVisitor<AFFError[], any
 				return eventTransformer.arc(errors, values, valuesLocation, subevents, subeventsLocation, tagLocation)
 			} else if (tag.image === "arctap") {
 				return eventTransformer.arctap(errors, values, valuesLocation, subevents, subeventsLocation, tagLocation)
-			} else {
+			} else if (tag.image === "camera") {
+				return eventTransformer.camera(errors, values, valuesLocation, subevents, subeventsLocation, tagLocation)
+			} {
 				// error: unknown tag
 				errors.push({
 					message: `Unknown event type "${tag.image}".`,
@@ -297,6 +299,40 @@ const eventTransformer = {
 			kind: "arc", start, end, xStart, xEnd, arcKind, yStart, yEnd, colorId, effect, isLine,
 			arctaps: subevents ? transformArcSubevents(errors, subevents, subeventsLocation) : undefined, tagLocation
 		}
+	},
+	camera: (
+		errors: AFFError[],
+		values: WithLocation<AFFValue>[],
+		valuesLocation: CstNodeLocation,
+		subevents: WithLocation<AFFEvent>[] | null,
+		subeventsLocation: CstNodeLocation | null,
+		tagLocation: CstNodeLocation,
+	): AFFCameraEvent | null => {
+		rejectSubevent(errors, "camera", subevents, subeventsLocation)
+		if (!checkValuesCount(errors, "camera", 9, values, valuesLocation)) {
+			return null
+		}
+		const time = checkValueType(errors, "camera", "time", "int", values, 0)
+		const translationX = checkValueType(errors, "camera", "translation-x", "float", values, 1)
+		const translationY = checkValueType(errors, "camera", "translation-y", "float", values, 2)
+		const translationZ = checkValueType(errors, "camera", "translation-z", "float", values, 3)
+		const rotationX = checkValueType(errors, "camera", "rotation-x", "float", values, 4)
+		const rotationY = checkValueType(errors, "camera", "rotation-y", "float", values, 5)
+		const rotationZ = checkValueType(errors, "camera", "rotation-z", "float", values, 6)
+		const rawCameraKind = checkValueType(errors, "camera", "camera-kind", "word", values, 7)
+		const cameraKind = parseValue.cameraKind(errors, "camera", "camera-kind", rawCameraKind)
+		const duration = checkValueType(errors, "camera", "time", "int", values, 8)
+		if (time == null ||
+			translationX == null || translationY == null || translationZ == null ||
+			rotationX == null || rotationY == null || rotationZ == null ||
+			cameraKind == null || duration == null
+		) {
+			return null
+		}
+		return {
+			kind: "camera", time, translationX, translationY, translationZ, rotationX, rotationY, rotationZ, cameraKind, duration,
+			tagLocation
+		}
 	}
 }
 
@@ -408,6 +444,23 @@ const parseValue = {
 				return null
 			}
 			return { data: { kind: "bool", value: wordValue === "true" } as AFFBool, location }
+		} else {
+			return null
+		}
+	},
+	cameraKind: (errors: AFFError[], eventKind: string, fieldname: string, word: WithLocation<AFFWord> | null): WithLocation<AFFCameraKind> => {
+		if (word) {
+			const { data, location } = word
+			const wordValue = data.value
+			if (!affCameraKinds.has(wordValue)) {
+				errors.push({
+					message: `The value in the "${fieldname}" field of event with type "${eventKind}" should be one of ${[...affCameraKinds.values()].join()}`,
+					location,
+					severity: DiagnosticSeverity.Error,
+				})
+				return null
+			}
+			return { data: { kind: "camera-kind", value: wordValue } as AFFCameraKind, location }
 		} else {
 			return null
 		}

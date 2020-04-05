@@ -11,6 +11,13 @@ export const floatDigitChecker: AFFChecker = (file, errors) => {
 			checkFloat(data.xEnd, errors)
 			checkFloat(data.yStart, errors)
 			checkFloat(data.yEnd, errors)
+		} else if (data.kind === "camera") {
+			checkFloat(data.translationX,errors)
+			checkFloat(data.translationY,errors)
+			checkFloat(data.translationZ,errors)
+			checkFloat(data.rotationX,errors)
+			checkFloat(data.rotationY,errors)
+			checkFloat(data.rotationZ,errors)
 		}
 	}
 }
