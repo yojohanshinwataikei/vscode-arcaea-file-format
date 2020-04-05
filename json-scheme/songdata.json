@@ -13,6 +13,15 @@
 			"description": "The title of the song, localized in various languages",
 			"$ref": "#/definitions/localized_string"
 		},
+		"jacket_localized": {
+			"description": "Should localized jacket be used in various languages",
+			"patternProperties": {
+				"en|ja|ko|zh-Hans|zh-Hant": {
+					"description": "The localized string",
+					"type": "boolean"
+				}
+			}
+		},
 		"artist": {
 			"type": "string",
 			"description": "The artist of the song"
@@ -70,7 +79,11 @@
 					"type": "string",
 					"description": "The name of the background used when playing the song in the night"
 				}
-			}
+			},
+			"required": [
+				"day",
+				"night"
+			]
 		},
 		"date": {
 			"type": "integer",
