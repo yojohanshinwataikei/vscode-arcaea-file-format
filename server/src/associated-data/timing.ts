@@ -40,6 +40,37 @@ const genTimingResult = (group: AFFFile | AFFTimingGroupEvent): TimingResult => 
 			}
 		}
 	}
+	const groupLocation = ("kind" in group) ? group.tagLocation : group.metadata.location
+	if (datas.size <= 0) {
+		errors.push({
+			message: `No timing event found ${("kind" in group) ? "in the timinggroup" : "outside timinggroups"}.`,
+			severity: DiagnosticSeverity.Error,
+			location: groupLocation
+		})
+	} else if (!datas.has(0)) {
+		errors.push({
+			message: `No timing event at 0 time found ${("kind" in group) ? "in the timinggroup" : "outside timinggroups"}.`,
+			severity: DiagnosticSeverity.Warning,
+			location: groupLocation
+		})
+	} else {
+		let firstZeroTiming = false
+		if (items.length >= 0) {
+			const first = items[0]
+			if (first.data.kind === "timing") {
+				if (first.data.time.data.value === 0) {
+					firstZeroTiming = true
+				}
+			}
+		}
+		if (!firstZeroTiming) {
+			errors.push({
+				message: `First item ${("kind" in group) ? "in the timinggroup" : "outside timinggroups"} is not timing event at 0 time.`,
+				severity: DiagnosticSeverity.Information,
+				location: groupLocation
+			})
+		}
+	}
 	return { datas: [...datas.values()].sort((a, b) => a.time - b.time), errors }
 }
 
