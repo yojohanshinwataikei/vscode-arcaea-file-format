@@ -1,5 +1,14 @@
 # Change Log
 
+## 0.8.0
+
+- Support for `timinggroup` event
+- Handle different kind of `scenecontrol` event better
+- Cut by timing is now info instead of error
+- Update JSON validation for the `songlist` `packlist` `unlocks` files for the arcaea 3.0.0
+- More generic syntax highlighting
+- Be more relax for whitespace and endline token
+
 ## 0.7.0
 
 - Support for `camera` and `scenecontrol` event
