@@ -8,7 +8,8 @@
 		"node": "*"
 	},
 	"dependencies": {
-		"chevrotain": "^4.8.1",
-		"vscode-languageserver": "^5.2.1"
+		"chevrotain": "^7.0.1",
+		"vscode-languageserver": "^6.1.1",
+		"vscode-languageserver-textdocument": "^1.0.1"
 	}
 }

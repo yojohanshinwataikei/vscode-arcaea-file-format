@@ -1,12 +1,14 @@
-import * as lsp from "vscode-languageserver";
-import { checkAFF } from "./lang";
+import * as lsp from "vscode-languageserver"
+import { TextDocument } from 'vscode-languageserver-textdocument'
+import { checkAFF } from "./lang"
+import { TextDocumentSyncKind } from "vscode-languageserver"
 
 let connection = lsp.createConnection()
 
-let documents = new lsp.TextDocuments()
+let documents = new lsp.TextDocuments(TextDocument)
 
 connection.onInitialize((params) => {
-	return { capabilities: { textDocumentSync: documents.syncKind } }
+	return { capabilities: { textDocumentSync: TextDocumentSyncKind.Full } }
 })
 
 connection.onInitialized(() => {

@@ -5,12 +5,12 @@
 	"version": "0.7.0",
 	"repository": "github:yojohanshinwataikei/vscode-arcaea-file-format",
 	"engines": {
-		"vscode": "^1.33.0"
+		"vscode": "^1.45.1"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.33.0"
+		"@types/vscode": "^1.45.1"
 	},
 	"dependencies": {
-		"vscode-languageclient": "^5.2.1"
+		"vscode-languageclient": "^6.1.3"
 	}
 }

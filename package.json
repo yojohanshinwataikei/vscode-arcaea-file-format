@@ -7,7 +7,7 @@
 	"publisher": "yojohanshinwataikei",
 	"repository": "github:yojohanshinwataikei/vscode-arcaea-file-format",
 	"engines": {
-		"vscode": "^1.33.0"
+		"vscode": "^1.45.1"
 	},
 	"categories": [
 		"Other"
@@ -97,7 +97,7 @@
 		"postinstall": "cd client && npm install && cd ../server && npm install && cd .."
 	},
 	"devDependencies": {
-		"@types/node": "^11.13.7",
-		"typescript": "^3.4.5"
+		"@types/node": "^14.0.9",
+		"typescript": "^3.9.3"
 	}
 }
