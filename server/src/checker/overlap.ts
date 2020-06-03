@@ -1,10 +1,10 @@
 import { DiagnosticSeverity, Location } from "vscode-languageserver"
 import { CstNodeLocation } from "chevrotain"
-import { AFFChecker, AFFError, AFFTrackItem, WithLocation, AFFTrackIdValue, AFFCameraEvent } from "../types"
+import { AFFChecker, AFFError, AFFTrackItem, WithLocation, AFFTrackIdValue, AFFCameraEvent, AFFItem } from "../types"
 
 export const overlapChecker: AFFChecker = (file, error) => {
 	let trackRecord = new Map<AFFTrackIdValue, WithLocation<AFFTrackItem>[]>()
-	for (const item of file.items) {
+	const checkItem=(item:WithLocation<AFFItem>)=>{
 		if (item.data.kind === "arc") {
 			const arctaps = item.data.arctaps
 			if (arctaps) {
@@ -35,7 +35,14 @@ export const overlapChecker: AFFChecker = (file, error) => {
 				trackRecord.set(trackId, [])
 			}
 			trackRecord.get(trackId).push(item as WithLocation<AFFTrackItem>)
+		} else if (item.data.kind === "timinggroup") {
+			for (const nestedItem of item.data.items.data) {
+				checkItem(nestedItem)
+			}
 		}
+	}
+	for (const item of file.items) {
+		checkItem(item)
 	}
 	for (const items of trackRecord.values()) {
 		checkTrackOverlap(error, items)
