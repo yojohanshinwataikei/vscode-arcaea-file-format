@@ -16,7 +16,7 @@ const checkScenecontrol = (kind: WithLocation<AFFSceneControlKind>, values: With
 		return
 	}
 	if (kind.data.value === "redline" || kind.data.value === "arcahvdistort" || kind.data.value === "arcahvdebris") {
-		if(checkValuesCount(error, kind.data.value, 2, values.data, values.location)){
+		if (checkValuesCount(error, kind.data.value, 2, values.data, values.location)) {
 			checkValueType(error, kind.data.value, "length", "float", values.data, 0)
 			checkValueType(error, kind.data.value, "value", "int", values.data, 1)
 		}

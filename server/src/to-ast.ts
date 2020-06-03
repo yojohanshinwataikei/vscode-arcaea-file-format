@@ -364,15 +364,15 @@ const eventTransformer = {
 		const time = checkValueType(errors, "scenecontrol", "time", "int", values, 0)
 		const rawSceneControlKind = checkValueType(errors, "scenecontrol", "scenecontrol-kind", "word", values, 1)
 		const sceneControlKind = parseValue.sceneControlKind(errors, "scenecontrol", "scenecontrol-kind", rawSceneControlKind)
-		const additionalValues={
-			data:values.slice(2),
-			location:{
-				startOffset:sceneControlKind.location.endOffset+1,
-				startLine:sceneControlKind.location.endLine,
-				startColumn:sceneControlKind.location.endColumn+1,
-				endOffset:valuesLocation.endOffset,
-				endLine:valuesLocation.endLine,
-				endColumn:valuesLocation.endColumn,
+		const additionalValues = {
+			data: values.slice(2),
+			location: {
+				startOffset: sceneControlKind.location.endOffset + 1,
+				startLine: sceneControlKind.location.endLine,
+				startColumn: sceneControlKind.location.endColumn + 1,
+				endOffset: valuesLocation.endOffset,
+				endLine: valuesLocation.endLine,
+				endColumn: valuesLocation.endColumn,
 			}
 		}
 		if (time === null || sceneControlKind === null) {

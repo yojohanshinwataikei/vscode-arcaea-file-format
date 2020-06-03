@@ -3,7 +3,6 @@ import { metadataChecker } from "./checker/metadata"
 import { valueRangeChecker } from "./checker/value-range"
 import { floatDigitChecker } from "./checker/float-digit"
 import { timingChecker } from "./checker/timing"
-import { cutByTimingChecker } from "./checker/cut-by-timing"
 import { arcPositionChecker } from "./checker/arc-position"
 import { overlapChecker } from "./checker/overlap"
 import { scenecontrolChecker } from "./checker/scenecontrol"
@@ -15,7 +14,6 @@ const checkers = [
 	valueRangeChecker,
 	floatDigitChecker,
 	timingChecker,
-	cutByTimingChecker,
 	arcPositionChecker,
 	overlapChecker,
 	scenecontrolChecker
