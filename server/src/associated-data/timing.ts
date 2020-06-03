@@ -1,4 +1,4 @@
-import { AFFTimingEvent, AFFFile, AFFError, WithLocation } from "../types"
+import { AFFTimingEvent, AFFFile, AFFError, WithLocation, AFFTimingGroupEvent } from "../types"
 import { DiagnosticSeverity } from "vscode-languageserver";
 import { AssociatedDataMap } from "../util/associated-data";
 
@@ -13,10 +13,11 @@ type TimingResult = {
 	datas: TimingData[],//This should be soreted by time
 	errors: AFFError[],
 }
-const genTimingResult = (file: AFFFile): TimingResult => {
+const genTimingResult = (group: AFFFile | AFFTimingGroupEvent): TimingResult => {
 	let errors: AFFError[] = []
 	let datas = new Map<number, TimingData>()
-	for (const item of file.items) {
+	let items = ("kind" in group) ? group.items.data : group.items
+	for (const item of items) {
 		if (item.data.kind === "timing") {
 			const time = item.data.time.data.value
 			if (datas.has(time)) {

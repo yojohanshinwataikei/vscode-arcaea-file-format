@@ -8,18 +8,18 @@ export const arcPositionChecker: AFFChecker = (file, errors) => {
 		return
 	}
 	for (const item of file.items) {
-		checkItem(item,errors)
+		checkItem(item, errors)
 	}
 }
 
-const checkItem = ({ data, location }:WithLocation<AFFItem>,errors:AFFError[]) =>{
+const checkItem = ({ data, location }: WithLocation<AFFItem>, errors: AFFError[]) => {
 	if (data.kind === "arc") {
 		const solid = !data.isLine.data.value
 		checkPoint("start", solid, data.xStart.data.value, data.yStart.data.value, location, errors)
 		checkPoint("end", solid, data.xEnd.data.value, data.yEnd.data.value, location, errors)
 	} else if (data.kind === "timinggroup") {
 		for (const item of data.items.data) {
-			checkItem(item,errors)
+			checkItem(item, errors)
 		}
 	}
 }

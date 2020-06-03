@@ -4,7 +4,7 @@ import { AFFChecker, AFFError, AFFTrackItem, WithLocation, AFFTrackIdValue, AFFC
 
 export const overlapChecker: AFFChecker = (file, error) => {
 	let trackRecord = new Map<AFFTrackIdValue, WithLocation<AFFTrackItem>[]>()
-	const checkItem=(item:WithLocation<AFFItem>)=>{
+	const checkItem = (item: WithLocation<AFFItem>) => {
 		if (item.data.kind === "arc") {
 			const arctaps = item.data.arctaps
 			if (arctaps) {

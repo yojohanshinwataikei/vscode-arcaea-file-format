@@ -8,13 +8,13 @@ type AllowMemesResult = {
 	errors: AFFError[],
 }
 
-const genAllowMemesResult = (file: AFFFile):AllowMemesResult=>{
-	const enableAllowMemesWithItem=(item: WithLocation<AFFItem>):AllowMemesResult=>({
-		enable:true,
-		errors:[{
-			message:"Allow memes mode is turned on since memes events present, some checks will be skipped",
+const genAllowMemesResult = (file: AFFFile): AllowMemesResult => {
+	const enableAllowMemesWithItem = (item: WithLocation<AFFItem>): AllowMemesResult => ({
+		enable: true,
+		errors: [{
+			message: "Allow memes mode is turned on since memes events present, some checks will be skipped",
 			severity: DiagnosticSeverity.Information,
-			location:file.metadata.data.metaEndLocation,
+			location: file.metadata.data.metaEndLocation,
 			relatedInfo: [{
 				message: `The event that triggered the allow memes mode`,
 				location: item.location
@@ -22,17 +22,25 @@ const genAllowMemesResult = (file: AFFFile):AllowMemesResult=>{
 		}]
 	})
 	for (const item of file.items) {
-		if(item.data.kind=="camera"){
+		if (item.data.kind === "camera") {
 			return enableAllowMemesWithItem(item)
-		}else if(item.data.kind=="scenecontrol"){
+		} else if (item.data.kind === "scenecontrol") {
 			return enableAllowMemesWithItem(item)
-		}else if(item.data.kind=="arc"){
-			if(item.data.colorId.data.value===2){
+		} else if (item.data.kind === "arc") {
+			if (item.data.colorId.data.value === 2) {
 				return enableAllowMemesWithItem(item)
+			}
+		} else if (item.data.kind === "timinggroup") {
+			for (const nestedItem of item.data.items.data) {
+				if (nestedItem.data.kind === "arc") {
+					if (nestedItem.data.colorId.data.value === 2) {
+						return enableAllowMemesWithItem(item)
+					}
+				}
 			}
 		}
 	}
-	return {enable:false,errors:[]}
+	return { enable: false, errors: [] }
 }
 
 export const allowMemes = new AssociatedDataMap(genAllowMemesResult)

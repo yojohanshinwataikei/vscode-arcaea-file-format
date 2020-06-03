@@ -11,6 +11,15 @@ export const cutByTimingChecker: AFFChecker = (file, error) => {
 			checkCutByTiming("hold", timingData, item.data.start.data.value, item.data.end.data.value, item.location, error)
 		} else if (item.data.kind === "arc") {
 			checkCutByTiming("arc", timingData, item.data.start.data.value, item.data.end.data.value, item.location, error)
+		} else if (item.data.kind === "timinggroup") {
+			const groupTimingData = timings.get(item.data).datas
+			for (const nestedItem of item.data.items.data) {
+				if (nestedItem.data.kind === "hold") {
+					checkCutByTiming("hold", groupTimingData, nestedItem.data.start.data.value, nestedItem.data.end.data.value, nestedItem.location, error)
+				} else if (nestedItem.data.kind === "arc") {
+					checkCutByTiming("arc", groupTimingData, nestedItem.data.start.data.value, nestedItem.data.end.data.value, nestedItem.location, error)
+				}
+			}
 		}
 	}
 }

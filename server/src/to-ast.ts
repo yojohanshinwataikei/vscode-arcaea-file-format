@@ -104,7 +104,7 @@ class ToASTVisitor extends BaseAffVisitor implements ICstVisitor<AFFError[], any
 		})).filter(e => e.data !== null) : []
 	}
 	segment(ctx: CstChildrenDictionary, errors: AFFError[]): WithLocation<AFFItem>[] {
-		return ctx.items ? this.visit(ctx.items[0] as CstNode, errors):[]
+		return ctx.items ? this.visit(ctx.items[0] as CstNode, errors) : []
 	}
 	item(ctx: CstChildrenDictionary, errors: AFFError[]): WithLocation<AFFItem> | null {
 		let node = ctx.event[0] as CstNode
@@ -437,7 +437,7 @@ const eventTransformer = {
 		}
 
 		return {
-			kind: "timinggroup",items:selectNestedItems(errors,segment,segmentLocation), tagLocation
+			kind: "timinggroup", items: selectNestedItems(errors, segment, segmentLocation), tagLocation
 		}
 	}
 }
@@ -462,21 +462,21 @@ const transformArcSubevents = (
 	return { data: arctaps, location: subeventsLocation }
 }
 
-const selectNestedItems =(
+const selectNestedItems = (
 	errors: AFFError[],
 	segment: WithLocation<AFFEvent>[],
 	segmentLocation: CstNodeLocation
-): WithLocation<WithLocation<AFFNestableItem>[]>=>{
-	let items:WithLocation<AFFNestableItem>[] = []
-	for (const {location,data:item} of segment){
-		if(item.kind==="timinggroup"||item.kind==="scenecontrol"||item.kind==="camera"){
+): WithLocation<WithLocation<AFFNestableItem>[]> => {
+	let items: WithLocation<AFFNestableItem>[] = []
+	for (const { location, data: item } of segment) {
+		if (item.kind === "timinggroup" || item.kind === "scenecontrol" || item.kind === "camera") {
 			errors.push({
 				message: `Item of type "${item.kind}" cannot be nested in timinggroup`,
 				location: location,
 				severity: DiagnosticSeverity.Error,
 			})
-		}else{
-			items.push({location,data:item} as WithLocation<AFFNestableItem>)
+		} else {
+			items.push({ location, data: item } as WithLocation<AFFNestableItem>)
 		}
 	}
 	return { data: items, location: segmentLocation }

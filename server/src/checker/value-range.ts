@@ -3,11 +3,11 @@ import { AFFChecker, AFFInt, AFFError, WithLocation, AFFItem } from "../types"
 
 export const valueRangeChecker: AFFChecker = (file, errors) => {
 	for (const item of file.items) {
-		checkItem(item,errors)
+		checkItem(item, errors)
 	}
 }
 
-const checkItem = ({ data, location }:WithLocation<AFFItem>,errors:AFFError[]) =>{
+const checkItem = ({ data, location }: WithLocation<AFFItem>, errors: AFFError[]) => {
 	if (data.kind === "timing") {
 		checkTimestamp(data.time, errors)
 		if (data.bpm.data.value !== 0 && data.measure.data.value === 0) {
@@ -94,8 +94,8 @@ const checkItem = ({ data, location }:WithLocation<AFFItem>,errors:AFFError[]) =
 				}
 			}
 		}
-	}else if(data.kind==="camera"){
-		if(data.duration.data.value<0){
+	} else if (data.kind === "camera") {
+		if (data.duration.data.value < 0) {
 			errors.push({
 				message: `Camera event should have non negative duration.`,
 				severity: DiagnosticSeverity.Error,
@@ -104,7 +104,7 @@ const checkItem = ({ data, location }:WithLocation<AFFItem>,errors:AFFError[]) =
 		}
 	} else if (data.kind === "timinggroup") {
 		for (const item of data.items.data) {
-			checkItem(item,errors)
+			checkItem(item, errors)
 		}
 	}
 }

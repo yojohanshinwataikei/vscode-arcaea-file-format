@@ -3,11 +3,11 @@ import { AFFChecker, AFFFloat, AFFError, WithLocation, AFFItem } from "../types"
 
 export const floatDigitChecker: AFFChecker = (file, errors) => {
 	for (const item of file.items) {
-		checkItem(item,errors)
+		checkItem(item, errors)
 	}
 }
 
-const checkItem = ({ data, location }:WithLocation<AFFItem>,errors:AFFError[]) =>{
+const checkItem = ({ data, location }: WithLocation<AFFItem>, errors: AFFError[]) => {
 	if (data.kind === "timing") {
 		checkFloat(data.bpm, errors)
 		checkFloat(data.measure, errors)
@@ -31,7 +31,7 @@ const checkItem = ({ data, location }:WithLocation<AFFItem>,errors:AFFError[]) =
 		}
 	} else if (data.kind === "timinggroup") {
 		for (const item of data.items.data) {
-			checkItem(item,errors)
+			checkItem(item, errors)
 		}
 	}
 }
