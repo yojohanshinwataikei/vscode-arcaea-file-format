@@ -22,6 +22,11 @@ const checkScenecontrol = (kind: WithLocation<AFFSceneControlKind>, values: With
 		}
 		return
 	}
+	error.push({
+		message: `Scenecontrol event with type "${kind.data.value}" is not known by us, so the type of additional values is not checked.`,
+		location: kind.location,
+		severity: DiagnosticSeverity.Warning,
+	})
 }
 
 const checkValuesCount = (errors: AFFError[], kind: string, count: number, values: WithLocation<AFFValue>[], valuesLocation: CstNodeLocation): boolean => {
