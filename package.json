@@ -54,39 +54,39 @@
 		"jsonValidation": [
 			{
 				"fileMatch": "songlist",
-				"url": "./json-scheme/songlist.json"
+				"url": "./json-schema/songlist.json"
 			},
 			{
 				"fileMatch": "songlist.json",
-				"url": "./json-scheme/songlist.json"
+				"url": "./json-schema/songlist.json"
 			},
 			{
 				"fileMatch": "songdata.json",
-				"url": "./json-scheme/songdata.json"
+				"url": "./json-schema/songdata.json"
 			},
 			{
 				"fileMatch": "packlist",
-				"url": "./json-scheme/packlist.json"
+				"url": "./json-schema/packlist.json"
 			},
 			{
 				"fileMatch": "packlist.json",
-				"url": "./json-scheme/packlist.json"
+				"url": "./json-schema/packlist.json"
 			},
 			{
 				"fileMatch": "packdata.json",
-				"url": "./json-scheme/packdata.json"
+				"url": "./json-schema/packdata.json"
 			},
 			{
 				"fileMatch": "unlocks",
-				"url": "./json-scheme/unlocks.json"
+				"url": "./json-schema/unlocks.json"
 			},
 			{
 				"fileMatch": "unlocks.json",
-				"url": "./json-scheme/unlocks.json"
+				"url": "./json-schema/unlocks.json"
 			},
 			{
 				"fileMatch": "unlockdata.json",
-				"url": "./json-scheme/unlockdata.json"
+				"url": "./json-schema/unlockdata.json"
 			}
 		]
 	},
