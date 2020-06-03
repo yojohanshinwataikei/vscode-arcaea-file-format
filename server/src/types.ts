@@ -68,6 +68,7 @@ export interface AFFSceneControlEvent {
 	tagLocation: CstNodeLocation,
 	time: WithLocation<AFFInt>,
 	sceneControlKind: WithLocation<AFFSceneControlKind>
+	values: WithLocation<WithLocation<AFFValue>[]>
 }
 
 export type AFFTrackItem = AFFTapEvent | AFFHoldEvent
@@ -131,9 +132,8 @@ export const affCameraKinds = new Set(["l", "s", "qi", "qo", "reset"])
 
 export interface AFFSceneControlKind {
 	kind: "scenecontrol-kind",
-	value: "trackhide" | "trackshow"
+	value: string
 }
-export const affSceneControlKinds = new Set(["trackhide", "trackshow"])
 
 export interface AFFBool {
 	kind: "bool",

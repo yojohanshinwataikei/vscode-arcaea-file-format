@@ -1,7 +1,7 @@
 import { DiagnosticSeverity } from "vscode-languageserver";
-import { CstChildrenDictionary, IToken, CstNode, ICstVisitor, CstNodeLocation, tokenLabel } from "chevrotain"
+import { CstChildrenDictionary, IToken, CstNode, ICstVisitor, CstNodeLocation } from "chevrotain"
 import { BaseAffVisitor } from "./parser"
-import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent, AFFTrackId, AFFInt, AFFColorId, AFFArcKind, AFFWord, affArcKinds, affTrackIds, affColorIds, affEffects, AFFEffect, AFFBool, affBools, AFFCameraEvent, AFFCameraKind, affCameraKinds, AFFSceneControlEvent, AFFSceneControlKind, affSceneControlKinds } from "./types"
+import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent, AFFTrackId, AFFInt, AFFColorId, AFFArcKind, AFFWord, affArcKinds, affTrackIds, affColorIds, affEffects, AFFEffect, AFFBool, affBools, AFFCameraEvent, AFFCameraKind, affCameraKinds, AFFSceneControlEvent, AFFSceneControlKind } from "./types"
 import { tokenTypes } from "./lexer";
 
 // This pass generate AST from CST.
@@ -150,6 +150,19 @@ const rejectSubevent = (errors: AFFError[], kind: string, subevents: WithLocatio
 			severity: DiagnosticSeverity.Error,
 		})
 	}
+}
+
+const ensureValuesCount = (errors: AFFError[], kind: string, count: number, values: WithLocation<AFFValue>[], valuesLocation: CstNodeLocation): boolean => {
+	if (values.length < count) {
+		// error: value count missmatch
+		errors.push({
+			message: `Event with type "${kind}" should have at least ${count} field(s) instead of ${values.length} field(s).`,
+			location: valuesLocation,
+			severity: DiagnosticSeverity.Error,
+		})
+		return false
+	}
+	return true
 }
 
 const checkValuesCount = (errors: AFFError[], kind: string, count: number, values: WithLocation<AFFValue>[], valuesLocation: CstNodeLocation): boolean => {
@@ -345,17 +358,28 @@ const eventTransformer = {
 		tagLocation: CstNodeLocation,
 	): AFFSceneControlEvent | null => {
 		rejectSubevent(errors, "scenecontrol", subevents, subeventsLocation)
-		if (!checkValuesCount(errors, "scenecontrol", 2, values, valuesLocation)) {
+		if (!ensureValuesCount(errors, "scenecontrol", 2, values, valuesLocation)) {
 			return null
 		}
 		const time = checkValueType(errors, "scenecontrol", "time", "int", values, 0)
 		const rawSceneControlKind = checkValueType(errors, "scenecontrol", "scenecontrol-kind", "word", values, 1)
 		const sceneControlKind = parseValue.sceneControlKind(errors, "scenecontrol", "scenecontrol-kind", rawSceneControlKind)
+		const additionalValues={
+			data:values.slice(2),
+			location:{
+				startOffset:sceneControlKind.location.endOffset+1,
+				startLine:sceneControlKind.location.endLine,
+				startColumn:sceneControlKind.location.endColumn+1,
+				endOffset:valuesLocation.endOffset,
+				endLine:valuesLocation.endLine,
+				endColumn:valuesLocation.endColumn,
+			}
+		}
 		if (time === null || sceneControlKind === null) {
 			return null
 		}
 		return {
-			kind: "scenecontrol", time, sceneControlKind, tagLocation
+			kind: "scenecontrol", time, sceneControlKind, tagLocation, values: additionalValues
 		}
 	}
 }
@@ -493,14 +517,6 @@ const parseValue = {
 		if (word) {
 			const { data, location } = word
 			const wordValue = data.value
-			if (!affSceneControlKinds.has(wordValue)) {
-				errors.push({
-					message: `The value in the "${fieldname}" field of event with type "${eventKind}" should be one of ${[...affSceneControlKinds.values()].join()}`,
-					location,
-					severity: DiagnosticSeverity.Error,
-				})
-				return null
-			}
 			return { data: { kind: "scenecontrol-kind", value: wordValue } as AFFSceneControlKind, location }
 		} else {
 			return null
