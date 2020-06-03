@@ -27,13 +27,14 @@ const whitespace = createToken({
 	pattern: /[ \f\t\v​\u00a0\u1680​\u180e\u2000​\u2001\u2002​\u2003\u2004​\u2005\u2006​\u2007\u2008​\u2009\u200a​\u2028\u2029​​\u202f\u205f​\u3000]+/,
 	group: "whitespace",
 })
+const ignoredEndline = createToken({ name: "endline", pattern: /\r\n|\r|\n/, line_breaks: true, group: "whitespace" })
 
-export const tokenTypes = { endline, colon, key, data, metaEnd, lParen, rParen, lBrack, rBrack, lBrace, rBrace, comma, semicolon, value, word, float, int }
+export const tokenTypes = { endline, colon, key, data, metaEnd, lParen, rParen, lBrack, rBrack, lBrace, rBrace, comma, semicolon, value, word, float, int, ignoredEndline }
 export const AFFLexer = new Lexer({
 	modes: {
 		meta: [endline, metaEnd, colon, key],
 		data: [data],
-		main: [endline, whitespace, lParen, rParen, lBrack, rBrack, lBrace, rBrace, comma, semicolon, float, int, word]
+		main: [ignoredEndline, whitespace, lParen, rParen, lBrack, rBrack, lBrace, rBrace, comma, semicolon, float, int, word]
 	},
 	defaultMode: "meta"
 })

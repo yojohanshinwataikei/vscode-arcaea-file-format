@@ -1,10 +1,10 @@
-import { AFFLexer } from "./lexer"
+import { AFFLexer, tokenTypes } from "./lexer"
 import * as lsp from "vscode-languageserver"
 import { affParser } from "./parser"
 import { EOF } from "chevrotain"
-import { affToAST } from "./to-ast";
-import { AFFError } from "./types";
-import { processCheckers } from "./checkers";
+import { affToAST } from "./to-ast"
+import { AFFError } from "./types"
+import { processCheckers } from "./checkers"
 
 export const checkAFF = (content: lsp.TextDocument): lsp.Diagnostic[] => {
 	let errors: lsp.Diagnostic[] = []
@@ -42,9 +42,9 @@ export const checkAFF = (content: lsp.TextDocument): lsp.Diagnostic[] => {
 		const checkerErrors = processCheckers(astResult.ast)
 		errors = errors.concat(checkerErrors.map(e => transformAFFError(e, content.uri)))
 	}
-	errors = lexingResult.groups.whitespace.filter((t)=>{
-		return t.startColumn!==1
-	}).map((t):lsp.Diagnostic => ({
+	errors = lexingResult.groups.whitespace.filter((t) => {
+		return t.startColumn !== 1 && t.tokenType !== tokenTypes.ignoredEndline
+	}).map((t): lsp.Diagnostic => ({
 		severity: lsp.DiagnosticSeverity.Error,
 		message: `Unexpected whitespace`,
 		range: {

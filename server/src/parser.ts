@@ -26,6 +26,7 @@ class AFFParser extends CstParser {
 		this.OPTION(() => this.CONSUME(tokenTypes.word))
 		this.SUBRULE(this.values)
 		this.OPTION1(() => this.SUBRULE(this.subevents))
+		this.OPTION2(() => this.SUBRULE(this.segment))
 	})
 	public subevents = this.RULE("subevents", () => {
 		this.CONSUME(tokenTypes.lBrack)
@@ -42,10 +43,14 @@ class AFFParser extends CstParser {
 		this.CONSUME(tokenTypes.semicolon)
 	})
 	public items = this.RULE("items", () => {
-		this.MANY_SEP({
-			SEP: tokenTypes.endline,
+		this.MANY({
 			DEF: () => this.OPTION(() => this.SUBRULE(this.item))
 		})
+	})
+	public segment = this.RULE("segment", () => {
+		this.CONSUME(tokenTypes.lBrace)
+		this.SUBRULE(this.items)
+		this.CONSUME(tokenTypes.rBrace)
 	})
 	public aff = this.RULE("aff", () => {
 		this.SUBRULE(this.metadata)
