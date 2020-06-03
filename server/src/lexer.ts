@@ -11,6 +11,8 @@ const lParen = createToken({ name: "lParen", pattern: /\(/, label: "(" })
 const rParen = createToken({ name: "rParen", pattern: /\)/, label: ")" })
 const lBrack = createToken({ name: "lBrack", pattern: /\[/, label: "[" })
 const rBrack = createToken({ name: "rBrack", pattern: /\]/, label: "]" })
+const lBrace = createToken({ name: "lBrace", pattern: /\{/, label: "{" })
+const rBrace = createToken({ name: "rBrace", pattern: /\}/, label: "}" })
 const comma = createToken({ name: "comma", pattern: /,/, label: "," })
 const semicolon = createToken({ name: "semicolon", pattern: /;/, label: ";" })
 
@@ -26,12 +28,12 @@ const whitespace = createToken({
 	group: "whitespace",
 })
 
-export const tokenTypes = { endline, colon, key, data, metaEnd, lParen, rParen, lBrack, rBrack, comma, semicolon, value, word, float, int }
+export const tokenTypes = { endline, colon, key, data, metaEnd, lParen, rParen, lBrack, rBrack, lBrace, rBrace, comma, semicolon, value, word, float, int }
 export const AFFLexer = new Lexer({
 	modes: {
 		meta: [endline, metaEnd, colon, key],
 		data: [data],
-		main: [endline, whitespace, lParen, rParen, lBrack, rBrack, comma, semicolon, float, int, word]
+		main: [endline, whitespace, lParen, rParen, lBrack, rBrack, lBrace, rBrace, comma, semicolon, float, int, word]
 	},
 	defaultMode: "meta"
 })
