@@ -63,6 +63,14 @@
 			"type": "boolean",
 			"description": "Should playing the song needs to get it unlocked in world mode"
 		},
+		"byd_local_unlock": {
+			"type": "boolean",
+			"description": "Should the unlock state of beyond difficult of the song saved locally (instead of saved online)"
+		},
+		"songlist_hidden": {
+			"type":"boolean",
+			"description": "Should the song be hidden in the songlist before unlocking it."
+		},
 		"bg": {
 			"type": "string",
 			"description": "The name of the background used when playing the song"
@@ -90,6 +98,10 @@
 			"description": "The Unix timestamp of the time when the song is added, used to sort the songs by time",
 			"minimum": 0
 		},
+		"version":{
+			"type":"string",
+			"description": "The version where the song was published, used to categorize songs by version"
+		},
 		"remote_dl": {
 			"type": "boolean",
 			"description": "Is the assets of the song stored on the remote server"
@@ -111,11 +123,12 @@
 				"properties": {
 					"ratingClass": {
 						"type": "integer",
-						"description": "The rating class of the difficulty, 0 for past, 1 for present and 2 for future",
+						"description": "The rating class of the difficulty, 0 for past, 1 for present  2 for future, and 3 for beyond",
 						"enum": [
 							0,
 							1,
-							2
+							2,
+							3
 						]
 					},
 					"chartDesigner": {
@@ -128,7 +141,12 @@
 					},
 					"rating": {
 						"type": "integer",
-						"description": "The rating of the difficult, 0 for \"?\", 10 for \"9+\", 11 for \"10\" and 1~9 for corresponding number value"
+						"minimum": 0,
+						"description": "The rating of the difficult, 0 for \"?\", other number for corresponding number value. before 3.0.0 it is 0 for \"?\", 10 for \"9+\", 11 for \"10\" and 1~9 for corresponding number value"
+					},
+					"ratingPlus": {
+						"type":"boolean",
+						"description": "Should the difficult of the chart annotated with a plus sign, like 9+, 10+."
 					},
 					"plusFingers": {
 						"description": "Should this charts be played with more than two fingers.This field is not longer used",
@@ -153,6 +171,10 @@
 					"jacket_night": {
 						"type": "string",
 						"description": "The name of the jacket used in the night in the difficulty"
+					},
+					"hidden_until_unlocked": {
+						"type":"boolean",
+						"description": "Should this chart be hidden in the songlist before unlocking it."
 					}
 				},
 				"required": [
@@ -173,6 +195,7 @@
 		"audioPreview",
 		"audioPreviewEnd",
 		"side",
+		"version",
 		"date"
 	],
 	"definitions": {

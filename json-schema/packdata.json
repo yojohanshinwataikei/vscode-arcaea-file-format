@@ -11,8 +11,9 @@
 		},
 		"cost":{
 			"type":"integer",
-			"description": "The price of this pack in memories",
-			"minimum": 0
+			"description": "The price of this pack in memories, however from 3.0.0 this will be controlled by server instead of keeped in packlist",
+			"minimum": 0,
+			"deprecated": true
 		},
 		"custom_banner":{
 			"type":"boolean",
@@ -34,7 +35,6 @@
 	},
 	"required": [
 		"id",
-		"cost",
 		"name_localized"
 	]
 }
