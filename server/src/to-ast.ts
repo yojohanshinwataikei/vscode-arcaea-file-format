@@ -1,7 +1,7 @@
 import { DiagnosticSeverity } from "vscode-languageserver";
 import { CstChildrenDictionary, IToken, CstNode, ICstVisitor, CstNodeLocation } from "chevrotain"
 import { BaseAffVisitor } from "./parser"
-import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent, AFFTrackId, AFFInt, AFFColorId, AFFArcKind, AFFWord, affArcKinds, affTrackIds, affColorIds, affEffects, AFFEffect, AFFBool, affBools, AFFCameraEvent, AFFCameraKind, affCameraKinds, AFFSceneControlEvent, AFFSceneControlKind } from "./types"
+import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent, AFFTrackId, AFFInt, AFFColorId, AFFArcKind, AFFWord, affArcKinds, affTrackIds, affColorIds, affEffects, AFFEffect, AFFBool, affBools, AFFCameraEvent, AFFCameraKind, affCameraKinds, AFFSceneControlEvent, AFFSceneControlKind, AFFTimingGroupEvent, AFFNestableItem } from "./types"
 import { tokenTypes } from "./lexer";
 
 // This pass generate AST from CST.
@@ -65,21 +65,25 @@ class ToASTVisitor extends BaseAffVisitor implements ICstVisitor<AFFError[], any
 		const valuesLocation = (ctx.values[0] as CstNode).location
 		const subevents = ctx.subevents ? this.visit(ctx.subevents[0] as CstNode, errors) as WithLocation<AFFEvent>[] : null
 		const subeventsLocation = ctx.subevents ? (ctx.subevents[0] as CstNode).location : null
+		const segment = ctx.segment ? this.visit(ctx.segment[0] as CstNode, errors) as WithLocation<AFFEvent>[] : null
+		const segmentLocation = ctx.segment ? (ctx.segment[0] as CstNode).location : null
 		if (ctx.word) {
 			const tag = ctx.word[0] as IToken
 			const tagLocation = locationFromToken(tag)
 			if (tag.image === "timing") {
-				return eventTransformer.timing(errors, values, valuesLocation, subevents, subeventsLocation, tagLocation)
+				return eventTransformer.timing(errors, values, valuesLocation, subevents, subeventsLocation, segment, segmentLocation, tagLocation)
 			} else if (tag.image === "hold") {
-				return eventTransformer.hold(errors, values, valuesLocation, subevents, subeventsLocation, tagLocation)
+				return eventTransformer.hold(errors, values, valuesLocation, subevents, subeventsLocation, segment, segmentLocation, tagLocation)
 			} else if (tag.image === "arc") {
-				return eventTransformer.arc(errors, values, valuesLocation, subevents, subeventsLocation, tagLocation)
+				return eventTransformer.arc(errors, values, valuesLocation, subevents, subeventsLocation, segment, segmentLocation, tagLocation)
 			} else if (tag.image === "arctap") {
-				return eventTransformer.arctap(errors, values, valuesLocation, subevents, subeventsLocation, tagLocation)
+				return eventTransformer.arctap(errors, values, valuesLocation, subevents, subeventsLocation, segment, segmentLocation, tagLocation)
 			} else if (tag.image === "camera") {
-				return eventTransformer.camera(errors, values, valuesLocation, subevents, subeventsLocation, tagLocation)
+				return eventTransformer.camera(errors, values, valuesLocation, subevents, subeventsLocation, segment, segmentLocation, tagLocation)
 			} else if (tag.image === "scenecontrol") {
-				return eventTransformer.scenecontrol(errors, values, valuesLocation, subevents, subeventsLocation, tagLocation)
+				return eventTransformer.scenecontrol(errors, values, valuesLocation, subevents, subeventsLocation, segment, segmentLocation, tagLocation)
+			} else if (tag.image === "timinggroup") {
+				return eventTransformer.timinggroup(errors, values, valuesLocation, subevents, subeventsLocation, segment, segmentLocation, tagLocation)
 			} else {
 				// error: unknown tag
 				errors.push({
@@ -90,7 +94,7 @@ class ToASTVisitor extends BaseAffVisitor implements ICstVisitor<AFFError[], any
 				return null
 			}
 		} else {
-			return eventTransformer.tap(errors, values, valuesLocation, subevents, subeventsLocation)
+			return eventTransformer.tap(errors, values, valuesLocation, subevents, subeventsLocation, segment, segmentLocation)
 		}
 	}
 	subevents(ctx: CstChildrenDictionary, errors: AFFError[]): WithLocation<AFFEvent>[] {
@@ -98,6 +102,9 @@ class ToASTVisitor extends BaseAffVisitor implements ICstVisitor<AFFError[], any
 			data: this.visit(node, errors) as AFFEvent | null,
 			location: node.location
 		})).filter(e => e.data !== null) : []
+	}
+	segment(ctx: CstChildrenDictionary, errors: AFFError[]): WithLocation<AFFItem>[] {
+		return ctx.items ? this.visit(ctx.items[0] as CstNode, errors):[]
 	}
 	item(ctx: CstChildrenDictionary, errors: AFFError[]): WithLocation<AFFItem> | null {
 		let node = ctx.event[0] as CstNode
@@ -147,6 +154,17 @@ const rejectSubevent = (errors: AFFError[], kind: string, subevents: WithLocatio
 		errors.push({
 			message: `Event with type "${kind}" should not have subevents.`,
 			location: subeventsLocation,
+			severity: DiagnosticSeverity.Error,
+		})
+	}
+}
+
+const rejectSegment = (errors: AFFError[], kind: string, segment: WithLocation<AFFEvent>[] | null, segmentLocation: CstNodeLocation | null) => {
+	if (segment !== null) {
+		// error: unexpected subevent
+		errors.push({
+			message: `Event with type "${kind}" should not have segment.`,
+			location: segmentLocation,
 			severity: DiagnosticSeverity.Error,
 		})
 	}
@@ -207,8 +225,11 @@ const eventTransformer = {
 		valuesLocation: CstNodeLocation,
 		subevents: WithLocation<AFFEvent>[] | null,
 		subeventsLocation: CstNodeLocation | null,
+		segment: WithLocation<AFFEvent>[] | null,
+		segmentLocation: CstNodeLocation | null,
 	): AFFTapEvent | null => {
 		rejectSubevent(errors, "tap", subevents, subeventsLocation)
+		rejectSegment(errors, "tap", segment, segmentLocation)
 		if (!checkValuesCount(errors, "tap", 2, values, valuesLocation)) {
 			return null
 		}
@@ -226,9 +247,12 @@ const eventTransformer = {
 		valuesLocation: CstNodeLocation,
 		subevents: WithLocation<AFFEvent>[] | null,
 		subeventsLocation: CstNodeLocation | null,
+		segment: WithLocation<AFFEvent>[] | null,
+		segmentLocation: CstNodeLocation | null,
 		tagLocation: CstNodeLocation,
 	): AFFHoldEvent | null => {
 		rejectSubevent(errors, "hold", subevents, subeventsLocation)
+		rejectSegment(errors, "hold", segment, segmentLocation)
 		if (!checkValuesCount(errors, "hold", 3, values, valuesLocation)) {
 			return null
 		}
@@ -247,9 +271,12 @@ const eventTransformer = {
 		valuesLocation: CstNodeLocation,
 		subevents: WithLocation<AFFEvent>[] | null,
 		subeventsLocation: CstNodeLocation | null,
+		segment: WithLocation<AFFEvent>[] | null,
+		segmentLocation: CstNodeLocation | null,
 		tagLocation: CstNodeLocation,
 	): AFFArctapEvent | null => {
 		rejectSubevent(errors, "arctap", subevents, subeventsLocation)
+		rejectSegment(errors, "arctap", segment, segmentLocation)
 		if (!checkValuesCount(errors, "arctap", 1, values, valuesLocation)) {
 			return null
 		}
@@ -265,19 +292,22 @@ const eventTransformer = {
 		valuesLocation: CstNodeLocation,
 		subevents: WithLocation<AFFEvent>[] | null,
 		subeventsLocation: CstNodeLocation | null,
+		segment: WithLocation<AFFEvent>[] | null,
+		segmentLocation: CstNodeLocation | null,
 		tagLocation: CstNodeLocation,
 	): AFFTimingEvent | null => {
 		rejectSubevent(errors, "timing", subevents, subeventsLocation)
+		rejectSegment(errors, "timing", segment, segmentLocation)
 		if (!checkValuesCount(errors, "timing", 3, values, valuesLocation)) {
 			return null
 		}
 		const time = checkValueType(errors, "timing", "time", "int", values, 0)
 		const bpm = checkValueType(errors, "timing", "bpm", "float", values, 1)
-		const segment = checkValueType(errors, "timing", "segment", "float", values, 2)
-		if (time === null || bpm === null || segment === null) {
+		const measure = checkValueType(errors, "timing", "measure", "float", values, 2)
+		if (time === null || bpm === null || measure === null) {
 			return null
 		}
-		return { kind: "timing", time, bpm, segment, tagLocation }
+		return { kind: "timing", time, bpm, measure, tagLocation }
 	},
 	arc: (
 		errors: AFFError[],
@@ -285,8 +315,11 @@ const eventTransformer = {
 		valuesLocation: CstNodeLocation,
 		subevents: WithLocation<AFFEvent>[] | null,
 		subeventsLocation: CstNodeLocation | null,
+		segment: WithLocation<AFFEvent>[] | null,
+		segmentLocation: CstNodeLocation | null,
 		tagLocation: CstNodeLocation,
 	): AFFArcEvent | null => {
+		rejectSegment(errors, "arc", segment, segmentLocation)
 		if (!checkValuesCount(errors, "arc", 10, values, valuesLocation)) {
 			return null
 		}
@@ -321,9 +354,12 @@ const eventTransformer = {
 		valuesLocation: CstNodeLocation,
 		subevents: WithLocation<AFFEvent>[] | null,
 		subeventsLocation: CstNodeLocation | null,
+		segment: WithLocation<AFFEvent>[] | null,
+		segmentLocation: CstNodeLocation | null,
 		tagLocation: CstNodeLocation,
 	): AFFCameraEvent | null => {
 		rejectSubevent(errors, "camera", subevents, subeventsLocation)
+		rejectSegment(errors, "camera", segment, segmentLocation)
 		if (!checkValuesCount(errors, "camera", 9, values, valuesLocation)) {
 			return null
 		}
@@ -355,9 +391,12 @@ const eventTransformer = {
 		valuesLocation: CstNodeLocation,
 		subevents: WithLocation<AFFEvent>[] | null,
 		subeventsLocation: CstNodeLocation | null,
+		segment: WithLocation<AFFEvent>[] | null,
+		segmentLocation: CstNodeLocation | null,
 		tagLocation: CstNodeLocation,
 	): AFFSceneControlEvent | null => {
 		rejectSubevent(errors, "scenecontrol", subevents, subeventsLocation)
+		rejectSegment(errors, "scenecontrol", segment, segmentLocation)
 		if (!ensureValuesCount(errors, "scenecontrol", 2, values, valuesLocation)) {
 			return null
 		}
@@ -381,6 +420,25 @@ const eventTransformer = {
 		return {
 			kind: "scenecontrol", time, sceneControlKind, tagLocation, values: additionalValues
 		}
+	},
+	timinggroup: (
+		errors: AFFError[],
+		values: WithLocation<AFFValue>[],
+		valuesLocation: CstNodeLocation,
+		subevents: WithLocation<AFFEvent>[] | null,
+		subeventsLocation: CstNodeLocation | null,
+		segment: WithLocation<AFFEvent>[] | null,
+		segmentLocation: CstNodeLocation | null,
+		tagLocation: CstNodeLocation,
+	): AFFTimingGroupEvent | null => {
+		rejectSubevent(errors, "timinggroup", subevents, subeventsLocation)
+		if (!checkValuesCount(errors, "timinggroup", 0, values, valuesLocation)) {
+			return null
+		}
+
+		return {
+			kind: "timinggroup",items:selectNestedItems(errors,segment,segmentLocation), tagLocation
+		}
 	}
 }
 
@@ -402,6 +460,26 @@ const transformArcSubevents = (
 		}
 	}
 	return { data: arctaps, location: subeventsLocation }
+}
+
+const selectNestedItems =(
+	errors: AFFError[],
+	segment: WithLocation<AFFEvent>[],
+	segmentLocation: CstNodeLocation
+): WithLocation<WithLocation<AFFNestableItem>[]>=>{
+	let items:WithLocation<AFFNestableItem>[] = []
+	for (const {location,data:item} of segment){
+		if(item.kind==="timinggroup"||item.kind==="scenecontrol"||item.kind==="camera"){
+			errors.push({
+				message: `Item of type "${item.kind}" cannot be nested in timinggroup`,
+				location: location,
+				severity: DiagnosticSeverity.Error,
+			})
+		}else{
+			items.push({location,data:item} as WithLocation<AFFNestableItem>)
+		}
+	}
+	return { data: items, location: segmentLocation }
 }
 
 const parseValue = {

@@ -5,18 +5,18 @@ export const valueRangeChecker: AFFChecker = (file, errors) => {
 	for (const { data, location } of file.items) {
 		if (data.kind === "timing") {
 			checkTimestamp(data.time, errors)
-			if (data.bpm.data.value !== 0 && data.segment.data.value === 0) {
+			if (data.bpm.data.value !== 0 && data.measure.data.value === 0) {
 				errors.push({
 					message: `Timing event with non-zero bpm should not have zero beats per segment.`,
 					severity: DiagnosticSeverity.Error,
-					location: data.segment.location,
+					location: data.measure.location,
 				})
 			}
-			if (data.bpm.data.value === 0 && data.segment.data.value !== 0) {
+			if (data.bpm.data.value === 0 && data.measure.data.value !== 0) {
 				errors.push({
 					message: `Timing event with zero bpm should have zero beats per segment.`,
 					severity: DiagnosticSeverity.Information,
-					location: data.segment.location,
+					location: data.measure.location,
 				})
 			}
 		} else if (data.kind === "tap") {

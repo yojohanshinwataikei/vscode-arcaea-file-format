@@ -38,19 +38,19 @@ class AFFParser extends CstParser {
 		})
 		this.CONSUME(tokenTypes.rBrack)
 	})
+	public segment = this.RULE("segment", () => {
+		this.CONSUME(tokenTypes.lBrace)
+		this.SUBRULE(this.items)
+		this.CONSUME(tokenTypes.rBrace)
+	})
 	public item = this.RULE("item", () => {
 		this.SUBRULE(this.event)
 		this.CONSUME(tokenTypes.semicolon)
 	})
 	public items = this.RULE("items", () => {
 		this.MANY({
-			DEF: () => this.OPTION(() => this.SUBRULE(this.item))
+			DEF: () => this.SUBRULE(this.item)
 		})
-	})
-	public segment = this.RULE("segment", () => {
-		this.CONSUME(tokenTypes.lBrace)
-		this.SUBRULE(this.items)
-		this.CONSUME(tokenTypes.rBrace)
 	})
 	public aff = this.RULE("aff", () => {
 		this.SUBRULE(this.metadata)

@@ -33,7 +33,7 @@ const genTimingResult = (file: AFFFile): TimingResult => {
 				datas.set(time, {
 					time,
 					bpm: item.data.bpm.data.value,
-					segment: item.data.segment.data.value,
+					segment: item.data.measure.data.value,
 					item: item as WithLocation<AFFTimingEvent>,
 				})
 			}

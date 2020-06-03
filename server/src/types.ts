@@ -10,7 +10,7 @@ export interface AFFTimingEvent {
 	tagLocation: CstNodeLocation,
 	time: WithLocation<AFFInt>,
 	bpm: WithLocation<AFFFloat>,
-	segment: WithLocation<AFFFloat>,
+	measure: WithLocation<AFFFloat>,
 }
 
 export interface AFFTapEvent {
@@ -71,8 +71,15 @@ export interface AFFSceneControlEvent {
 	values: WithLocation<WithLocation<AFFValue>[]>
 }
 
+export interface AFFTimingGroupEvent {
+	kind: "timinggroup",
+	tagLocation: CstNodeLocation,
+	items: WithLocation<WithLocation<AFFNestableItem>[]>,
+}
+
 export type AFFTrackItem = AFFTapEvent | AFFHoldEvent
-export type AFFItem = AFFTimingEvent | AFFTrackItem | AFFArcEvent | AFFCameraEvent | AFFSceneControlEvent
+export type AFFNestableItem = AFFTimingEvent | AFFTrackItem | AFFArcEvent
+export type AFFItem = AFFNestableItem | AFFCameraEvent | AFFSceneControlEvent | AFFTimingGroupEvent
 export type AFFEvent = AFFItem | AFFArctapEvent
 
 export interface AFFInt {

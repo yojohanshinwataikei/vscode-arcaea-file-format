@@ -5,7 +5,7 @@ export const floatDigitChecker: AFFChecker = (file, errors) => {
 	for (const { data } of file.items) {
 		if (data.kind === "timing") {
 			checkFloat(data.bpm, errors)
-			checkFloat(data.segment, errors)
+			checkFloat(data.measure, errors)
 		} else if (data.kind === "arc") {
 			checkFloat(data.xStart, errors)
 			checkFloat(data.xEnd, errors)
