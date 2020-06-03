@@ -2,218 +2,370 @@
 	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
 	"name": "Arcaea File Format",
 	"patterns": [
-		{"include":"#divider"},
-		{"include":"#metadata"},
-		{"include":"#item"}
+		{
+			"include": "#divider"
+		},
+		{
+			"include": "#metadata"
+		},
+		{
+			"include": "#item"
+		}
 	],
 	"repository": {
-		"divider":{
-			"match":"^-$",
+		"divider": {
+			"match": "^-$",
 			"name": "punctuation.separator.divider.arcaea-aff"
 		},
-		"metadata":{
-			"match":"^([^:]*)(:)(.*)$",
+		"metadata": {
+			"match": "^([^:]*)(:)(.*)$",
 			"name": "meta.metadata.arcaea-aff",
-			"captures":{
-				"1":{"name":"support.type.property-name.arcaea-aff"},
-				"2":{"name":"punctuation.separator.dictionary.key-value.arcaea-aff"},
-				"3":{
-					"name":"meta.dictionary.value.arcaea-aff",
-					"patterns":[
-						{"include":"#value"}
+			"captures": {
+				"1": {
+					"name": "support.type.property-name.arcaea-aff"
+				},
+				"2": {
+					"name": "punctuation.separator.dictionary.key-value.arcaea-aff"
+				},
+				"3": {
+					"name": "meta.dictionary.value.arcaea-aff",
+					"patterns": [
+						{
+							"include": "#value"
+						}
 					]
 				}
 			}
 		},
-		"item":{
+		"item": {
 			"patterns": [
-				{"include": "#tap"},
-				{"include": "#hold"},
-				{"include": "#timing"},
-				{"include": "#camera"},
-				{"include": "#arc"},
-				{"include": "#arc-with-arctap"},
-				{"include": "#scenecontrol"},
-				{"include": "#timinggroup"}
+				{
+					"include": "#tap"
+				},
+				{
+					"include": "#hold"
+				},
+				{
+					"include": "#timing"
+				},
+				{
+					"include": "#camera"
+				},
+				{
+					"include": "#arc"
+				},
+				{
+					"include": "#arc-with-arctap"
+				},
+				{
+					"include": "#scenecontrol"
+				},
+				{
+					"include": "#timinggroup"
+				}
 			]
 		},
-		"tap":{
-			"match":"^\\s*(\\()([^\\(\\)]*)(\\))(;)\\s*$",
-			"captures":{
-				"1":{"name":"punctuation.section.tuple.begin.bracket.arcaea-aff"},
-				"2":{
-					"name":"meta.tuple.content.arcaea-aff",
-					"patterns":[
-						{"include":"#value"},
-						{"include":"#comma"}
+		"tap": {
+			"match": "^\\s*(\\()([^\\(\\)]*)(\\))(;)\\s*$",
+			"captures": {
+				"1": {
+					"name": "punctuation.section.tuple.begin.bracket.arcaea-aff"
+				},
+				"2": {
+					"name": "meta.tuple.content.arcaea-aff",
+					"patterns": [
+						{
+							"include": "#value"
+						},
+						{
+							"include": "#comma"
+						}
 					]
 				},
-				"3":{"name":"punctuation.section.tuple.end.bracket.arcaea-aff"},
-				"4":{"name":"punctuation.terminator.item.arcaea-aff"}
+				"3": {
+					"name": "punctuation.section.tuple.end.bracket.arcaea-aff"
+				},
+				"4": {
+					"name": "punctuation.terminator.item.arcaea-aff"
+				}
 			}
 		},
-		"hold":{
-			"match":"^\\s*(hold)(\\()([^\\(\\)]*)(\\))(;)\\s*$",
-			"captures":{
-				"1":{"name":"keyword.other.hold.arcaea-aff"},
-				"2":{"name":"punctuation.section.tuple.begin.bracket.arcaea-aff"},
-				"3":{
-					"name":"meta.tuple.content.arcaea-aff",
-					"patterns":[
-						{"include":"#value"},
-						{"include":"#comma"}
+		"hold": {
+			"match": "^\\s*(hold)(\\()([^\\(\\)]*)(\\))(;)\\s*$",
+			"captures": {
+				"1": {
+					"name": "keyword.other.hold.arcaea-aff"
+				},
+				"2": {
+					"name": "punctuation.section.tuple.begin.bracket.arcaea-aff"
+				},
+				"3": {
+					"name": "meta.tuple.content.arcaea-aff",
+					"patterns": [
+						{
+							"include": "#value"
+						},
+						{
+							"include": "#comma"
+						}
 					]
 				},
-				"4":{"name":"punctuation.section.tuple.end.bracket.arcaea-aff"},
-				"5":{"name":"punctuation.terminator.item.arcaea-aff"}
+				"4": {
+					"name": "punctuation.section.tuple.end.bracket.arcaea-aff"
+				},
+				"5": {
+					"name": "punctuation.terminator.item.arcaea-aff"
+				}
 			}
 		},
-		"timing":{
-			"match":"^\\s*(timing)(\\()([^\\(\\)]*)(\\))(;)\\s*$",
-			"captures":{
-				"1":{"name":"keyword.other.timing.arcaea-aff"},
-				"2":{"name":"punctuation.section.tuple.begin.bracket.arcaea-aff"},
-				"3":{
-					"name":"meta.tuple.content.arcaea-aff",
-					"patterns":[
-						{"include":"#value"},
-						{"include":"#comma"}
+		"timing": {
+			"match": "^\\s*(timing)(\\()([^\\(\\)]*)(\\))(;)\\s*$",
+			"captures": {
+				"1": {
+					"name": "keyword.other.timing.arcaea-aff"
+				},
+				"2": {
+					"name": "punctuation.section.tuple.begin.bracket.arcaea-aff"
+				},
+				"3": {
+					"name": "meta.tuple.content.arcaea-aff",
+					"patterns": [
+						{
+							"include": "#value"
+						},
+						{
+							"include": "#comma"
+						}
 					]
 				},
-				"4":{"name":"punctuation.section.tuple.end.bracket.arcaea-aff"},
-				"5":{"name":"punctuation.terminator.item.arcaea-aff"}
+				"4": {
+					"name": "punctuation.section.tuple.end.bracket.arcaea-aff"
+				},
+				"5": {
+					"name": "punctuation.terminator.item.arcaea-aff"
+				}
 			}
 		},
-		"camera":{
-			"match":"^\\s*(camera)(\\()([^\\(\\)]*)(\\))(;)\\s*$",
-			"captures":{
-				"1":{"name":"keyword.other.camera.arcaea-aff"},
-				"2":{"name":"punctuation.section.tuple.begin.bracket.arcaea-aff"},
-				"3":{
-					"name":"meta.tuple.content.arcaea-aff",
-					"patterns":[
-						{"include":"#value"},
-						{"include":"#comma"}
+		"camera": {
+			"match": "^\\s*(camera)(\\()([^\\(\\)]*)(\\))(;)\\s*$",
+			"captures": {
+				"1": {
+					"name": "keyword.other.camera.arcaea-aff"
+				},
+				"2": {
+					"name": "punctuation.section.tuple.begin.bracket.arcaea-aff"
+				},
+				"3": {
+					"name": "meta.tuple.content.arcaea-aff",
+					"patterns": [
+						{
+							"include": "#value"
+						},
+						{
+							"include": "#comma"
+						}
 					]
 				},
-				"4":{"name":"punctuation.section.tuple.end.bracket.arcaea-aff"},
-				"5":{"name":"punctuation.terminator.item.arcaea-aff"}
+				"4": {
+					"name": "punctuation.section.tuple.end.bracket.arcaea-aff"
+				},
+				"5": {
+					"name": "punctuation.terminator.item.arcaea-aff"
+				}
 			}
 		},
-		"arc":{
-			"match":"^\\s*(arc)(\\()([^\\(\\)]*)(\\))(;)\\s*$",
-			"captures":{
-				"1":{"name":"keyword.other.arc.arcaea-aff"},
-				"2":{"name":"punctuation.section.tuple.begin.bracket.arcaea-aff"},
-				"3":{
-					"name":"meta.tuple.content.arcaea-aff",
-					"patterns":[
-						{"include":"#value"},
-						{"include":"#comma"}
+		"arc": {
+			"match": "^\\s*(arc)(\\()([^\\(\\)]*)(\\))(;)\\s*$",
+			"captures": {
+				"1": {
+					"name": "keyword.other.arc.arcaea-aff"
+				},
+				"2": {
+					"name": "punctuation.section.tuple.begin.bracket.arcaea-aff"
+				},
+				"3": {
+					"name": "meta.tuple.content.arcaea-aff",
+					"patterns": [
+						{
+							"include": "#value"
+						},
+						{
+							"include": "#comma"
+						}
 					]
 				},
-				"4":{"name":"punctuation.section.tuple.end.bracket.arcaea-aff"},
-				"5":{"name":"punctuation.terminator.item.arcaea-aff"}
+				"4": {
+					"name": "punctuation.section.tuple.end.bracket.arcaea-aff"
+				},
+				"5": {
+					"name": "punctuation.terminator.item.arcaea-aff"
+				}
 			}
 		},
-		"arc-with-arctap":{
-			"begin":"^\\s*(arc)(\\()([^\\(\\)]*)(\\))(\\[)",
-			"beginCaptures":{
-				"1":{"name":"keyword.other.arc.arcaea-aff"},
-				"2":{"name":"punctuation.section.tuple.begin.bracket.arcaea-aff"},
-				"3":{
-					"name":"meta.tuple.content.arcaea-aff",
-					"patterns":[
-						{"include":"#value"},
-						{"include":"#comma"}
+		"arc-with-arctap": {
+			"begin": "^\\s*(arc)(\\()([^\\(\\)]*)(\\))(\\[)",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.arc.arcaea-aff"
+				},
+				"2": {
+					"name": "punctuation.section.tuple.begin.bracket.arcaea-aff"
+				},
+				"3": {
+					"name": "meta.tuple.content.arcaea-aff",
+					"patterns": [
+						{
+							"include": "#value"
+						},
+						{
+							"include": "#comma"
+						}
 					]
 				},
-				"4":{"name":"punctuation.section.tuple.end.bracket.arcaea-aff"},
-				"5":{"name":"punctuation.section.list.begin.bracket.arcaea-aff"}
+				"4": {
+					"name": "punctuation.section.tuple.end.bracket.arcaea-aff"
+				},
+				"5": {
+					"name": "punctuation.section.list.begin.bracket.arcaea-aff"
+				}
 			},
-			"end":"(\\])(;)\\s*$",
-			"endCaptures":{
-				"1":{"name":"punctuation.section.list.end.bracket.arcaea-aff"},
-				"2":{"name":"punctuation.terminator.item.arcaea-aff"}
+			"end": "(\\])(;)\\s*$",
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.section.list.end.bracket.arcaea-aff"
+				},
+				"2": {
+					"name": "punctuation.terminator.item.arcaea-aff"
+				}
 			},
 			"contentName": "meta.list.content.arcaea-aff",
-			"patterns": [{"include": "#arctap"}]
+			"patterns": [
+				{
+					"include": "#arctap"
+				}
+			]
 		},
-		"arctap":{
-			"match":"(arctap)(\\()([^\\(\\)]*)(\\))",
-			"captures":{
-				"1":{"name":"keyword.other.arctap.arcaea-aff"},
-				"2":{"name":"punctuation.section.tuple.begin.bracket.arcaea-aff"},
-				"3":{
-					"name":"meta.tuple.content.arcaea-aff",
-					"patterns":[
-						{"include":"#value"},
-						{"include":"#comma"}
+		"arctap": {
+			"match": "(arctap)(\\()([^\\(\\)]*)(\\))",
+			"captures": {
+				"1": {
+					"name": "keyword.other.arctap.arcaea-aff"
+				},
+				"2": {
+					"name": "punctuation.section.tuple.begin.bracket.arcaea-aff"
+				},
+				"3": {
+					"name": "meta.tuple.content.arcaea-aff",
+					"patterns": [
+						{
+							"include": "#value"
+						},
+						{
+							"include": "#comma"
+						}
 					]
 				},
-				"4":{"name":"punctuation.section.tuple.end.bracket.arcaea-aff"}
+				"4": {
+					"name": "punctuation.section.tuple.end.bracket.arcaea-aff"
+				}
 			}
 		},
-		"scenecontrol":{
-			"match":"\\s*(scenecontrol)(\\()([^\\(\\)]*)(\\))\\s*",
-			"captures":{
-				"1":{"name":"keyword.other.arctap.arcaea-aff"},
-				"2":{"name":"punctuation.section.tuple.begin.bracket.arcaea-aff"},
-				"3":{
-					"name":"meta.tuple.content.arcaea-aff",
-					"patterns":[
-						{"include":"#value"},
-						{"include":"#comma"}
+		"scenecontrol": {
+			"match": "\\s*(scenecontrol)(\\()([^\\(\\)]*)(\\))\\s*",
+			"captures": {
+				"1": {
+					"name": "keyword.other.arctap.arcaea-aff"
+				},
+				"2": {
+					"name": "punctuation.section.tuple.begin.bracket.arcaea-aff"
+				},
+				"3": {
+					"name": "meta.tuple.content.arcaea-aff",
+					"patterns": [
+						{
+							"include": "#value"
+						},
+						{
+							"include": "#comma"
+						}
 					]
 				},
-				"4":{"name":"punctuation.section.tuple.end.bracket.arcaea-aff"}
+				"4": {
+					"name": "punctuation.section.tuple.end.bracket.arcaea-aff"
+				}
 			}
 		},
-		"timinggroup":{
-			"begin":"^\\s*(timinggroup)(\\()([^\\(\\)]*)(\\))(\\{)\\s*$",
-			"beginCaptures":{
-				"1":{"name":"keyword.other.timinggroup.arcaea-aff"},
-				"2":{"name":"punctuation.section.tuple.begin.bracket.arcaea-aff"},
-				"3":{
-					"name":"meta.tuple.content.arcaea-aff",
-					"patterns":[
-						{"include":"#value"},
-						{"include":"#comma"}
+		"timinggroup": {
+			"begin": "^\\s*(timinggroup)(\\()([^\\(\\)]*)(\\))(\\{)\\s*$",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.timinggroup.arcaea-aff"
+				},
+				"2": {
+					"name": "punctuation.section.tuple.begin.bracket.arcaea-aff"
+				},
+				"3": {
+					"name": "meta.tuple.content.arcaea-aff",
+					"patterns": [
+						{
+							"include": "#value"
+						},
+						{
+							"include": "#comma"
+						}
 					]
 				},
-				"4":{"name":"punctuation.section.tuple.end.bracket.arcaea-aff"},
-				"5":{"name":"punctuation.section.section.begin.bracket.arcaea-aff"}
+				"4": {
+					"name": "punctuation.section.tuple.end.bracket.arcaea-aff"
+				},
+				"5": {
+					"name": "punctuation.section.section.begin.bracket.arcaea-aff"
+				}
 			},
-			"end":"^\\s*(\\})(;)\\s*$",
-			"endCaptures":{
-				"1":{"name":"punctuation.section.section.end.bracket.arcaea-aff"},
-				"2":{"name":"punctuation.terminator.item.arcaea-aff"}
+			"end": "^\\s*(\\})(;)\\s*$",
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.section.section.end.bracket.arcaea-aff"
+				},
+				"2": {
+					"name": "punctuation.terminator.item.arcaea-aff"
+				}
 			},
 			"contentName": "meta.list.content.arcaea-aff",
-			"patterns": [{"include": "#item"}]
+			"patterns": [
+				{
+					"include": "#item"
+				}
+			]
 		},
-		"comma":{
-			"match":",",
+		"comma": {
+			"match": ",",
 			"name": "punctuation.separator.comma.arcaea-aff"
 		},
-		"value":{
+		"value": {
 			"patterns": [
-				{"include": "#float"},
-				{"include": "#integer"},
-				{"include": "#enum"}
+				{
+					"include": "#float"
+				},
+				{
+					"include": "#integer"
+				},
+				{
+					"include": "#enum"
+				}
 			]
 		},
-		"float":{
-			"match":"\\b-?[0-9]+\\.[0-9]+\\b",
-			"name":"constant.numeric.float.arcaea-aff"
+		"float": {
+			"match": "\\b-?[0-9]+\\.[0-9]+\\b",
+			"name": "constant.numeric.float.arcaea-aff"
 		},
-		"integer":{
-			"match":"\\b-?(?:0|[1-9][0-9]*)\\b",
-			"name":"constant.numeric.integer.arcaea-aff"
+		"integer": {
+			"match": "\\b-?(?:0|[1-9][0-9]*)\\b",
+			"name": "constant.numeric.integer.arcaea-aff"
 		},
-		"enum":{
-			"match":"\\b[a-z]+\\b",
-			"name":"constant.language.enum.arcaea-aff"
+		"enum": {
+			"match": "\\b[a-z]+\\b",
+			"name": "constant.language.enum.arcaea-aff"
 		}
 	},
 	"scopeName": "source.arcaea-aff"

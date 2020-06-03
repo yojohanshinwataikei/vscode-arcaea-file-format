@@ -5,30 +5,30 @@
 	"description": "The metadatas of packs in Arcaea",
 	"type": "object",
 	"properties": {
-		"id":{
-			"type":"string",
+		"id": {
+			"type": "string",
 			"description": "The id of the pack, used in the songlist file"
 		},
-		"cost":{
-			"type":"integer",
+		"cost": {
+			"type": "integer",
 			"description": "The price of this pack in memories, however from 3.0.0 this will be controlled by server instead of keeped in packlist",
 			"minimum": 0,
 			"deprecated": true
 		},
-		"custom_banner":{
-			"type":"boolean",
+		"custom_banner": {
+			"type": "boolean",
 			"description": "Is a custom banner included in the cover image of the pack"
 		},
-		"plus_character":{
-			"type":"integer",
+		"plus_character": {
+			"type": "integer",
 			"description": "The id of the associated partner of the pack, -1 if there are none associated partner",
 			"minimum": -1
 		},
-		"name_localized":{
+		"name_localized": {
 			"description": "The name of the pack, localized in various languages",
 			"$ref": "songdata.json#/definitions/localized_string"
 		},
-		"description_localized":{
+		"description_localized": {
 			"description": "The description of the pack used when the pack is not yet purchased, localized in various languages",
 			"$ref": "songdata.json#/definitions/localized_string"
 		}
