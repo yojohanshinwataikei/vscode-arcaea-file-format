@@ -33,11 +33,12 @@
 				{"include": "#camera"},
 				{"include": "#arc"},
 				{"include": "#arc-with-arctap"},
-				{"include": "#scenecontrol"}
+				{"include": "#scenecontrol"},
+				{"include": "#timinggroup"}
 			]
 		},
 		"tap":{
-			"match":"^(\\()([^\\(\\)]*)(\\))(;)$",
+			"match":"^\\s*(\\()([^\\(\\)]*)(\\))(;)\\s*$",
 			"captures":{
 				"1":{"name":"punctuation.section.tuple.begin.bracket.arcaea-aff"},
 				"2":{
@@ -52,7 +53,7 @@
 			}
 		},
 		"hold":{
-			"match":"^(hold)(\\()([^\\(\\)]*)(\\))(;)$",
+			"match":"^\\s*(hold)(\\()([^\\(\\)]*)(\\))(;)\\s*$",
 			"captures":{
 				"1":{"name":"keyword.other.hold.arcaea-aff"},
 				"2":{"name":"punctuation.section.tuple.begin.bracket.arcaea-aff"},
@@ -68,7 +69,7 @@
 			}
 		},
 		"timing":{
-			"match":"^(timing)(\\()([^\\(\\)]*)(\\))(;)$",
+			"match":"^\\s*(timing)(\\()([^\\(\\)]*)(\\))(;)\\s*$",
 			"captures":{
 				"1":{"name":"keyword.other.timing.arcaea-aff"},
 				"2":{"name":"punctuation.section.tuple.begin.bracket.arcaea-aff"},
@@ -84,7 +85,7 @@
 			}
 		},
 		"camera":{
-			"match":"^(camera)(\\()([^\\(\\)]*)(\\))(;)$",
+			"match":"^\\s*(camera)(\\()([^\\(\\)]*)(\\))(;)\\s*$",
 			"captures":{
 				"1":{"name":"keyword.other.camera.arcaea-aff"},
 				"2":{"name":"punctuation.section.tuple.begin.bracket.arcaea-aff"},
@@ -100,7 +101,7 @@
 			}
 		},
 		"arc":{
-			"match":"^(arc)(\\()([^\\(\\)]*)(\\))(;)$",
+			"match":"^\\s*(arc)(\\()([^\\(\\)]*)(\\))(;)\\s*$",
 			"captures":{
 				"1":{"name":"keyword.other.arc.arcaea-aff"},
 				"2":{"name":"punctuation.section.tuple.begin.bracket.arcaea-aff"},
@@ -116,7 +117,7 @@
 			}
 		},
 		"arc-with-arctap":{
-			"begin":"^(arc)(\\()([^\\(\\)]*)(\\))(\\[)",
+			"begin":"^\\s*(arc)(\\()([^\\(\\)]*)(\\))(\\[)",
 			"beginCaptures":{
 				"1":{"name":"keyword.other.arc.arcaea-aff"},
 				"2":{"name":"punctuation.section.tuple.begin.bracket.arcaea-aff"},
@@ -130,7 +131,7 @@
 				"4":{"name":"punctuation.section.tuple.end.bracket.arcaea-aff"},
 				"5":{"name":"punctuation.section.list.begin.bracket.arcaea-aff"}
 			},
-			"end":"(\\])(;)$",
+			"end":"(\\])(;)\\s*$",
 			"endCaptures":{
 				"1":{"name":"punctuation.section.list.end.bracket.arcaea-aff"},
 				"2":{"name":"punctuation.terminator.item.arcaea-aff"}
@@ -154,7 +155,7 @@
 			}
 		},
 		"scenecontrol":{
-			"match":"(scenecontrol)(\\()([^\\(\\)]*)(\\))",
+			"match":"\\s*(scenecontrol)(\\()([^\\(\\)]*)(\\))\\s*",
 			"captures":{
 				"1":{"name":"keyword.other.arctap.arcaea-aff"},
 				"2":{"name":"punctuation.section.tuple.begin.bracket.arcaea-aff"},
@@ -167,6 +168,29 @@
 				},
 				"4":{"name":"punctuation.section.tuple.end.bracket.arcaea-aff"}
 			}
+		},
+		"timinggroup":{
+			"begin":"^\\s*(timinggroup)(\\()([^\\(\\)]*)(\\))(\\{)\\s*$",
+			"beginCaptures":{
+				"1":{"name":"keyword.other.timinggroup.arcaea-aff"},
+				"2":{"name":"punctuation.section.tuple.begin.bracket.arcaea-aff"},
+				"3":{
+					"name":"meta.tuple.content.arcaea-aff",
+					"patterns":[
+						{"include":"#value"},
+						{"include":"#comma"}
+					]
+				},
+				"4":{"name":"punctuation.section.tuple.end.bracket.arcaea-aff"},
+				"5":{"name":"punctuation.section.section.begin.bracket.arcaea-aff"}
+			},
+			"end":"^\\s*(\\})(;)\\s*$",
+			"endCaptures":{
+				"1":{"name":"punctuation.section.section.end.bracket.arcaea-aff"},
+				"2":{"name":"punctuation.terminator.item.arcaea-aff"}
+			},
+			"contentName": "meta.list.content.arcaea-aff",
+			"patterns": [{"include": "#item"}]
 		},
 		"comma":{
 			"match":",",
@@ -188,7 +212,7 @@
 			"name":"constant.numeric.integer.arcaea-aff"
 		},
 		"enum":{
-			"match":"\\b(?:none|full|incremental|true|false|b|s|si|so|sisi|siso|sosi|soso|l|reset|qi|qo|trackshow|trackhide)\\b",
+			"match":"\\b[a-z]+\\b",
 			"name":"constant.language.enum.arcaea-aff"
 		}
 	},
