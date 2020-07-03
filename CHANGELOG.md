@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.9.0
+
+- Update `songlist` schema for hidden additional features
+
 ## 0.8.0
 
 - Support for `timinggroup` event

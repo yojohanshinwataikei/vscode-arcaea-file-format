@@ -26,6 +26,15 @@
 			"type": "string",
 			"description": "The artist of the song"
 		},
+		"artist_localized": {
+			"description": "The artist of the song, in various languages. Overrieds artist.",
+			"patternProperties": {
+				"en|ja|ko|zh-Hans|zh-Hant": {
+					"description": "The localized string",
+					"type": "string"
+				}
+			}
+		},
 		"bpm": {
 			"type": "string",
 			"description": "The bpm of the song, only used for displaying"
@@ -175,6 +184,10 @@
 					"hidden_until_unlocked": {
 						"type": "boolean",
 						"description": "Should this chart be hidden in the songlist before unlocking it."
+					},
+					"bg": {
+						"type": "string",
+						"description": "Background used in this difficulty, overrride the bg of the song."
 					}
 				},
 				"required": [
