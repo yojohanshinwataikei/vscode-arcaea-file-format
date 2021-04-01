@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.10.1
+
+- `scenecontrol` in `timinggroup` is now checked
+
 ## 0.10.0
 
 - Support for `timinggroup` event with `noinput` type

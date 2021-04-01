@@ -6,6 +6,12 @@ export const scenecontrolChecker: AFFChecker = (file, errors) => {
 	for (const { data, location } of file.items) {
 		if (data.kind === "scenecontrol") {
 			checkScenecontrol(data.sceneControlKind, data.values, errors)
+		} else if (data.kind === "timinggroup") {
+			for (const nestedItem of data.items.data) {
+				if (nestedItem.data.kind === "scenecontrol") {
+					checkScenecontrol(nestedItem.data.sceneControlKind, nestedItem.data.values, errors)
+				}
+			}
 		}
 	}
 }
@@ -15,7 +21,7 @@ const checkScenecontrol = (kind: WithLocation<AFFSceneControlKind>, values: With
 		checkValuesCount(error, kind.data.value, 0, values.data, values.location)
 		return
 	}
-	if (kind.data.value === "redline" || kind.data.value === "arcahvdistort" || kind.data.value === "arcahvdebris") {
+	if (kind.data.value === "redline" || kind.data.value === "arcahvdistort" || kind.data.value === "arcahvdebris" || kind.data.value === "hidegroup") {
 		if (checkValuesCount(error, kind.data.value, 2, values.data, values.location)) {
 			checkValueType(error, kind.data.value, "length", "float", values.data, 0)
 			checkValueType(error, kind.data.value, "value", "int", values.data, 1)
