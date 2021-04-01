@@ -2,15 +2,15 @@
 	"name": "vscode-arcaea-file-format-client",
 	"description": "Util for reading and editing arcaea .aff files, the vscode side",
 	"license": "MIT",
-	"version": "0.9.0",
+	"version": "0.10.0",
 	"repository": "github:yojohanshinwataikei/vscode-arcaea-file-format",
 	"engines": {
 		"vscode": "^1.45.1"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.45.1"
+		"@types/vscode": "^1.55.0"
 	},
 	"dependencies": {
-		"vscode-languageclient": "^6.1.3"
+		"vscode-languageclient": "^6.1.4"
 	}
 }
