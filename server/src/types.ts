@@ -73,13 +73,14 @@ export interface AFFSceneControlEvent {
 
 export interface AFFTimingGroupEvent {
 	kind: "timinggroup",
+	timingGroupKind: WithLocation<AFFTimingGroupKind>,
 	tagLocation: CstNodeLocation,
 	items: WithLocation<WithLocation<AFFNestableItem>[]>,
 }
 
 export type AFFTrackItem = AFFTapEvent | AFFHoldEvent
-export type AFFNestableItem = AFFTimingEvent | AFFTrackItem | AFFArcEvent
-export type AFFItem = AFFNestableItem | AFFCameraEvent | AFFSceneControlEvent | AFFTimingGroupEvent
+export type AFFNestableItem = AFFTimingEvent | AFFTrackItem | AFFArcEvent | AFFSceneControlEvent
+export type AFFItem = AFFNestableItem | AFFCameraEvent | AFFTimingGroupEvent
 export type AFFEvent = AFFItem | AFFArctapEvent
 
 export interface AFFInt {
@@ -141,6 +142,12 @@ export interface AFFSceneControlKind {
 	kind: "scenecontrol-kind",
 	value: string
 }
+
+export interface AFFTimingGroupKind {
+	kind: "timinggroup-kind",
+	value: "" | "noinput"
+}
+export const AFFTimingGroupKinds = new Set(["noinput"])
 
 export interface AFFBool {
 	kind: "bool",

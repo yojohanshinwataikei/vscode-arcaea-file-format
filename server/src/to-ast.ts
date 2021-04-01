@@ -1,7 +1,7 @@
 import { DiagnosticSeverity } from "vscode-languageserver";
 import { CstChildrenDictionary, IToken, CstNode, ICstVisitor, CstNodeLocation } from "chevrotain"
 import { BaseAffVisitor } from "./parser"
-import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent, AFFTrackId, AFFInt, AFFColorId, AFFArcKind, AFFWord, affArcKinds, affTrackIds, affColorIds, affEffects, AFFEffect, AFFBool, affBools, AFFCameraEvent, AFFCameraKind, affCameraKinds, AFFSceneControlEvent, AFFSceneControlKind, AFFTimingGroupEvent, AFFNestableItem } from "./types"
+import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent, AFFTrackId, AFFInt, AFFColorId, AFFArcKind, AFFWord, affArcKinds, affTrackIds, affColorIds, affEffects, AFFEffect, AFFBool, affBools, AFFCameraEvent, AFFCameraKind, affCameraKinds, AFFSceneControlEvent, AFFSceneControlKind, AFFTimingGroupEvent, AFFNestableItem, AFFTimingGroupKind, AFFTimingGroupKinds } from "./types"
 import { tokenTypes } from "./lexer";
 
 // This pass generate AST from CST.
@@ -175,6 +175,19 @@ const ensureValuesCount = (errors: AFFError[], kind: string, count: number, valu
 		// error: value count missmatch
 		errors.push({
 			message: `Event with type "${kind}" should have at least ${count} field(s) instead of ${values.length} field(s).`,
+			location: valuesLocation,
+			severity: DiagnosticSeverity.Error,
+		})
+		return false
+	}
+	return true
+}
+
+const limitValuesCount = (errors: AFFError[], kind: string, count: number, values: WithLocation<AFFValue>[], valuesLocation: CstNodeLocation): boolean => {
+	if (values.length > count) {
+		// error: value count missmatch
+		errors.push({
+			message: `Event with type "${kind}" should have at most ${count} field(s) instead of ${values.length} field(s).`,
 			location: valuesLocation,
 			severity: DiagnosticSeverity.Error,
 		})
@@ -432,12 +445,20 @@ const eventTransformer = {
 		tagLocation: CstNodeLocation,
 	): AFFTimingGroupEvent | null => {
 		rejectSubevent(errors, "timinggroup", subevents, subeventsLocation)
-		if (!checkValuesCount(errors, "timinggroup", 0, values, valuesLocation)) {
+		if (!limitValuesCount(errors, "timinggroup", 1, values, valuesLocation)) {
 			return null
 		}
-
+		const rawTimingGroupKind = values.length > 0 ? checkValueType(errors, "timinggroup", "timinggroup-kind", "word", values, 0) : null
+		const maybeTimingGroupKind = parseValue.timingGroupKind(errors, "timinggroup", "timinggroup-kind", rawTimingGroupKind)
+		const timingGroupKind = maybeTimingGroupKind ?? {
+			location: valuesLocation,
+			data: {
+				kind: "timinggroup-kind",
+				value: ""
+			}
+		}
 		return {
-			kind: "timinggroup", items: selectNestedItems(errors, segment, segmentLocation), tagLocation
+			kind: "timinggroup", items: selectNestedItems(errors, segment, segmentLocation), tagLocation, timingGroupKind
 		}
 	}
 }
@@ -469,7 +490,7 @@ const selectNestedItems = (
 ): WithLocation<WithLocation<AFFNestableItem>[]> => {
 	let items: WithLocation<AFFNestableItem>[] = []
 	for (const { location, data: item } of segment) {
-		if (item.kind === "timinggroup" || item.kind === "scenecontrol" || item.kind === "camera") {
+		if (item.kind === "timinggroup" || item.kind === "camera") {
 			errors.push({
 				message: `Item of type "${item.kind}" cannot be nested in timinggroup`,
 				location: location,
@@ -596,6 +617,23 @@ const parseValue = {
 			const { data, location } = word
 			const wordValue = data.value
 			return { data: { kind: "scenecontrol-kind", value: wordValue } as AFFSceneControlKind, location }
+		} else {
+			return null
+		}
+	},
+	timingGroupKind: (errors: AFFError[], eventKind: string, fieldname: string, word: WithLocation<AFFWord> | null): WithLocation<AFFTimingGroupKind> => {
+		if (word) {
+			const { data, location } = word
+			const wordValue = data.value
+			if (!AFFTimingGroupKinds.has(wordValue)) {
+				errors.push({
+					message: `The value in the "${fieldname}" field of event with type "${eventKind}" should be one of ${[...AFFTimingGroupKinds.values()].join()}`,
+					location,
+					severity: DiagnosticSeverity.Error,
+				})
+				return null
+			}
+			return { data: { kind: "timinggroup-kind", value: wordValue } as AFFTimingGroupKind, location }
 		} else {
 			return null
 		}
