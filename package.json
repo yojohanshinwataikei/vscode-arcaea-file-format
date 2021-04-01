@@ -88,6 +88,23 @@
 				"fileMatch": "unlockdata.json",
 				"url": "./json-schema/unlockdata.json"
 			}
+		],
+		"configuration": [
+			{
+				"title": "Arcaea File Format",
+				"properties": {
+					"arcaeaFileFormat.diagnosticLevel": {
+						"description": "Specify the minimal level of reported diagnostic",
+						"type": "string",
+						"default": "all",
+						"enum": [
+							"all",
+							"warn",
+							"error"
+						]
+					}
+				}
+			}
 		]
 	},
 	"scripts": {

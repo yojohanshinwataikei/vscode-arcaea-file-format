@@ -13,7 +13,7 @@ const genAllowMemesResult = (file: AFFFile): AllowMemesResult => {
 		enable: true,
 		errors: [{
 			message: "Allow memes mode is turned on since memes events present, some checks will be skipped",
-			severity: DiagnosticSeverity.Information,
+			severity: DiagnosticSeverity.Hint,
 			location: file.metadata.data.metaEndLocation,
 			relatedInfo: [{
 				message: `The event that triggered the allow memes mode`,

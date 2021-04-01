@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.10.0
+
+- Support for `timinggroup` event with `noinput` type
+- It's no longer an error to put `scenecontrol` into `timinggroup`
+- Add a setting to control the displayed diagnostic infomation
+
 ## 0.9.0
 
 - Update `songlist` schema for hidden additional features
