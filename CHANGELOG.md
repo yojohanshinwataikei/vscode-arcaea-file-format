@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.10.2
+
+- `TimingPointDensityFactor` metadata is now checked
+
 ## 0.10.1
 
 - `scenecontrol` in `timinggroup` is now checked

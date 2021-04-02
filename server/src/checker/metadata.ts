@@ -3,13 +3,7 @@ import { AFFChecker } from "../types"
 
 export const metadataChecker: AFFChecker = (file, errors) => {
 	for (const entry of file.metadata.data.data.values()) {
-		if (entry.data.key.data === "TimingPointDensityFactor") {
-			errors.push({
-				message: `The behavior of "TimingPointDensityFactor" metadata is unknown and should not be used.`,
-				severity: DiagnosticSeverity.Warning,
-				location: entry.data.key.location,
-			})
-		} else if (entry.data.key.data !== "AudioOffset") {
+		if (!["AudioOffset", "TimingPointDensityFactor"].includes(entry.data.key.data)) {
 			errors.push({
 				message: `The "${entry.data.key.data}" metadata is not used and will be ignored.`,
 				severity: DiagnosticSeverity.Warning,
@@ -30,6 +24,23 @@ export const metadataChecker: AFFChecker = (file, errors) => {
 				message: `The value of "AudioOffset" metadata is not an int.`,
 				severity: DiagnosticSeverity.Error,
 				location: offset.data.value.location,
+			})
+		}
+	}
+	if (file.metadata.data.data.has("TimingPointDensityFactor")) {
+		const factor = file.metadata.data.data.get("TimingPointDensityFactor")
+		const factorValue = parseFloat(factor.data.value.data)
+		if (isNaN(factorValue)) {
+			errors.push({
+				message: `The value of "TimingPointDensityFactor" metadata is not an float.`,
+				severity: DiagnosticSeverity.Error,
+				location: factor.data.value.location,
+			})
+		} else if (factorValue <= 0) {
+			errors.push({
+				message: `The value of "TimingPointDensityFactor" metadata is not positive.`,
+				severity: DiagnosticSeverity.Error,
+				location: factor.data.value.location,
 			})
 		}
 	}
