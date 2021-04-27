@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.10.3
+
+- Update `songlist` schema for hidden additional features
+- Update `songlist` `packlist` `unlocks` schema to provide better description to fields
+
 ## 0.10.2
 
 - `TimingPointDensityFactor` metadata is now checked

@@ -17,7 +17,7 @@
 			"description": "Should localized jacket be used in various languages",
 			"patternProperties": {
 				"en|ja|ko|zh-Hans|zh-Hant": {
-					"description": "The localized string",
+					"description": "Should the localized assets be used",
 					"type": "boolean"
 				}
 			}
@@ -28,12 +28,7 @@
 		},
 		"artist_localized": {
 			"description": "The artist of the song, in various languages. Overrieds artist.",
-			"patternProperties": {
-				"en|ja|ko|zh-Hans|zh-Hant": {
-					"description": "The localized string",
-					"type": "string"
-				}
-			}
+			"$ref": "#/definitions/localized_string"
 		},
 		"bpm": {
 			"type": "string",
@@ -41,16 +36,16 @@
 		},
 		"bpm_base": {
 			"type": "number",
-			"description": "The bpm used to calculating the speed of the chart.",
+			"description": "The bpm used to calculating the note speed of the chart.",
 			"exclusiveMinimum": 0
 		},
 		"set": {
 			"type": "string",
-			"description": "The pack id of the song specified in the packlist file"
+			"description": "The id of the pack of the song specified in the packlist file"
 		},
 		"purchase": {
 			"type": "string",
-			"description": "The id of purchased item that is needed to play this song, normally id of song or pack"
+			"description": "The id of purchased item that is needed to play this song, normally is the id of song or pack"
 		},
 		"audioPreview": {
 			"type": "integer",
@@ -62,7 +57,7 @@
 		},
 		"side": {
 			"type": "integer",
-			"description": "The side of the song, 0 for light and 1 for conflict.",
+			"description": "The side of the song, 0 for light and 1 for conflict",
 			"enum": [
 				0,
 				1
@@ -70,7 +65,7 @@
 		},
 		"world_unlock": {
 			"type": "boolean",
-			"description": "Should playing the song needs to get it unlocked in world mode"
+			"description": "Does playing the song require unlocking it in world mode"
 		},
 		"byd_local_unlock": {
 			"type": "boolean",
@@ -123,6 +118,10 @@
 			"type": "string",
 			"description": "The copyright infomation of the song"
 		},
+		"no_stream": {
+			"type": "boolean",
+			"description": "Should the song be not playable in the streamer mode"
+		},
 		"difficulties": {
 			"type": "array",
 			"description": "The difficulties of the song",
@@ -132,7 +131,7 @@
 				"properties": {
 					"ratingClass": {
 						"type": "integer",
-						"description": "The rating class of the difficulty, 0 for past, 1 for present  2 for future, and 3 for beyond",
+						"description": "The rating class of the difficulty, 0 for past, 1 for present, 2 for future, and 3 for beyond",
 						"enum": [
 							0,
 							1,
@@ -142,11 +141,11 @@
 					},
 					"chartDesigner": {
 						"type": "string",
-						"description": "The designer of the chart in the difficulty"
+						"description": "The designer of the chart of the difficulty"
 					},
 					"jacketDesigner": {
 						"type": "string",
-						"description": "The designer of the jacket in the difficulty"
+						"description": "The designer of the jacket of the difficulty"
 					},
 					"rating": {
 						"type": "integer",
@@ -158,7 +157,7 @@
 						"description": "Should the difficult of the chart annotated with a plus sign, like 9+, 10+."
 					},
 					"plusFingers": {
-						"description": "Should this charts be played with more than two fingers.This field is not longer used",
+						"description": "Should this charts be played with more than two fingers. This field is not longer used since the judging code can normally handle multiple fingers now",
 						"oneOf": [
 							{
 								"type": "boolean"
@@ -175,7 +174,7 @@
 					},
 					"jacketOverride": {
 						"type": "boolean",
-						"description": "Is a different jacket used in the difficulty"
+						"description": "Is a different jacket used for the difficulty"
 					},
 					"jacket_night": {
 						"type": "string",
@@ -187,7 +186,7 @@
 					},
 					"bg": {
 						"type": "string",
-						"description": "Background used in this difficulty, overrride the bg of the song."
+						"description": "The name of the background used for this difficulty when playing the song, overrride the bg of the song."
 					}
 				},
 				"required": [
