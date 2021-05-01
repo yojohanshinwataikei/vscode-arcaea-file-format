@@ -190,6 +190,8 @@
 					}
 				},
 				"required": [
+					"chartDesigner",
+					"jacketDesigner",
 					"ratingClass",
 					"rating"
 				]

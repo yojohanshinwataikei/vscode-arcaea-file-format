@@ -2,7 +2,7 @@
 	"name": "arcaea-file-format-server",
 	"description": "Util for reading and editing arcaea .aff files, the LSP side",
 	"license": "MIT",
-	"version": "0.10.3",
+	"version": "0.10.4",
 	"repository": "github:yojohanshinwataikei/vscode-arcaea-file-format",
 	"engines": {
 		"node": "*"

@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.10.4
+
+- Fix `songlist` schema for correct required fields in difficulties
+
 ## 0.10.3
 
 - Update `songlist` schema for hidden additional features
