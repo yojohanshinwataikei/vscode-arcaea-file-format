@@ -1,6 +1,6 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema",
-	"$id": "https://github.com/yojohanshinwataikei/vscode-arcaea-file-format/raw/master/json-scheme/packdata.json",
+	"$id": "https://raw.githubusercontent.com/yojohanshinwataikei/vscode-arcaea-file-format/master/json-schema/packdata.json",
 	"title": "Arcaea pack metadata",
 	"description": "The metadatas of packs in Arcaea",
 	"type": "object",

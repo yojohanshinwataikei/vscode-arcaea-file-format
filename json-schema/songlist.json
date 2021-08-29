@@ -1,6 +1,6 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema",
-	"$id": "https://github.com/yojohanshinwataikei/vscode-arcaea-file-format/raw/master/json-scheme/songlist.json",
+	"$id": "https://raw.githubusercontent.com/yojohanshinwataikei/vscode-arcaea-file-format/master/json-schema/songlist.json",
 	"title": "Arcaea songlist file",
 	"description": "The file where Arcaea reads metadatas of songs",
 	"type": "object",
