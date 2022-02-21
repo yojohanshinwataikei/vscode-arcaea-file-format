@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.10.6
+
+- Update `songlist` schema for fields used in link play update and PRAGMATISM -RESURRECTION-
+
 ## 0.10.5
 
 - Fix `$id` field of schema

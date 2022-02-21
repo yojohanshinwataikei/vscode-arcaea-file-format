@@ -9,6 +9,10 @@
 			"type": "string",
 			"description": "The id of the song, used to find the folder containing the aff files and other resources"
 		},
+		"idx": {
+			"type": "number",
+			"description": "The numeric id of the song, used in link play to determine the available charts"
+		},
 		"title_localized": {
 			"description": "The title of the song, localized in various languages",
 			"$ref": "#/definitions/localized_string"
@@ -175,6 +179,14 @@
 					"jacketOverride": {
 						"type": "boolean",
 						"description": "Is a different jacket used for the difficulty"
+					},
+					"title_localized": {
+						"description": "The title of the song in this difficulty, localized in various languages",
+						"$ref": "#/definitions/localized_string"
+					},
+					"audioOverride": {
+						"type": "boolean",
+						"description": "Is a different audio used for the difficulty"
 					},
 					"jacket_night": {
 						"type": "string",
