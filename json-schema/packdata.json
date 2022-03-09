@@ -2,7 +2,7 @@
 	"$schema": "http://json-schema.org/draft-07/schema",
 	"$id": "https://raw.githubusercontent.com/yojohanshinwataikei/vscode-arcaea-file-format/master/json-schema/packdata.json",
 	"title": "Arcaea pack metadata",
-	"description": "The metadatas of packs in Arcaea",
+	"description": "The metadata of packs in Arcaea",
 	"type": "object",
 	"properties": {
 		"id": {
@@ -11,7 +11,7 @@
 		},
 		"cost": {
 			"type": "integer",
-			"description": "The price of this pack in memories, however from 3.0.0 this will be controlled by server instead of keeped in packlist",
+			"description": "The price of this pack in memories, however from 3.0.0 this will be controlled by server instead of keep in packlist",
 			"minimum": 0,
 			"deprecated": true
 		},

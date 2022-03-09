@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.10.7
+
+- Update `songlist` schema for fields used in 5 years anniversary update
+- Fix typo in schemas
+
 ## 0.10.6
 
 - Update `songlist` schema for fields used in link play update and PRAGMATISM -RESURRECTION-

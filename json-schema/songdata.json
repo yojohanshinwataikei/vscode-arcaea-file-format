@@ -2,7 +2,7 @@
 	"$schema": "http://json-schema.org/draft-07/schema",
 	"$id": "https://raw.githubusercontent.com/yojohanshinwataikei/vscode-arcaea-file-format/master/json-schema/songdata.json",
 	"title": "Arcaea song metadata",
-	"description": "The metadatas of songs in Arcaea",
+	"description": "The metadata of songs in Arcaea",
 	"type": "object",
 	"properties": {
 		"id": {
@@ -31,7 +31,7 @@
 			"description": "The artist of the song"
 		},
 		"artist_localized": {
-			"description": "The artist of the song, in various languages. Overrieds artist.",
+			"description": "The artist of the song, in various languages. Overrides artist.",
 			"$ref": "#/definitions/localized_string"
 		},
 		"bpm": {
@@ -120,7 +120,7 @@
 		},
 		"source_copyright": {
 			"type": "string",
-			"description": "The copyright infomation of the song"
+			"description": "The copyright information of the song"
 		},
 		"no_stream": {
 			"type": "boolean",
@@ -184,6 +184,14 @@
 						"description": "The title of the song in this difficulty, localized in various languages",
 						"$ref": "#/definitions/localized_string"
 					},
+					"artist": {
+						"type": "string",
+						"description": "The artist of the song in this difficulty"
+					},
+					"artist_localized": {
+						"description": "The artist of the song in this difficulty, in various languages. Overrides artist.",
+						"$ref": "#/definitions/localized_string"
+					},
 					"audioOverride": {
 						"type": "boolean",
 						"description": "Is a different audio used for the difficulty"
@@ -198,7 +206,25 @@
 					},
 					"bg": {
 						"type": "string",
-						"description": "The name of the background used for this difficulty when playing the song, overrride the bg of the song."
+						"description": "The name of the background used for this difficulty when playing the song, override the bg of the song."
+					},
+					"bpm": {
+						"type": "string",
+						"description": "The bpm of the this difficulty, only used for displaying, override the bpm of the song."
+					},
+					"bpm_base": {
+						"type": "number",
+						"description": "The bpm used to calculating the note speed of the chart in this difficulty, override the bpm_base of the song.",
+						"exclusiveMinimum": 0
+					},
+					"version": {
+						"type": "string",
+						"description": "The version where this difficulty was published, used to categorize songs by version, override the version of the song."
+					},
+					"date": {
+						"type": "integer",
+						"description": "The Unix timestamp of the time when this difficulty is added, used to sort the songs by time, override the date of the song.",
+						"minimum": 0
 					}
 				},
 				"required": [
