@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.11.0
+
+- Allow nested `camera` in `timinggroup`
+- Support and check for `timinggroup` attributes
+
 ## 0.10.7
 
 - Update `songlist` schema for fields used in 5 years anniversary update
