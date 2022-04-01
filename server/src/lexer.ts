@@ -17,7 +17,7 @@ const comma = createToken({ name: "comma", pattern: /,/, label: "," })
 const semicolon = createToken({ name: "semicolon", pattern: /;/, label: ";" })
 
 const value = createToken({ name: "value", pattern: Lexer.NA })
-const word = createToken({ name: "word", pattern: /[a-zA-Z]+/, categories: value })
+const word = createToken({ name: "word", pattern: /[a-zA-Z][a-zA-Z0-9_]*/, categories: value })
 const float = createToken({ name: "float", pattern: /-?[0-9]+\.[0-9]+/, categories: value })
 const int = createToken({ name: "int", pattern: /-?(?:0|[1-9][0-9]*)/, categories: value })
 

@@ -1,7 +1,7 @@
 import { DiagnosticSeverity } from "vscode-languageserver";
 import { CstChildrenDictionary, IToken, CstNode, ICstVisitor, CstNodeLocation } from "chevrotain"
 import { BaseAffVisitor } from "./parser"
-import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent, AFFTrackId, AFFInt, AFFColorId, AFFArcKind, AFFWord, affArcKinds, affTrackIds, affColorIds, affEffects, AFFEffect, AFFBool, affBools, AFFCameraEvent, AFFCameraKind, affCameraKinds, AFFSceneControlEvent, AFFSceneControlKind, AFFTimingGroupEvent, AFFNestableItem, AFFTimingGroupKind, AFFTimingGroupKinds } from "./types"
+import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent, AFFTrackId, AFFInt, AFFColorId, AFFArcKind, AFFWord, affArcKinds, affTrackIds, affColorIds, affEffects, AFFEffect, AFFBool, affBools, AFFCameraEvent, AFFCameraKind, affCameraKinds, AFFSceneControlEvent, AFFSceneControlKind, AFFTimingGroupEvent, AFFNestableItem, AFFTimingGroupKind } from "./types"
 import { tokenTypes } from "./lexer";
 
 // This pass generate AST from CST.
@@ -458,7 +458,7 @@ const eventTransformer = {
 			}
 		}
 		return {
-			kind: "timinggroup", items: selectNestedItems(errors, segment, segmentLocation), tagLocation, timingGroupKind
+			kind: "timinggroup", items: selectNestedItems(errors, segment, segmentLocation), tagLocation, timingGroupAttribute: timingGroupKind
 		}
 	}
 }
@@ -625,14 +625,6 @@ const parseValue = {
 		if (word) {
 			const { data, location } = word
 			const wordValue = data.value
-			if (!AFFTimingGroupKinds.has(wordValue)) {
-				errors.push({
-					message: `The value in the "${fieldname}" field of event with type "${eventKind}" should be one of ${[...AFFTimingGroupKinds.values()].join()}`,
-					location,
-					severity: DiagnosticSeverity.Error,
-				})
-				return null
-			}
 			return { data: { kind: "timinggroup-kind", value: wordValue } as AFFTimingGroupKind, location }
 		} else {
 			return null

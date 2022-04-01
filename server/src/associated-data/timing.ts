@@ -11,6 +11,7 @@ export interface TimingData {
 
 type TimingResult = {
 	datas: TimingData[],//This should be soreted by time
+	attributes: string[],
 	errors: AFFError[],
 }
 const genTimingResult = (group: AFFFile | AFFTimingGroupEvent): TimingResult => {
@@ -71,7 +72,8 @@ const genTimingResult = (group: AFFFile | AFFTimingGroupEvent): TimingResult => 
 			})
 		}
 	}
-	return { datas: [...datas.values()].sort((a, b) => a.time - b.time), errors }
+	let attributes = ("kind" in group) ? group.timingGroupAttribute.data.value.split("_") : []
+	return { datas: [...datas.values()].sort((a, b) => a.time - b.time), attributes, errors }
 }
 
 export const timings = new AssociatedDataMap(genTimingResult)
