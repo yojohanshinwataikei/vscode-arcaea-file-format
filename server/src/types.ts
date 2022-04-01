@@ -79,7 +79,7 @@ export interface AFFTimingGroupEvent {
 }
 
 export type AFFTrackItem = AFFTapEvent | AFFHoldEvent
-export type AFFNestableItem = AFFTimingEvent | AFFTrackItem | AFFArcEvent | AFFSceneControlEvent
+export type AFFNestableItem = AFFTimingEvent | AFFTrackItem | AFFArcEvent | AFFSceneControlEvent | AFFCameraEvent
 export type AFFItem = AFFNestableItem | AFFCameraEvent | AFFTimingGroupEvent
 export type AFFEvent = AFFItem | AFFArctapEvent
 

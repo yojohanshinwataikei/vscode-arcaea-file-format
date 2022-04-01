@@ -490,7 +490,7 @@ const selectNestedItems = (
 ): WithLocation<WithLocation<AFFNestableItem>[]> => {
 	let items: WithLocation<AFFNestableItem>[] = []
 	for (const { location, data: item } of segment) {
-		if (item.kind === "timinggroup" || item.kind === "camera") {
+		if (item.kind === "timinggroup") {
 			errors.push({
 				message: `Item of type "${item.kind}" cannot be nested in timinggroup`,
 				location: location,
