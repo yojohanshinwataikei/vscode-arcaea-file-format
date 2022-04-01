@@ -72,7 +72,12 @@ const genTimingResult = (group: AFFFile | AFFTimingGroupEvent): TimingResult => 
 			})
 		}
 	}
-	let attributes = ("kind" in group) ? group.timingGroupAttribute.data.value.split("_") : []
+	const attributes=[]
+	if("kind" in group){
+		if(group.timingGroupAttribute.data.value!==""){
+			attributes.push(...group.timingGroupAttribute.data.value.split("_"))
+		}
+	}
 	return { datas: [...datas.values()].sort((a, b) => a.time - b.time), attributes, errors }
 }
 

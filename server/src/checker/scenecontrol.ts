@@ -3,7 +3,7 @@ import { DiagnosticSeverity } from "vscode-languageserver"
 import { CstNodeLocation } from "chevrotain"
 
 export const scenecontrolChecker: AFFChecker = (file, errors) => {
-	for (const { data, location } of file.items) {
+	for (const { data } of file.items) {
 		if (data.kind === "scenecontrol") {
 			checkScenecontrol(data.sceneControlKind, data.values, errors)
 		} else if (data.kind === "timinggroup") {

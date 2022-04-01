@@ -2,6 +2,7 @@
 import { AFFError, AFFFile, WithLocation, AFFItem } from "../types";
 import { AssociatedDataMap } from "../util/associated-data";
 import { DiagnosticSeverity } from "vscode-languageserver";
+import { timings } from "./timing";
 
 type AllowMemesResult = {
 	enable: boolean,//This should be soreted by time
@@ -31,6 +32,9 @@ const genAllowMemesResult = (file: AFFFile): AllowMemesResult => {
 				return enableAllowMemesWithItem(item)
 			}
 		} else if (item.data.kind === "timinggroup") {
+			if(timings.get(item.data).attributes.filter((attr)=>/^angle[xy][0-9]+$/.test(attr)).length>0){
+				return enableAllowMemesWithItem(item)
+			}
 			for (const nestedItem of item.data.items.data) {
 				if (nestedItem.data.kind === "arc") {
 					if (nestedItem.data.colorId.data.value === 2) {

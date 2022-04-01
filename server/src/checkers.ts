@@ -8,6 +8,7 @@ import { overlapChecker } from "./checker/overlap"
 import { cutByTimingChecker } from "./checker/cut-by-timing"
 import { scenecontrolChecker } from "./checker/scenecontrol"
 import { AFFFile, AFFError } from "./types"
+import { timinggroupAttributeChecker } from "./checker/timinggroup-attribute"
 
 const checkers = [
 	allowMemesChecker,
@@ -19,6 +20,7 @@ const checkers = [
 	overlapChecker,
 	cutByTimingChecker,
 	scenecontrolChecker,
+	timinggroupAttributeChecker,
 ]
 
 export const processCheckers = (file: AFFFile): AFFError[] => {
