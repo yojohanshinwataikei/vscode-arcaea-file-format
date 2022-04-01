@@ -50,7 +50,19 @@ export const overlapChecker: AFFChecker = (file, error) => {
 	for (const items of trackRecord.values()) {
 		checkTrackOverlap(error, items)
 	}
-	checkCameraOverlap(error, file.items.filter((item): item is WithLocation<AFFCameraEvent> => item.data.kind === "camera"))
+	const cameras:WithLocation<AFFCameraEvent>[]=[]
+	for (const item of file.items) {
+		if (item.data.kind === "camera"){
+			cameras.push(item as WithLocation<AFFCameraEvent>)
+		}else if(item.data.kind === "timinggroup"){
+			for (const nestedItem of item.data.items.data) {
+				if (nestedItem.data.kind === "camera"){
+					cameras.push(nestedItem as WithLocation<AFFCameraEvent>)
+				}
+			}
+		}
+	}
+	checkCameraOverlap(error, cameras)
 }
 
 const checkTrackOverlap = (error: AFFError[], items: WithLocation<AFFTrackItem>[]) => {
@@ -101,7 +113,7 @@ const checkCameraOverlap = (error: AFFError[], cameras: WithLocation<AFFCameraEv
 	const report = (location: CstNodeLocation, lastLocation: CstNodeLocation) => {
 		error.push({
 			message: `The camera item is overlapped with a previous camera item`,
-			severity: DiagnosticSeverity.Error,
+			severity: DiagnosticSeverity.Warning,
 			location,
 			relatedInfo: [{
 				message: `The previous camera item`,
