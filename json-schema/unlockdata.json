@@ -219,6 +219,20 @@
 						"min",
 						"max"
 					]
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 103
+						},
+						"id": {
+							"type": "integer",
+							"description": "The id of the partner needed to unlock this song"
+						}
+					},
+					"required": [
+						"id"
+					]
 				}
 			],
 			"required": [
