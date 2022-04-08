@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.11.1
+
+- Update `unlocks` schema to provide better description to fields
+- Fix some typos in schema
+- Fix crashing when `scenecontrol` do not have a kind
+
 ## 0.11.0
 
 - Allow nested `camera` in `timinggroup`
