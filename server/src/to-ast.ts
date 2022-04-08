@@ -416,7 +416,7 @@ const eventTransformer = {
 		const time = checkValueType(errors, "scenecontrol", "time", "int", values, 0)
 		const rawSceneControlKind = checkValueType(errors, "scenecontrol", "scenecontrol-kind", "word", values, 1)
 		const sceneControlKind = parseValue.sceneControlKind(errors, "scenecontrol", "scenecontrol-kind", rawSceneControlKind)
-		const additionalValues = {
+		const additionalValues = sceneControlKind === null ? null : {
 			data: values.slice(2),
 			location: {
 				startOffset: sceneControlKind.location.endOffset + 1,
