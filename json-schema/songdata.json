@@ -73,7 +73,7 @@
 		},
 		"byd_local_unlock": {
 			"type": "boolean",
-			"description": "Should the unlock state of beyond difficult of the song saved locally (instead of saved online)"
+			"description": "Should the unlock state of beyond difficulty of the song saved locally (instead of saved online)"
 		},
 		"songlist_hidden": {
 			"type": "boolean",
@@ -154,11 +154,11 @@
 					"rating": {
 						"type": "integer",
 						"minimum": 0,
-						"description": "The rating of the difficult, 0 for \"?\", other number for corresponding number value. before 3.0.0 it is 0 for \"?\", 10 for \"9+\", 11 for \"10\" and 1~9 for corresponding number value"
+						"description": "The rating of the difficulty, 0 for \"?\", other number for corresponding number value. before 3.0.0 it is 0 for \"?\", 10 for \"9+\", 11 for \"10\" and 1~9 for corresponding number value"
 					},
 					"ratingPlus": {
 						"type": "boolean",
-						"description": "Should the difficult of the chart annotated with a plus sign, like 9+, 10+."
+						"description": "Should the difficulty of the chart annotated with a plus sign, like 9+, 10+."
 					},
 					"plusFingers": {
 						"description": "Should this charts be played with more than two fingers. This field is not longer used since the judging code can normally handle multiple fingers now",
