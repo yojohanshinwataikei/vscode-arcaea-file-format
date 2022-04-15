@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.11.2
+
+- Update `unlocks` schema to provide better description to fields
+
 ## 0.11.1
 
 - Update `unlocks` schema to provide better description to fields

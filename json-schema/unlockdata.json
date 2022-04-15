@@ -39,7 +39,7 @@
 			"properties": {
 				"type": {
 					"type": "integer",
-					"description": "The type of the unlock condition, 0 for fragments, 1 for grade on early charts, 2 for play on early charts, 3 for multiple grade on early charts, 4 for multiple selectable conditions, 5 for reaching a potential rating, 101 for anomaly"
+					"description": "The type of the unlock condition, 0 for fragments, 1 for grade on early charts, 2 for play on early charts, 3 for multiple grade on early charts, 4 for multiple selectable conditions, 5 for reaching a potential rating, 101 for anomaly, 103 for a specific partner"
 				}
 			},
 			"oneOf": [
