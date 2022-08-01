@@ -39,7 +39,7 @@
 			"properties": {
 				"type": {
 					"type": "integer",
-					"description": "The type of the unlock condition, 0 for fragments, 1 for grade on early charts, 2 for play on early charts, 3 for multiple grade on early charts, 4 for multiple selectable conditions, 5 for reaching a potential rating, 101 for anomaly, 103 for a specific partner"
+					"description": "The type of the unlock condition, 0 for fragments, 1 for grade on early charts, 2 for play on early charts, 3 for multiple grade on early charts, 4 for multiple selectable conditions, 5 for reaching a potential rating, 101 for anomaly, 103 for a specific partner, 104 for online check, 105 for using a specific partner in a specific state or not, 106 for unlocking another chart or not"
 				}
 			},
 			"oneOf": [
@@ -232,6 +232,67 @@
 					},
 					"required": [
 						"id"
+					]
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 104
+						}
+					}
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 105
+						},
+						"char_id": {
+							"type": "integer",
+							"description": "The id of the partner in the unlock condition"
+						},
+						"awakened": {
+							"type": "boolean",
+							"description": "Should the partner be awakened"
+						},
+						"inverted": {
+							"type": "boolean",
+							"description": "Is the unlock condition inverted"
+						}
+					},
+					"required": [
+						"char_id",
+						"awakened",
+						"inverted"
+					]
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 106
+						},
+						"song_id": {
+							"type": "string",
+							"description": "The id of the song in the unlock condition"
+						},
+						"song_difficulty": {
+							"type": "integer",
+							"description": "The rating class of the difficulty in the unlock condition, 0 for past, 1 for present, 2 for future, and 3 for beyond",
+							"enum": [
+								0,
+								1,
+								2,
+								3
+							]
+						},
+						"inverted": {
+							"type": "boolean",
+							"description": "Is the unlock condition inverted"
+						}
+					},
+					"required": [
+						"song_id",
+						"song_difficulty",
+						"inverted"
 					]
 				}
 			],
