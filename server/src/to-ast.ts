@@ -172,7 +172,7 @@ const rejectSegment = (errors: AFFError[], kind: string, segment: WithLocation<A
 
 const ensureValuesCount = (errors: AFFError[], kind: string, count: number, values: WithLocation<AFFValue>[], valuesLocation: CstNodeLocation): boolean => {
 	if (values.length < count) {
-		// error: value count missmatch
+		// error: value count mismatch
 		errors.push({
 			message: `Event with type "${kind}" should have at least ${count} field(s) instead of ${values.length} field(s).`,
 			location: valuesLocation,
@@ -185,7 +185,7 @@ const ensureValuesCount = (errors: AFFError[], kind: string, count: number, valu
 
 const limitValuesCount = (errors: AFFError[], kind: string, count: number, values: WithLocation<AFFValue>[], valuesLocation: CstNodeLocation): boolean => {
 	if (values.length > count) {
-		// error: value count missmatch
+		// error: value count mismatch
 		errors.push({
 			message: `Event with type "${kind}" should have at most ${count} field(s) instead of ${values.length} field(s).`,
 			location: valuesLocation,
@@ -198,7 +198,7 @@ const limitValuesCount = (errors: AFFError[], kind: string, count: number, value
 
 const checkValuesCount = (errors: AFFError[], kind: string, count: number, values: WithLocation<AFFValue>[], valuesLocation: CstNodeLocation): boolean => {
 	if (values.length !== count) {
-		// error: value count missmatch
+		// error: value count mismatch
 		errors.push({
 			message: `Event with type "${kind}" should have ${count} field(s) instead of ${values.length} field(s).`,
 			location: valuesLocation,
@@ -212,16 +212,16 @@ const checkValuesCount = (errors: AFFError[], kind: string, count: number, value
 const checkValueType = <T extends keyof AFFValues>(
 	errors: AFFError[],
 	eventKind: string,
-	fieldname: string,
+	fieldName: string,
 	kind: T,
 	values: WithLocation<AFFValue>[],
 	id: number
 ): WithLocation<AFFValues[T]> | null => {
 	const value = values[id]
 	if (value.data.kind !== kind) {
-		// error: value type missmatch
+		// error: value type mismatch
 		errors.push({
-			message: `The value in the "${fieldname}" field of event with type "${eventKind}" should be "${kind}" instead of "${value.data.kind}"`,
+			message: `The value in the "${fieldName}" field of event with type "${eventKind}" should be "${kind}" instead of "${value.data.kind}"`,
 			location: values[id].location,
 			severity: DiagnosticSeverity.Error,
 		})
@@ -504,7 +504,7 @@ const selectNestedItems = (
 }
 
 const parseValue = {
-	trackId: (errors: AFFError[], eventKind: string, fieldname: string, int: WithLocation<AFFInt> | null): WithLocation<AFFTrackId> => {
+	trackId: (errors: AFFError[], eventKind: string, fieldName: string, int: WithLocation<AFFInt> | null): WithLocation<AFFTrackId> => {
 		if (int) {
 			const { data, location } = int
 			const intValue = data.value
@@ -513,7 +513,7 @@ const parseValue = {
 			}
 			if (intValue < 1 || intValue > 4) {
 				errors.push({
-					message: `The value in the "${fieldname}" field of event with type "${eventKind}" should be one of ${[...affTrackIds.values()].join()}`,
+					message: `The value in the "${fieldName}" field of event with type "${eventKind}" should be one of ${[...affTrackIds.values()].join()}`,
 					location,
 					severity: DiagnosticSeverity.Error,
 				})
@@ -524,7 +524,7 @@ const parseValue = {
 			return null
 		}
 	},
-	colorId: (errors: AFFError[], eventKind: string, fieldname: string, int: WithLocation<AFFInt> | null): WithLocation<AFFColorId> => {
+	colorId: (errors: AFFError[], eventKind: string, fieldName: string, int: WithLocation<AFFInt> | null): WithLocation<AFFColorId> => {
 		if (int) {
 			const { data, location } = int
 			const intValue = data.value
@@ -533,7 +533,7 @@ const parseValue = {
 			}
 			if (intValue < 0 || intValue > 2) {
 				errors.push({
-					message: `The value in the "${fieldname}" field of event with type "${eventKind}" should be one of ${[...affColorIds.values()].join()}`,
+					message: `The value in the "${fieldName}" field of event with type "${eventKind}" should be one of ${[...affColorIds.values()].join()}`,
 					location,
 					severity: DiagnosticSeverity.Error,
 				})
@@ -544,13 +544,13 @@ const parseValue = {
 			return null
 		}
 	},
-	arcKind: (errors: AFFError[], eventKind: string, fieldname: string, word: WithLocation<AFFWord> | null): WithLocation<AFFArcKind> => {
+	arcKind: (errors: AFFError[], eventKind: string, fieldName: string, word: WithLocation<AFFWord> | null): WithLocation<AFFArcKind> => {
 		if (word) {
 			const { data, location } = word
 			const wordValue = data.value
 			if (!affArcKinds.has(wordValue)) {
 				errors.push({
-					message: `The value in the "${fieldname}" field of event with type "${eventKind}" should be one of ${[...affArcKinds.values()].join()}`,
+					message: `The value in the "${fieldName}" field of event with type "${eventKind}" should be one of ${[...affArcKinds.values()].join()}`,
 					location,
 					severity: DiagnosticSeverity.Error,
 				})
@@ -561,13 +561,13 @@ const parseValue = {
 			return null
 		}
 	},
-	effect: (errors: AFFError[], eventKind: string, fieldname: string, word: WithLocation<AFFWord> | null): WithLocation<AFFEffect> => {
+	effect: (errors: AFFError[], eventKind: string, fieldName: string, word: WithLocation<AFFWord> | null): WithLocation<AFFEffect> => {
 		if (word) {
 			const { data, location } = word
 			const wordValue = data.value
 			if (!affEffects.has(wordValue)) {
 				errors.push({
-					message: `The value in the "${fieldname}" field of event with type "${eventKind}" should be one of ${[...affEffects.values()].join()}`,
+					message: `The value in the "${fieldName}" field of event with type "${eventKind}" should be one of ${[...affEffects.values()].join()}`,
 					location,
 					severity: DiagnosticSeverity.Error,
 				})
@@ -578,13 +578,13 @@ const parseValue = {
 			return null
 		}
 	},
-	bool: (errors: AFFError[], eventKind: string, fieldname: string, word: WithLocation<AFFWord> | null): WithLocation<AFFBool> => {
+	bool: (errors: AFFError[], eventKind: string, fieldName: string, word: WithLocation<AFFWord> | null): WithLocation<AFFBool> => {
 		if (word) {
 			const { data, location } = word
 			const wordValue = data.value
 			if (!affBools.has(wordValue)) {
 				errors.push({
-					message: `The value in the "${fieldname}" field of event with type "${eventKind}" should be one of ${[...affBools.values()].join()}`,
+					message: `The value in the "${fieldName}" field of event with type "${eventKind}" should be one of ${[...affBools.values()].join()}`,
 					location,
 					severity: DiagnosticSeverity.Error,
 				})
@@ -595,13 +595,13 @@ const parseValue = {
 			return null
 		}
 	},
-	cameraKind: (errors: AFFError[], eventKind: string, fieldname: string, word: WithLocation<AFFWord> | null): WithLocation<AFFCameraKind> => {
+	cameraKind: (errors: AFFError[], eventKind: string, fieldName: string, word: WithLocation<AFFWord> | null): WithLocation<AFFCameraKind> => {
 		if (word) {
 			const { data, location } = word
 			const wordValue = data.value
 			if (!affCameraKinds.has(wordValue)) {
 				errors.push({
-					message: `The value in the "${fieldname}" field of event with type "${eventKind}" should be one of ${[...affCameraKinds.values()].join()}`,
+					message: `The value in the "${fieldName}" field of event with type "${eventKind}" should be one of ${[...affCameraKinds.values()].join()}`,
 					location,
 					severity: DiagnosticSeverity.Error,
 				})
@@ -612,7 +612,7 @@ const parseValue = {
 			return null
 		}
 	},
-	sceneControlKind: (errors: AFFError[], eventKind: string, fieldname: string, word: WithLocation<AFFWord> | null): WithLocation<AFFSceneControlKind> => {
+	sceneControlKind: (errors: AFFError[], eventKind: string, fieldName: string, word: WithLocation<AFFWord> | null): WithLocation<AFFSceneControlKind> => {
 		if (word) {
 			const { data, location } = word
 			const wordValue = data.value
@@ -621,7 +621,7 @@ const parseValue = {
 			return null
 		}
 	},
-	timingGroupKind: (errors: AFFError[], eventKind: string, fieldname: string, word: WithLocation<AFFWord> | null): WithLocation<AFFTimingGroupKind> => {
+	timingGroupKind: (errors: AFFError[], eventKind: string, fieldName: string, word: WithLocation<AFFWord> | null): WithLocation<AFFTimingGroupKind> => {
 		if (word) {
 			const { data, location } = word
 			const wordValue = data.value

@@ -37,7 +37,7 @@ const checkScenecontrol = (kind: WithLocation<AFFSceneControlKind>, values: With
 
 const checkValuesCount = (errors: AFFError[], kind: string, count: number, values: WithLocation<AFFValue>[], valuesLocation: CstNodeLocation): boolean => {
 	if (values.length !== count) {
-		// error: value count missmatch
+		// error: value count mismatch
 		errors.push({
 			message: `Scenecontrol event with type "${kind}" should have ${count} additional value(s) instead of ${values.length} additional value(s).`,
 			location: valuesLocation,
@@ -51,16 +51,16 @@ const checkValuesCount = (errors: AFFError[], kind: string, count: number, value
 const checkValueType = <T extends keyof AFFValues>(
 	errors: AFFError[],
 	eventKind: string,
-	fieldname: string,
+	fieldName: string,
 	kind: T,
 	values: WithLocation<AFFValue>[],
 	id: number
 ): WithLocation<AFFValues[T]> | null => {
 	const value = values[id]
 	if (value.data.kind !== kind) {
-		// error: value type missmatch
+		// error: value type mismatch
 		errors.push({
-			message: `The value in the "${fieldname}" field of scenecontrol event with type "${eventKind}" should be "${kind}" instead of "${value.data.kind}"`,
+			message: `The value in the "${fieldName}" field of scenecontrol event with type "${eventKind}" should be "${kind}" instead of "${value.data.kind}"`,
 			location: values[id].location,
 			severity: DiagnosticSeverity.Error,
 		})

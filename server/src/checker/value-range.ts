@@ -112,7 +112,7 @@ const checkItem = ({ data, location }: WithLocation<AFFItem>, errors: AFFError[]
 const checkTimestamp = (timestamp: WithLocation<AFFInt>, errors: AFFError[]) => {
 	if (timestamp.data.value < 0) {
 		errors.push({
-			message: `Timestamp should not be nagetive.`,
+			message: `Timestamp should not be negative.`,
 			severity: DiagnosticSeverity.Error,
 			location: timestamp.location,
 		})

@@ -79,7 +79,7 @@ const checkTrackOverlap = (error: AFFError[], items: WithLocation<AFFTrackItem>[
 		})
 	}
 	const sortedByStart = items.sort((a, b) => getStart(a) - getStart(b))
-	// Note: may be there are more thing to save if we want an autofix feature
+	// Note: may be there are more thing to save if we want an auto-fix feature
 	let lastLocation: CstNodeLocation | null = null
 	let lastEnd: number = -Infinity
 	let closed: boolean = false
