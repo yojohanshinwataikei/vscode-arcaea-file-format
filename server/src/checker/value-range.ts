@@ -69,9 +69,9 @@ const checkItem = ({ data, location }: WithLocation<AFFItem>, errors: AFFError[]
 				})
 			}
 		}
-		if (data.effect.data.value !== "none") {
+		if (data.effect.data.value !== "none" && !data.effect.data.value.endsWith("_wav")) {
 			errors.push({
-				message: `Arc event with effect other than "none" should not be used.`,
+				message: `Arc event with effect "${data.effect.data.value}"  is not known by us.`,
 				severity: DiagnosticSeverity.Warning,
 				location: data.effect.location,
 			})
