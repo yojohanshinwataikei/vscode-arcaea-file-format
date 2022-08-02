@@ -1,7 +1,7 @@
 import { DiagnosticSeverity } from "vscode-languageserver";
 import { CstChildrenDictionary, IToken, CstNode, ICstVisitor, CstNodeLocation } from "chevrotain"
 import { BaseAffVisitor } from "./parser"
-import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent, AFFTrackId, AFFInt, AFFColorId, AFFArcKind, AFFWord, affArcKinds, affTrackIds, affColorIds, affEffects, AFFEffect, AFFBool, affBools, AFFCameraEvent, AFFCameraKind, affCameraKinds, AFFSceneControlEvent, AFFSceneControlKind, AFFTimingGroupEvent, AFFNestableItem, AFFTimingGroupKind } from "./types"
+import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent, AFFTrackId, AFFInt, AFFColorId, AFFArcKind, AFFWord, affArcKinds, affTrackIds, affColorIds, AFFEffect, AFFBool, affBools, AFFCameraEvent, AFFCameraKind, affCameraKinds, AFFSceneControlEvent, AFFSceneControlKind, AFFTimingGroupEvent, AFFNestableItem, AFFTimingGroupKind } from "./types"
 import { tokenTypes } from "./lexer";
 
 // This pass generate AST from CST.
@@ -561,18 +561,10 @@ const parseValue = {
 			return null
 		}
 	},
-	effect: (errors: AFFError[], eventKind: string, fieldName: string, word: WithLocation<AFFWord> | null): WithLocation<AFFEffect> => {
+	effect: (_errors: AFFError[], _eventKind: string, _fieldName: string, word: WithLocation<AFFWord> | null): WithLocation<AFFEffect> => {
 		if (word) {
 			const { data, location } = word
 			const wordValue = data.value
-			if (!affEffects.has(wordValue)) {
-				errors.push({
-					message: `The value in the "${fieldName}" field of event with type "${eventKind}" should be one of ${[...affEffects.values()].join()}`,
-					location,
-					severity: DiagnosticSeverity.Error,
-				})
-				return null
-			}
 			return { data: { kind: "effect", value: wordValue } as AFFEffect, location }
 		} else {
 			return null

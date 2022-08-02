@@ -122,9 +122,8 @@ export const affColorIds = new Set<AFFColorIdValue>([0, 1, 2])
 
 export interface AFFEffect {
 	kind: "effect",
-	value: "none" | "full" | "incremental"
+	value: string
 }
-export const affEffects = new Set(["none", "full", "incremental"])
 
 export interface AFFArcKind {
 	kind: "arc-kind",
