@@ -108,10 +108,10 @@ export type AFFValue = AFFValues[keyof AFFValues]
 
 export interface AFFTrackId {
 	kind: "track-id",
-	value: 1 | 2 | 3 | 4,
+	value: 0 | 1 | 2 | 3 | 4 | 5,
 }
 export type AFFTrackIdValue = AFFTrackId["value"]
-export const affTrackIds = new Set<AFFTrackIdValue>([1, 2, 3, 4])
+export const affTrackIds = new Set<AFFTrackIdValue>([0, 1, 2, 3, 4, 5])
 
 export interface AFFColorId {
 	kind: "color-id",

@@ -511,7 +511,7 @@ const parseValue = {
 			if (!Number.isInteger(intValue)) {
 				throw new Error(`value in AFFInt(${intValue}) is not int`)
 			}
-			if (intValue < 1 || intValue > 4) {
+			if (intValue < 0 || intValue > 5) {
 				errors.push({
 					message: `The value in the "${fieldName}" field of event with type "${eventKind}" should be one of ${[...affTrackIds.values()].join()}`,
 					location,
