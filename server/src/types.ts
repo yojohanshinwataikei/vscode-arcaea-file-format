@@ -115,10 +115,10 @@ export const affTrackIds = new Set<AFFTrackIdValue>([0, 1, 2, 3, 4, 5])
 
 export interface AFFColorId {
 	kind: "color-id",
-	value: 0 | 1 | 2,
+	value: 0 | 1 | 2 | 3,
 }
 export type AFFColorIdValue = AFFColorId["value"]
-export const affColorIds = new Set<AFFColorIdValue>([0, 1, 2])
+export const affColorIds = new Set<AFFColorIdValue>([0, 1, 2, 3])
 
 export interface AFFEffect {
 	kind: "effect",
