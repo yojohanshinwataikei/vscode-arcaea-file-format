@@ -10,7 +10,7 @@ export interface TimingData {
 }
 
 type TimingResult = {
-	datas: TimingData[],//This should be soreted by time
+	datas: TimingData[],//This should be sorted by time
 	attributes: string[],
 	errors: AFFError[],
 }

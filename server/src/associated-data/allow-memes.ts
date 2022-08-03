@@ -5,7 +5,7 @@ import { DiagnosticSeverity } from "vscode-languageserver";
 import { timings } from "./timing";
 
 type AllowMemesResult = {
-	enable: boolean,//This should be soreted by time
+	enable: boolean,//This should be sorted by time
 	errors: AFFError[],
 }
 
