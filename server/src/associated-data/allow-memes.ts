@@ -4,8 +4,8 @@ import { AssociatedDataMap } from "../util/associated-data";
 import { DiagnosticSeverity } from "vscode-languageserver";
 import { timings } from "./timing";
 
-type AllowMemesResult = {
-	enable: boolean,//This should be sorted by time
+export type AllowMemesResult = {
+	enable: boolean,
 	errors: AFFError[],
 }
 

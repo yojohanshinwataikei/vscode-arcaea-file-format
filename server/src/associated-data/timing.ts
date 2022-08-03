@@ -9,7 +9,7 @@ export interface TimingData {
 	item: WithLocation<AFFTimingEvent>,
 }
 
-type TimingResult = {
+export type TimingResult = {
 	datas: TimingData[],//This should be sorted by time
 	attributes: string[],
 	errors: AFFError[],
