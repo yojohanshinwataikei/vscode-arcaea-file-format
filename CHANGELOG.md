@@ -1,5 +1,15 @@
 # Change Log
 
+## 0.12
+
+- Support for special sound effect of `arctap`
+- Support for `tap` and `hold` on the track 0 and 5
+- Support for new `scenecontrol` types
+- Better way to handle the `arc` with color of 3
+- Check for overlapped `scenecontrol`
+- Use a more relaxing check for out of range `arc` when the enwiden mode is on
+- Update JSON validation for the `songlist` `packlist` `unlocks` files for the arcaea 4.0.x
+
 ## 0.11.2
 
 - Update `unlocks` schema to provide better description to fields
