@@ -60,7 +60,7 @@ const genEnwidenResult = (file: AFFFile): EnwidenResult => {
 				errors.push({
 					message: `The ${type} state is already ${enabledString}, you can't make it ${enabledString} again`,
 					severity: DiagnosticSeverity.Warning,
-					location: data.item.location,
+					location: data.item.data.values.data[1].location,
 					relatedInfo: [{
 						message: `Last time ${type} state becomes ${enabledString}`,
 						location: filteredData.length > 0 ? filteredData[filteredData.length - 1].item.location : file.metadata.data.metaEndLocation

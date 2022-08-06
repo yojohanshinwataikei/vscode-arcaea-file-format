@@ -10,6 +10,7 @@ import { scenecontrolChecker } from "./checker/scenecontrol"
 import { AFFFile, AFFError } from "./types"
 import { timinggroupAttributeChecker } from "./checker/timinggroup-attribute"
 import { enwidenChecker } from "./checker/enwiden"
+import { extraLanesChecker } from "./checker/extra-lanes"
 
 const checkers = [
 	allowMemesChecker,
@@ -21,6 +22,7 @@ const checkers = [
 	arcPositionChecker,
 	overlapChecker,
 	cutByTimingChecker,
+	extraLanesChecker,
 	scenecontrolChecker,
 	timinggroupAttributeChecker,
 ]
