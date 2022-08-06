@@ -29,7 +29,7 @@ class ToASTVisitor extends BaseAffVisitor implements ICstVisitor<AFFError[], any
 				let location = metadata.get(key).data.key.location
 				// error: duplicated entry key
 				errors.push({
-					message: `"${key}" is defined twice in the metadata section.`,
+					message: `"${key}" is defined twice in the metadata section`,
 					location: entry.key.location,
 					severity: DiagnosticSeverity.Error,
 					relatedInfo: [{
@@ -87,7 +87,7 @@ class ToASTVisitor extends BaseAffVisitor implements ICstVisitor<AFFError[], any
 			} else {
 				// error: unknown tag
 				errors.push({
-					message: `Unknown event type "${tag.image}".`,
+					message: `Unknown event type "${tag.image}"`,
 					location: locationFromToken(tag),
 					severity: DiagnosticSeverity.Error
 				})
@@ -113,7 +113,7 @@ class ToASTVisitor extends BaseAffVisitor implements ICstVisitor<AFFError[], any
 			if (event.kind === "arctap") {
 				//error: arctap should not be items
 				errors.push({
-					message: `Event with type "${event.kind}" should not be used as an item.`,
+					message: `Event with type "${event.kind}" should not be used as an item`,
 					location: event.tagLocation,
 					severity: DiagnosticSeverity.Error
 				})
@@ -152,7 +152,7 @@ const rejectSubevent = (errors: AFFError[], kind: string, subevents: WithLocatio
 	if (subevents !== null) {
 		// error: unexpected subevent
 		errors.push({
-			message: `Event with type "${kind}" should not have subevents.`,
+			message: `Event with type "${kind}" should not have subevents`,
 			location: subeventsLocation,
 			severity: DiagnosticSeverity.Error,
 		})
@@ -163,7 +163,7 @@ const rejectSegment = (errors: AFFError[], kind: string, segment: WithLocation<A
 	if (segment !== null) {
 		// error: unexpected subevent
 		errors.push({
-			message: `Event with type "${kind}" should not have segment.`,
+			message: `Event with type "${kind}" should not have segment`,
 			location: segmentLocation,
 			severity: DiagnosticSeverity.Error,
 		})
@@ -174,7 +174,7 @@ const ensureValuesCount = (errors: AFFError[], kind: string, count: number, valu
 	if (values.length < count) {
 		// error: value count mismatch
 		errors.push({
-			message: `Event with type "${kind}" should have at least ${count} field(s) instead of ${values.length} field(s).`,
+			message: `Event with type "${kind}" should have at least ${count} field(s) instead of ${values.length} field(s)`,
 			location: valuesLocation,
 			severity: DiagnosticSeverity.Error,
 		})
@@ -187,7 +187,7 @@ const limitValuesCount = (errors: AFFError[], kind: string, count: number, value
 	if (values.length > count) {
 		// error: value count mismatch
 		errors.push({
-			message: `Event with type "${kind}" should have at most ${count} field(s) instead of ${values.length} field(s).`,
+			message: `Event with type "${kind}" should have at most ${count} field(s) instead of ${values.length} field(s)`,
 			location: valuesLocation,
 			severity: DiagnosticSeverity.Error,
 		})
@@ -200,7 +200,7 @@ const checkValuesCount = (errors: AFFError[], kind: string, count: number, value
 	if (values.length !== count) {
 		// error: value count mismatch
 		errors.push({
-			message: `Event with type "${kind}" should have ${count} field(s) instead of ${values.length} field(s).`,
+			message: `Event with type "${kind}" should have ${count} field(s) instead of ${values.length} field(s)`,
 			location: valuesLocation,
 			severity: DiagnosticSeverity.Error,
 		})

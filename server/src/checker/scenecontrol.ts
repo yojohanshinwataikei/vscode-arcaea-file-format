@@ -36,7 +36,7 @@ const checkScenecontrol = (kind: WithLocation<AFFSceneControlKind>, values: With
 		return
 	}
 	error.push({
-		message: `Scenecontrol event with type "${kind.data.value}" is not known by us, so the type of additional values is not checked.`,
+		message: `Scenecontrol event with type "${kind.data.value}" is not known by us, so the type of additional values is not checked`,
 		location: kind.location,
 		severity: DiagnosticSeverity.Warning,
 	})
@@ -46,7 +46,7 @@ const checkValuesCount = (errors: AFFError[], kind: string, count: number, value
 	if (values.length !== count) {
 		// error: value count mismatch
 		errors.push({
-			message: `Scenecontrol event with type "${kind}" should have ${count} additional value(s) instead of ${values.length} additional value(s).`,
+			message: `Scenecontrol event with type "${kind}" should have ${count} additional value(s) instead of ${values.length} additional value(s)`,
 			location: valuesLocation,
 			severity: DiagnosticSeverity.Error,
 		})

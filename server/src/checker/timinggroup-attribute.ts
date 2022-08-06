@@ -11,7 +11,7 @@ export const timinggroupAttributeChecker: AFFChecker = (file, errors) => {
 				.filter((attr)=>!/^angle[xy][0-9]+$/.test(attr))
 			if(unknownAttribute.length>0){
 				errors.push({
-					message: `Timinggroup event with attribute ${unknownAttribute.map(attr=>`"${attr}"`).join(", ")} is not known by us.`,
+					message: `Timinggroup event with attribute ${unknownAttribute.map(attr=>`"${attr}"`).join(", ")} is not known by us`,
 					location: data.timingGroupAttribute.location,
 					severity: DiagnosticSeverity.Warning,
 				})

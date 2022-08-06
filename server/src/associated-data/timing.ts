@@ -44,13 +44,13 @@ const genTimingResult = (group: AFFFile | AFFTimingGroupEvent): TimingResult => 
 	const groupLocation = ("kind" in group) ? group.tagLocation : group.metadata.data.metaEndLocation
 	if (datas.size <= 0) {
 		errors.push({
-			message: `No timing event found ${("kind" in group) ? "in the timinggroup" : "outside timinggroups"}.`,
+			message: `No timing event found ${("kind" in group) ? "in the timinggroup" : "outside timinggroups"}`,
 			severity: DiagnosticSeverity.Error,
 			location: groupLocation
 		})
 	} else if (!datas.has(0)) {
 		errors.push({
-			message: `No timing event at 0 time found ${("kind" in group) ? "in the timinggroup" : "outside timinggroups"}.`,
+			message: `No timing event at 0 time found ${("kind" in group) ? "in the timinggroup" : "outside timinggroups"}`,
 			severity: DiagnosticSeverity.Warning,
 			location: groupLocation
 		})
@@ -66,7 +66,7 @@ const genTimingResult = (group: AFFFile | AFFTimingGroupEvent): TimingResult => 
 		}
 		if (!firstZeroTiming) {
 			errors.push({
-				message: `First item ${("kind" in group) ? "in the timinggroup" : "outside timinggroups"} is not timing event at 0 time.`,
+				message: `First item ${("kind" in group) ? "in the timinggroup" : "outside timinggroups"} is not timing event at 0 time`,
 				severity: DiagnosticSeverity.Information,
 				location: groupLocation
 			})
