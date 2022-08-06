@@ -10,7 +10,12 @@ export const extraLanesChecker: AFFChecker = (file, errors) => {
 		if (item.data.kind === "tap") {
 			const trackId = item.data.trackId
 			if (trackId.data.value === 0 || trackId.data.value === 5) {
-				const lastEnwidenlaneId = upperBound(lanes, item.data.time.data.value, (ed, t) => ed.time - t) - 1
+				let lastEnwidenlaneId = upperBound(lanes, item.data.time.data.value, (ed, t) => ed.time - t) - 1
+				if (lastEnwidenlaneId >= 0) {
+					if (!lanes[lastEnwidenlaneId].enabled && lanes[lastEnwidenlaneId].time === item.data.time.data.value) {
+						lastEnwidenlaneId -= 1
+					}
+				}
 				if (!(lanes[lastEnwidenlaneId]?.enabled ?? false)) {
 					errors.push({
 						message: `The tap item on the ${trackId.data.value} lane should not present when enwidenlanes is disabled`,
