@@ -9,6 +9,11 @@ export type AllowMemesResult = {
 	errors: AFFError[],
 }
 
+const nonMemeSceneControlKind = [
+	"redline", "arcahvdistort", "arcahvdebris",
+	"hidegroup", "enwidencamera", "enwidenlanes"
+]
+
 const genAllowMemesResult = (file: AFFFile): AllowMemesResult => {
 	const enableAllowMemesWithItem = (item: WithLocation<AFFItem>): AllowMemesResult => ({
 		enable: true,
@@ -26,19 +31,27 @@ const genAllowMemesResult = (file: AFFFile): AllowMemesResult => {
 		if (item.data.kind === "camera") {
 			return enableAllowMemesWithItem(item)
 		} else if (item.data.kind === "scenecontrol") {
-			return enableAllowMemesWithItem(item)
+			if (!nonMemeSceneControlKind.includes(item.data.sceneControlKind.data.value)) {
+				return enableAllowMemesWithItem(item)
+			}
 		} else if (item.data.kind === "arc") {
 			if (item.data.colorId.data.value === 2) {
 				return enableAllowMemesWithItem(item)
 			}
 		} else if (item.data.kind === "timinggroup") {
-			if(timings.get(item.data).attributes.filter((attr)=>/^angle[xy][0-9]+$/.test(attr)).length>0){
+			if (timings.get(item.data).attributes.filter((attr) => /^angle[xy][0-9]+$/.test(attr)).length > 0) {
 				return enableAllowMemesWithItem(item)
 			}
 			for (const nestedItem of item.data.items.data) {
-				if (nestedItem.data.kind === "arc") {
+				if (nestedItem.data.kind === "camera") {
+					return enableAllowMemesWithItem(nestedItem)
+				} else if (nestedItem.data.kind === "scenecontrol") {
+					if (!nonMemeSceneControlKind.includes(nestedItem.data.sceneControlKind.data.value)) {
+						return enableAllowMemesWithItem(nestedItem)
+					}
+				} else if (nestedItem.data.kind === "arc") {
 					if (nestedItem.data.colorId.data.value === 2) {
-						return enableAllowMemesWithItem(item)
+						return enableAllowMemesWithItem(nestedItem)
 					}
 				}
 			}
