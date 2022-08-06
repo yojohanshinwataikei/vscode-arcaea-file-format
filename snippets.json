@@ -1,40 +1,48 @@
 {
-	"Initialize the aff file":{
-		"prefix":"init",
-		"body":[
+	"Initialize the aff file": {
+		"prefix": "init",
+		"body": [
 			"AudioOffset:${3:0}",
 			"-",
 			"timing(0,${1:100.00},${2:4.00});"
 		]
 	},
-	"Tap":{
-		"prefix":"tap",
-		"body":[
+	"Tap": {
+		"prefix": "tap",
+		"body": [
 			"(${1:0},${2:1});"
 		]
 	},
-	"Hold":{
-		"prefix":"hold",
-		"body":[
+	"Hold": {
+		"prefix": "hold",
+		"body": [
 			"hold(${1:0},${2:100},${3:1});"
 		]
 	},
-	"Arctap":{
-		"prefix":"arctap",
-		"body":[
+	"Arctap": {
+		"prefix": "arctap",
+		"body": [
 			"arctap(${1:0})"
 		]
 	},
-	"Arc":{
-		"prefix":"arc",
-		"body":[
+	"Arc": {
+		"prefix": "arc",
+		"body": [
 			"arc(${1:0},${2:100},${3:0.00},${4:0.00},${5:s},${6:0.00},${7:0.00},${8:0},none,${9:false});"
 		]
 	},
-	"timing":{
-		"prefix":"timing",
-		"body":[
+	"timing": {
+		"prefix": "timing",
+		"body": [
 			"timing(${1:0},${2:100.00},${3:4.00});"
+		]
+	},
+	"timinggroup": {
+		"prefix": "timinggroup",
+		"body": [
+			"timinggroup(){",
+			"  timing(0,${1:100.00},${2:4.00});",
+			"};"
 		]
 	}
 }
