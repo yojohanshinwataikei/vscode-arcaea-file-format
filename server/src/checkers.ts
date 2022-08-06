@@ -9,6 +9,7 @@ import { cutByTimingChecker } from "./checker/cut-by-timing"
 import { scenecontrolChecker } from "./checker/scenecontrol"
 import { AFFFile, AFFError } from "./types"
 import { timinggroupAttributeChecker } from "./checker/timinggroup-attribute"
+import { enwidenChecker } from "./checker/enwiden"
 
 const checkers = [
 	allowMemesChecker,
@@ -16,6 +17,7 @@ const checkers = [
 	valueRangeChecker,
 	floatDigitChecker,
 	timingChecker,
+	enwidenChecker,
 	arcPositionChecker,
 	overlapChecker,
 	cutByTimingChecker,

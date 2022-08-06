@@ -41,7 +41,7 @@ const genTimingResult = (group: AFFFile | AFFTimingGroupEvent): TimingResult => 
 			}
 		}
 	}
-	const groupLocation = ("kind" in group) ? group.tagLocation : group.metadata.location
+	const groupLocation = ("kind" in group) ? group.tagLocation : group.metadata.data.metaEndLocation
 	if (datas.size <= 0) {
 		errors.push({
 			message: `No timing event found ${("kind" in group) ? "in the timinggroup" : "outside timinggroups"}.`,
