@@ -1,6 +1,6 @@
 import * as path from "path"
 import * as vscode from "vscode"
-import * as lsp from "vscode-languageclient"
+import * as lsp from "vscode-languageclient/node"
 
 let client: lsp.LanguageClient = null
 

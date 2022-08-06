@@ -1,12 +1,13 @@
-import { AFFLexer, tokenTypes } from "./lexer"
+import { AFFLexer } from "./lexer"
 import * as lsp from "vscode-languageserver"
 import { affParser } from "./parser"
 import { EOF } from "chevrotain"
 import { affToAST } from "./to-ast"
 import { AFFError } from "./types"
 import { processCheckers } from "./checkers"
+import { TextDocument } from "vscode-languageserver-textdocument"
 
-export const checkAFF = (content: lsp.TextDocument): lsp.Diagnostic[] => {
+export const checkAFF = (content: TextDocument): lsp.Diagnostic[] => {
 	let errors: lsp.Diagnostic[] = []
 	const text = content.getText()
 	const lexingResult = AFFLexer.tokenize(text)
@@ -31,9 +32,9 @@ export const checkAFF = (content: lsp.TextDocument): lsp.Diagnostic[] => {
 				start: content.positionAt(text.length),
 				end: content.positionAt(text.length),
 			} : {
-					start: { line: e.token.startLine - 1, character: e.token.startColumn - 1 },
-					end: { line: e.token.endLine - 1, character: e.token.endColumn },
-				}
+				start: { line: e.token.startLine - 1, character: e.token.startColumn - 1 },
+				end: { line: e.token.endLine - 1, character: e.token.endColumn },
+			}
 		})
 		))
 	} else {

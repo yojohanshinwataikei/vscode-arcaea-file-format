@@ -1,4 +1,4 @@
-import * as lsp from "vscode-languageserver"
+import * as lsp from "vscode-languageserver/node"
 import { TextDocument } from 'vscode-languageserver-textdocument'
 import { checkAFF } from "./lang"
 import { DiagnosticSeverity, TextDocumentSyncKind } from "vscode-languageserver"
