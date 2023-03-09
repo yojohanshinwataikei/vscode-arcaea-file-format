@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.12.1
+
+- Update `unlocks` schema for new unlock condition
+
 ## 0.12.0
 
 - Support for special sound effect of `arctap`
