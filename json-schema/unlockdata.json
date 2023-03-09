@@ -39,7 +39,7 @@
 			"properties": {
 				"type": {
 					"type": "integer",
-					"description": "The type of the unlock condition, 0 for fragments, 1 for grade on early charts, 2 for play on early charts, 3 for multiple grade on early charts, 4 for multiple selectable conditions, 5 for reaching a potential rating, 101 for anomaly, 103 for a specific partner, 104 for online check, 105 for using a specific partner in a specific state or not, 106 for unlocking another chart or not"
+					"description": "The type of the unlock condition, 0 for fragments, 1 for grade on early charts, 2 for play on early charts, 3 for multiple grade on early charts, 4 for multiple selectable conditions, 5 for reaching a potential rating, 6 for clear of chart of specific rating, 101 for anomaly, 103 for a specific partner, 104 for online check, 105 for using a specific partner in a specific state or not, 106 for unlocking another chart or not"
 				}
 			},
 			"oneOf": [
@@ -194,6 +194,31 @@
 						}
 					},
 					"required": [
+						"rating"
+					]
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 6
+						},
+						"count": {
+							"type": "integer",
+							"minimum": 0,
+							"description": "Number of charts of the rating required to be clear"
+						},
+						"rating": {
+							"type": "integer",
+							"minimum": 0,
+							"description": "The rating of the difficulty, 0 for \"?\", other number for corresponding number value. before 3.0.0 it is 0 for \"?\", 10 for \"9+\", 11 for \"10\" and 1~9 for corresponding number value"
+						},
+						"ratingPlus": {
+							"type": "boolean",
+							"description": "Should the difficulty of the chart annotated with a plus sign, like 9+, 10+"
+						}
+					},
+					"required": [
+						"count",
 						"rating"
 					]
 				},

@@ -1,6 +1,6 @@
 # Change Log
 
-## 0.12
+## 0.12.0
 
 - Support for special sound effect of `arctap`
 - Support for `tap` and `hold` on the track 0 and 5
