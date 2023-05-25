@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.12.2
+
+- Update `songlist` schema for new fields for song searching
+
 ## 0.12.1
 
 - Update `unlocks` schema for new unlock condition
