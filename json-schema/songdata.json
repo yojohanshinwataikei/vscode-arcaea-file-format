@@ -34,6 +34,14 @@
 			"description": "The artist of the song, in various languages. Overrides artist",
 			"$ref": "#/definitions/localized_string"
 		},
+		"search_title": {
+			"description": "The strings used to search the song by title, in various languages",
+			"$ref": "#/definitions/localized_search_string"
+		},
+		"search_artist": {
+			"description": "The strings used to search the song by artist, in various languages",
+			"$ref": "#/definitions/localized_search_string"
+		},
 		"bpm": {
 			"type": "string",
 			"description": "The bpm of the song, only used for displaying"
@@ -294,6 +302,19 @@
 			"required": [
 				"en"
 			]
+		},
+		"localized_search_string": {
+			"$comment": "The schema is used as a schema for localized strings used for search",
+			"type": "object",
+			"patternProperties": {
+				"en|ja|ko|zh-Hans|zh-Hant": {
+					"description": "The localized strings used for search",
+					"type": "array",
+					"items": {
+						"type":"string"
+					}
+				}
+			}
 		}
 	}
 }
