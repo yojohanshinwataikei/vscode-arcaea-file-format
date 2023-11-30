@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.12.3
+
+- Update JSON validation for the `songlist` `packlist` `unlocks` files for the arcaea 5.0.x
+
 ## 0.12.2
 
 - Update `songlist` schema for new fields for song searching

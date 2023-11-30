@@ -3,7 +3,7 @@
 	"displayName": "Vscode Arcaea File Format Support",
 	"description": "Util for reading and editing arcaea .aff files",
 	"license": "MIT",
-	"version": "0.12.2",
+	"version": "0.12.3",
 	"publisher": "yojohanshinwataikei",
 	"repository": "github:yojohanshinwataikei/vscode-arcaea-file-format",
 	"engines": {
