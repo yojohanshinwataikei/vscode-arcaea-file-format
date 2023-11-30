@@ -143,8 +143,35 @@
 			"type": "array",
 			"description": "Additional files to be downloaded with the song",
 			"items": {
-				"type": "string",
-				"description": "The name of additional files"
+				"oneOf": [
+					{
+						"type": "string",
+						"description": "The name of additional files"
+					},
+					{
+						"type": "object",
+						"description": "The specification of additional files",
+						"properties": {
+							"file_name": {
+								"type": "string",
+								"description": "The name of additional files"
+							},
+							"requirement": {
+								"type": "string",
+								"description": "The condition that this file is used",
+								"enum": [
+									"low_res",
+									"hi_res",
+									"required"
+								]
+							}
+						},
+						"required": [
+							"file_name",
+							"requirement"
+						]
+					}
+				]
 			}
 		},
 		"difficulties": {
@@ -311,7 +338,7 @@
 					"description": "The localized strings used for search",
 					"type": "array",
 					"items": {
-						"type":"string"
+						"type": "string"
 					}
 				}
 			}

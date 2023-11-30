@@ -9,6 +9,17 @@
 			"type": "string",
 			"description": "The id of the pack, used in the songlist file"
 		},
+		"section": {
+			"type": "string",
+			"description": "The section of the pack, used in pack selection view",
+			"enum": [
+				"archive",
+				"free",
+				"mainstory",
+				"sidestory",
+				"collab"
+			]
+		},
 		"cost": {
 			"type": "integer",
 			"description": "The price of this pack in memories, however from 3.0.0 this will be controlled by server instead of keep in packlist",
@@ -35,6 +46,7 @@
 	},
 	"required": [
 		"id",
-		"name_localized"
+		"name_localized",
+		"section"
 	]
 }

@@ -39,7 +39,7 @@
 			"properties": {
 				"type": {
 					"type": "integer",
-					"description": "The type of the unlock condition, 0 for fragments, 1 for grade on early charts, 2 for play on early charts, 3 for multiple grade on early charts, 4 for multiple selectable conditions, 5 for reaching a potential rating, 6 for clear of chart of specific rating, 101 for anomaly, 103 for a specific partner, 104 for online check, 105 for using a specific partner in a specific state or not, 106 for unlocking another chart or not"
+					"description": "The type of the unlock condition, 0 for fragments, 1 for grade on early charts, 2 for play on early charts, 3 for multiple grade on early charts, 4 for multiple selectable conditions, 5 for reaching a potential rating, 6 for clear of chart of specific rating, 101 for anomaly, 103 for a specific partner, 104 for online check, 105 for using a specific partner in a specific state or not, 106 for unlocking another chart or not, 107 for selected songs with specific first letter, 108 for specific story read, 109 for puzzling play in specific rating class, 110 for special unlocking course"
 				}
 			},
 			"oneOf": [
@@ -319,6 +319,57 @@
 						"song_difficulty",
 						"inverted"
 					]
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 107
+						}
+					}
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 108
+						}
+					}
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 109
+						},
+						"index": {
+							"type": "integer",
+							"description": "The type of the puzzle",
+							"enum": [
+								0,
+								1,
+								2
+							]
+						},
+						"difficulty": {
+							"type": "integer",
+							"description": "The rating class of the difficulty in the unlock condition, 0 for past, 1 for present, 2 for future, and 3 for beyond",
+							"enum": [
+								0,
+								1,
+								2,
+								3
+							]
+						}
+					},
+					"required": [
+						"index",
+						"difficulty"
+					]
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 110
+						}
+					}
 				}
 			],
 			"required": [
