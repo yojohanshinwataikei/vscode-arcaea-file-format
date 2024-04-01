@@ -183,12 +183,13 @@
 				"properties": {
 					"ratingClass": {
 						"type": "integer",
-						"description": "The rating class of the difficulty, 0 for past, 1 for present, 2 for future, and 3 for beyond",
+						"description": "The rating class of the difficulty, 0 for past, 1 for present, 2 for future, 3 for beyond, and 4 for eternal",
 						"enum": [
 							0,
 							1,
 							2,
-							3
+							3,
+							4
 						]
 					},
 					"chartDesigner": {
