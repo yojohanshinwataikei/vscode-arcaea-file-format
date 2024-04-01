@@ -83,9 +83,9 @@ const checkItem = ({ data, location }: WithLocation<AFFItem>, errors: AFFError[]
 				location: data.isLine.location,
 			})
 		}
-		if (!data.isLine.data.value && data.arctaps === undefined && data.colorId.data.value === 3) {
+		if (!data.isLine.data.value && data.arctaps === undefined && data.colorId.data.value >= 4) {
 			errors.push({
-				message: `Solid arc event should not use the color 3`,
+				message: `Solid arc event should not use the color ${data.colorId.data.value}`,
 				severity: DiagnosticSeverity.Error,
 				location: data.colorId.location,
 			})

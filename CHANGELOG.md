@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.13.0
+
+- Update JSON validation for the `songlist` `packlist` `unlocks` files for the eternal difficulty
+- Handle various size `arctap` represented by the `arc` with color of 3
+
 ## 0.12.3
 
 - Update JSON validation for the `songlist` `packlist` `unlocks` files for the arcaea 5.0.x

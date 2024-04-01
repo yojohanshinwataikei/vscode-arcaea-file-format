@@ -38,6 +38,9 @@ const genAllowMemesResult = (file: AFFFile): AllowMemesResult => {
 			if (item.data.colorId.data.value === 2) {
 				return enableAllowMemesWithItem(item)
 			}
+			if (item.data.colorId.data.value === 3 && !item.data.isLine.data.value) {
+				return enableAllowMemesWithItem(item)
+			}
 		} else if (item.data.kind === "timinggroup") {
 			if (timings.get(item.data).attributes.filter((attr) => /^angle[xy][0-9]+$/.test(attr)).length > 0) {
 				return enableAllowMemesWithItem(item)
