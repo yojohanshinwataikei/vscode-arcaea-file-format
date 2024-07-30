@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.13.1
+
+- Update `unlocks` schema for new unlock condition
+
 ## 0.13.0
 
 - Update JSON validation for the `songlist` `packlist` `unlocks` files for the eternal difficulty
