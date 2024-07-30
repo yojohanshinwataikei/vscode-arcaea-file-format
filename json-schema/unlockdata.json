@@ -40,7 +40,7 @@
 			"properties": {
 				"type": {
 					"type": "integer",
-					"description": "The type of the unlock condition, 0 for fragments, 1 for grade on early charts, 2 for play on early charts, 3 for multiple grade on early charts, 4 for multiple selectable conditions, 5 for reaching a potential rating, 6 for clear of chart of specific rating, 101 for anomaly, 103 for a specific partner, 104 for online check, 105 for using a specific partner in a specific state or not, 106 for unlocking another chart or not, 107 for selected songs with specific first letter, 108 for specific story read, 109 for puzzling play in specific rating class, 110 for special unlocking course"
+					"description": "The type of the unlock condition, 0 for fragments, 1 for grade on early charts, 2 for play on early charts, 3 for multiple grade on early charts, 4 for multiple selectable conditions, 5 for reaching a potential rating, 6 for clear of chart of specific rating, 7 for unlock of early charts, 101 for anomaly, 103 for a specific partner, 104 for online check in axiom of the end, 105 for using a specific partner in a specific state or not, 106 for unlocking another chart or not, 107 for selected songs with specific first letter, 108 for specific story read, 109 for puzzling play in specific rating class, 110 for special unlocking course, 111 for specific story read, 112 for puzzling song selecting"
 				}
 			},
 			"oneOf": [
@@ -168,6 +168,32 @@
 						"song_difficulty",
 						"grade",
 						"times"
+					]
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 7
+						},
+						"song_id": {
+							"type": "string",
+							"description": "The id of the song needed to unlock specified in songlist file"
+						},
+						"song_difficulty": {
+							"type": "integer",
+							"description": "The rating class of the difficulty that needs to unlock, 0 for past, 1 for present, 2 for future, 3 for beyond, and 4 for eternal",
+							"enum": [
+								0,
+								1,
+								2,
+								3,
+								4
+							]
+						}
+					},
+					"required": [
+						"song_id",
+						"song_difficulty"
 					]
 				},
 				{
@@ -374,6 +400,20 @@
 					"properties": {
 						"type": {
 							"const": 110
+						}
+					}
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 111
+						}
+					}
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 112
 						}
 					}
 				}
