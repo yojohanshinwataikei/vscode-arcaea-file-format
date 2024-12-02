@@ -109,6 +109,22 @@ const checkItem = ({ data, location }: WithLocation<AFFItem>, errors: AFFError[]
 				location: data.duration.location,
 			})
 		}
+	} else if (data.kind === "scenecontrol") {
+		const kind = data.sceneControlKind.data.value
+		if (["enwidencamera", "enwidenlanes", "trackdisplay"].includes(kind)) {
+			const values = data.values;
+			if (values.data.length === 2) {
+				if (values.data[0].data.kind == "float" && values.data[1].data.kind == "int") {
+					if (values.data[0].data.value <= 0) {
+						errors.push({
+							message: `The scenecontrol item with kind "${kind}" should have non negative duration`,
+							severity: DiagnosticSeverity.Error,
+							location: values.data[0].location,
+						})
+					}
+				}
+			}
+		}
 	} else if (data.kind === "timinggroup") {
 		for (const item of data.items.data) {
 			checkItem(item, errors)

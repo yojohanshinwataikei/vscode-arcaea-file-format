@@ -3,6 +3,7 @@
 ## 0.14.0
 
 - Support for new `scenecontrol` types
+- Check for non-positive duration `scenecontrol`
 
 ## 0.13.1
 
