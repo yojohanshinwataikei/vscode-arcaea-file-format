@@ -4,6 +4,7 @@
 
 - Support for new `scenecontrol` types
 - Check for non-positive duration `scenecontrol`
+- Support for `arc` with new line type
 
 ## 0.13.1
 

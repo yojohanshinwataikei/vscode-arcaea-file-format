@@ -151,8 +151,8 @@ export interface AFFArcLineKind {
 	kind: "arc-line-kind",
 	value: string
 }
-export const affArcLineKinds = new Set(["true", "false"])
-export const isLine=(data:AFFArcLineKind)=>data.value!=="false"
+export const affArcLineKinds = new Set(["true", "false", "designant"])
+export const isLine = (data: AFFArcLineKind) => data.value !== "false"
 
 export interface AFFMetadataEntry {
 	key: WithLocation<string>,
