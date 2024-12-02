@@ -13,6 +13,10 @@
 			"type": "number",
 			"description": "The numeric id of the song, used in link play to determine the available charts"
 		},
+		"deleted":{
+			"type": "boolean",
+			"description": "Is this song deleted"
+		},
 		"title_localized": {
 			"description": "The title of the song, localized in various languages",
 			"$ref": "#/definitions/localized_string"
@@ -304,19 +308,31 @@
 		}
 	},
 	"required": [
-		"id",
-		"title_localized",
-		"artist",
-		"bpm",
-		"bpm_base",
-		"set",
-		"purchase",
-		"audioPreview",
-		"audioPreviewEnd",
-		"side",
-		"version",
-		"date"
+		"id"
 	],
+	"if": {
+		"properties": {
+			"deleted":{
+				"const":true
+			}
+		}
+	},
+	"then": true,
+	"else": {
+		"required": [
+			"title_localized",
+			"artist",
+			"bpm",
+			"bpm_base",
+			"set",
+			"purchase",
+			"audioPreview",
+			"audioPreviewEnd",
+			"side",
+			"version",
+			"date"
+		]
+	},
 	"definitions": {
 		"localized_string": {
 			"$comment": "The schema is used as a schema for localized string",
