@@ -27,7 +27,8 @@ const checkScenecontrol = (kind: WithLocation<AFFSceneControlKind>, values: With
 		kind.data.value === "arcahvdebris" ||
 		kind.data.value === "hidegroup" ||
 		kind.data.value === "enwidencamera" ||
-		kind.data.value === "enwidenlanes"
+		kind.data.value === "enwidenlanes" ||
+		kind.data.value === "trackdisplay"
 	) {
 		if (checkValuesCount(error, kind.data.value, 2, values.data, values.location)) {
 			checkValueType(error, kind.data.value, "length", "float", values.data, 0)

@@ -66,12 +66,12 @@ export const overlapChecker: AFFChecker = (file, error) => {
 	const scenecontrolKinds = new Map<string, WithLocation<AFFSceneControlEvent>[]>()
 	const processScenecontrol = (scenecontrol: WithLocation<AFFSceneControlEvent>) => {
 		const kind = scenecontrol.data.sceneControlKind.data.value
-		if (["enwidencamera", "enwidenlanes"].includes(kind)) {
+		if (["enwidencamera", "enwidenlanes", "trackdisplay"].includes(kind)) {
 			const values = scenecontrol.data.values;
 			if (values.data.length === 2) {
 				if (values.data[0].data.kind == "float" && values.data[1].data.kind == "int") {
-					if(!scenecontrolKinds.has(kind)){
-						scenecontrolKinds.set(kind,[])
+					if (!scenecontrolKinds.has(kind)) {
+						scenecontrolKinds.set(kind, [])
 					}
 					scenecontrolKinds.get(kind).push(scenecontrol)
 				}
@@ -89,8 +89,12 @@ export const overlapChecker: AFFChecker = (file, error) => {
 			}
 		}
 	}
+	const timeScaleMap = new Map<string, number>()
+	timeScaleMap.set("enwidencamera", 1)
+	timeScaleMap.set("enwidenlanes", 1)
+	timeScaleMap.set("trackdisplay", 1000)
 	for (const [kind, scenecontrols] of scenecontrolKinds) {
-		checkScenecontrolOverlap(error, scenecontrols, kind)
+		checkScenecontrolOverlap(error, scenecontrols, kind, timeScaleMap.get(kind))
 	}
 }
 
@@ -166,7 +170,7 @@ const checkCameraOverlap = (error: AFFError[], cameras: WithLocation<AFFCameraEv
 	}
 }
 
-const checkScenecontrolOverlap = (error: AFFError[], scenecontrols: WithLocation<AFFSceneControlEvent>[], kind: string) => {
+const checkScenecontrolOverlap = (error: AFFError[], scenecontrols: WithLocation<AFFSceneControlEvent>[], kind: string, timeScale: number) => {
 	const report = (location: CstNodeLocation, lastLocation: CstNodeLocation) => {
 		error.push({
 			message: `The scenecontrol item with kind "${kind}" is overlapped with a previous scenecontrol item with kind "${kind}"`,
@@ -186,7 +190,7 @@ const checkScenecontrolOverlap = (error: AFFError[], scenecontrols: WithLocation
 		if (start < lastEnd) {
 			report(item.location, lastLocation)
 		}
-		const end = start + (item.data.values.data[0] as WithLocation<AFFFloat>).data.value
+		const end = start + (item.data.values.data[0] as WithLocation<AFFFloat>).data.value * timeScale
 		if (end > lastEnd) {
 			lastLocation = item.location
 			lastEnd = end

@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.14.0
+
+- Support for new `scenecontrol` types
+
 ## 0.13.1
 
 - Update `unlocks` schema for new unlock condition
