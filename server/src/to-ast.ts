@@ -1,7 +1,7 @@
 import { DiagnosticSeverity } from "vscode-languageserver";
 import { CstChildrenDictionary, IToken, CstNode, ICstVisitor, CstNodeLocation } from "chevrotain"
 import { BaseAffVisitor } from "./parser"
-import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent, AFFTrackId, AFFInt, AFFColorId, AFFArcMovementKind, AFFWord, affArcKinds, affTrackIds, affColorIds, AFFEffect, AFFBool, affBools, AFFCameraEvent, AFFCameraKind, affCameraKinds, AFFSceneControlEvent, AFFSceneControlKind, AFFTimingGroupEvent, AFFNestableItem, AFFTimingGroupKind } from "./types"
+import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent, AFFTrackId, AFFInt, AFFColorId, AFFArcCurveKind, AFFWord, affArcCurveKinds, affTrackIds, affColorIds, AFFEffect, AFFArcLineKind, affArcLineKinds, AFFCameraEvent, AFFCameraKind, affCameraKinds, AFFSceneControlEvent, AFFSceneControlKind, AFFTimingGroupEvent, AFFNestableItem, AFFTimingGroupKind } from "./types"
 import { tokenTypes } from "./lexer";
 
 // This pass generate AST from CST.
@@ -340,24 +340,24 @@ const eventTransformer = {
 		const end = checkValueType(errors, "arc", "end", "int", values, 1)
 		const xStart = checkValueType(errors, "arc", "x-start", "float", values, 2)
 		const xEnd = checkValueType(errors, "arc", "x-end", "float", values, 3)
-		const rawArcKind = checkValueType(errors, "arc", "arc-movement-kind", "word", values, 4)
-		const arcKind = parseValue.arcKind(errors, "arc", "arc-movement-kind", rawArcKind)
+		const rawCurveKind = checkValueType(errors, "arc", "curve-kind", "word", values, 4)
+		const curveKind = parseValue.arcCurveKind(errors, "arc", "curve-kind", rawCurveKind)
 		const yStart = checkValueType(errors, "arc", "y-start", "float", values, 5)
 		const yEnd = checkValueType(errors, "arc", "y-end", "float", values, 6)
 		const rawColorId = checkValueType(errors, "arc", "color-id", "int", values, 7)
 		const colorId = parseValue.colorId(errors, "arc", "color-id", rawColorId)
 		const rawEffect = checkValueType(errors, "arc", "effect", "word", values, 8)
 		const effect = parseValue.effect(errors, "arc", "effect", rawEffect)
-		const rawIsLine = checkValueType(errors, "arc", "is-line", "word", values, 9)
-		const isLine = parseValue.bool(errors, "arc", "is-line", rawIsLine)
+		const rawLineKind = checkValueType(errors, "arc", "line-kind", "word", values, 9)
+		const lineKind = parseValue.arcLineKind(errors, "arc", "line-kind", rawLineKind)
 		if (start === null || end === null ||
-			xStart === null || xEnd === null || arcKind === null ||
+			xStart === null || xEnd === null || curveKind === null ||
 			yStart === null || yEnd === null || colorId === null ||
-			effect === null || isLine === null) {
+			effect === null || lineKind === null) {
 			return null
 		}
 		return {
-			kind: "arc", start, end, xStart, xEnd, arcKind, yStart, yEnd, colorId, effect, isLine,
+			kind: "arc", start, end, xStart, xEnd, curveKind, yStart, yEnd, colorId, effect, lineKind,
 			arctaps: subevents ? transformArcSubevents(errors, subevents, subeventsLocation) : undefined, tagLocation
 		}
 	},
@@ -544,19 +544,19 @@ const parseValue = {
 			return null
 		}
 	},
-	arcKind: (errors: AFFError[], eventKind: string, fieldName: string, word: WithLocation<AFFWord> | null): WithLocation<AFFArcMovementKind> => {
+	arcCurveKind: (errors: AFFError[], eventKind: string, fieldName: string, word: WithLocation<AFFWord> | null): WithLocation<AFFArcCurveKind> => {
 		if (word) {
 			const { data, location } = word
 			const wordValue = data.value
-			if (!affArcKinds.has(wordValue)) {
+			if (!affArcCurveKinds.has(wordValue)) {
 				errors.push({
-					message: `The value in the "${fieldName}" field of event with type "${eventKind}" should be one of ${[...affArcKinds.values()].join()}`,
+					message: `The value in the "${fieldName}" field of event with type "${eventKind}" should be one of ${[...affArcCurveKinds.values()].join()}`,
 					location,
 					severity: DiagnosticSeverity.Error,
 				})
 				return null
 			}
-			return { data: { kind: "arc-movement-kind", value: wordValue } as AFFArcMovementKind, location }
+			return { data: { kind: "arc-curve-kind", value: wordValue } as AFFArcCurveKind, location }
 		} else {
 			return null
 		}
@@ -570,19 +570,19 @@ const parseValue = {
 			return null
 		}
 	},
-	bool: (errors: AFFError[], eventKind: string, fieldName: string, word: WithLocation<AFFWord> | null): WithLocation<AFFBool> => {
+	arcLineKind: (errors: AFFError[], eventKind: string, fieldName: string, word: WithLocation<AFFWord> | null): WithLocation<AFFArcLineKind> => {
 		if (word) {
 			const { data, location } = word
 			const wordValue = data.value
-			if (!affBools.has(wordValue)) {
+			if (!affArcLineKinds.has(wordValue)) {
 				errors.push({
-					message: `The value in the "${fieldName}" field of event with type "${eventKind}" should be one of ${[...affBools.values()].join()}`,
+					message: `The value in the "${fieldName}" field of event with type "${eventKind}" should be one of ${[...affArcLineKinds.values()].join()}`,
 					location,
 					severity: DiagnosticSeverity.Error,
 				})
 				return null
 			}
-			return { data: { kind: "bool", value: wordValue === "true" } as AFFBool, location }
+			return { data: { kind: "arc-line-kind", value: wordValue } as AFFArcLineKind, location }
 		} else {
 			return null
 		}

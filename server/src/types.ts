@@ -34,12 +34,12 @@ export interface AFFArcEvent {
 	end: WithLocation<AFFInt>,
 	xStart: WithLocation<AFFFloat>,
 	xEnd: WithLocation<AFFFloat>,
-	arcKind: WithLocation<AFFArcMovementKind>,
+	curveKind: WithLocation<AFFArcCurveKind>,
 	yStart: WithLocation<AFFFloat>,
 	yEnd: WithLocation<AFFFloat>,
 	colorId: WithLocation<AFFColorId>,
 	effect: WithLocation<AFFEffect>,
-	isLine: WithLocation<AFFBool>,
+	lineKind: WithLocation<AFFArcLineKind>,
 	arctaps?: WithLocation<WithLocation<AFFArctapEvent>[]>,
 }
 
@@ -125,11 +125,11 @@ export interface AFFEffect {
 	value: string
 }
 
-export interface AFFArcMovementKind {
-	kind: "arc-movement-kind",
+export interface AFFArcCurveKind {
+	kind: "arc-curve-kind",
 	value: "b" | "s" | "si" | "so" | "sisi" | "siso" | "soso" | "sosi"
 }
-export const affArcKinds = new Set(["b", "s", "si", "so", "sisi", "siso", "soso", "sosi"])
+export const affArcCurveKinds = new Set(["b", "s", "si", "so", "sisi", "siso", "soso", "sosi"])
 
 export interface AFFCameraKind {
 	kind: "camera-kind",
@@ -147,11 +147,12 @@ export interface AFFTimingGroupKind {
 	value: string
 }
 
-export interface AFFBool {
-	kind: "bool",
-	value: boolean
+export interface AFFArcLineKind {
+	kind: "arc-line-kind",
+	value: string
 }
-export const affBools = new Set(["true", "false"])
+export const affArcLineKinds = new Set(["true", "false"])
+export const isLine=(data:AFFArcLineKind)=>data.value!=="false"
 
 export interface AFFMetadataEntry {
 	key: WithLocation<string>,

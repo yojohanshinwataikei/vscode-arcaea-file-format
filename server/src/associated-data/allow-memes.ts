@@ -1,5 +1,5 @@
 
-import { AFFError, AFFFile, WithLocation, AFFItem } from "../types";
+import { AFFError, AFFFile, WithLocation, AFFItem, isLine } from "../types";
 import { AssociatedDataMap } from "../util/associated-data";
 import { DiagnosticSeverity } from "vscode-languageserver";
 import { timings } from "./timing";
@@ -38,7 +38,7 @@ const genAllowMemesResult = (file: AFFFile): AllowMemesResult => {
 			if (item.data.colorId.data.value === 2) {
 				return enableAllowMemesWithItem(item)
 			}
-			if (item.data.colorId.data.value === 3 && !item.data.isLine.data.value) {
+			if (item.data.colorId.data.value === 3 && !isLine(item.data.lineKind.data)) {
 				return enableAllowMemesWithItem(item)
 			}
 		} else if (item.data.kind === "timinggroup") {

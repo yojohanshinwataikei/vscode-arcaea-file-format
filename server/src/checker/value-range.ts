@@ -1,5 +1,5 @@
 import { DiagnosticSeverity } from "vscode-languageserver"
-import { AFFChecker, AFFInt, AFFError, WithLocation, AFFItem } from "../types"
+import { AFFChecker, AFFInt, AFFError, WithLocation, AFFItem, isLine } from "../types"
 
 export const valueRangeChecker: AFFChecker = (file, errors) => {
 	for (const item of file.items) {
@@ -54,11 +54,11 @@ const checkItem = ({ data, location }: WithLocation<AFFItem>, errors: AFFError[]
 					location: location,
 				})
 			}
-			if (data.arcKind.data.value !== "s") {
+			if (data.curveKind.data.value !== "s") {
 				errors.push({
 					message: `Arc event with zero time length should be "s" type`,
 					severity: DiagnosticSeverity.Information,
-					location: data.arcKind.location,
+					location: data.curveKind.location,
 				})
 			}
 			if (data.arctaps) {
@@ -71,19 +71,19 @@ const checkItem = ({ data, location }: WithLocation<AFFItem>, errors: AFFError[]
 		}
 		if (data.effect.data.value !== "none" && !data.effect.data.value.endsWith("_wav")) {
 			errors.push({
-				message: `Arc event with effect "${data.effect.data.value}"  is not known by us`,
+				message: `Arc event with effect "${data.effect.data.value}" is not known by us`,
 				severity: DiagnosticSeverity.Warning,
 				location: data.effect.location,
 			})
 		}
-		if (!data.isLine.data.value && data.arctaps) {
+		if (!isLine(data.lineKind.data) && data.arctaps) {
 			errors.push({
 				message: `Arc event with arctap events on it will be treated as not solid even it is specified as solid`,
 				severity: DiagnosticSeverity.Warning,
-				location: data.isLine.location,
+				location: data.lineKind.location,
 			})
 		}
-		if (!data.isLine.data.value && data.arctaps === undefined && data.colorId.data.value >= 4) {
+		if (!isLine(data.lineKind.data) && data.arctaps === undefined && data.colorId.data.value >= 4) {
 			errors.push({
 				message: `Solid arc event should not use the color ${data.colorId.data.value}`,
 				severity: DiagnosticSeverity.Error,

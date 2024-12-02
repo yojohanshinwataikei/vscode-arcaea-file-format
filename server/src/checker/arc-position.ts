@@ -1,6 +1,6 @@
 import { DiagnosticSeverity } from "vscode-languageserver"
 import { CstNodeLocation } from "chevrotain"
-import { AFFChecker, AFFError, AFFItem, WithLocation } from "../types"
+import { AFFChecker, AFFError, AFFItem, isLine, WithLocation } from "../types"
 import { allowMemes } from "../associated-data/allow-memes"
 import { EnwidenData, enwidens } from "../associated-data/enwiden"
 import { upperBound } from "../util/misc"
@@ -17,7 +17,7 @@ export const arcPositionChecker: AFFChecker = (file, errors) => {
 
 const checkItem = ({ data, location }: WithLocation<AFFItem>, cameras: EnwidenData[], errors: AFFError[]) => {
 	if (data.kind === "arc") {
-		const solid = !data.isLine.data.value
+		const solid = !isLine(data.lineKind.data)
 		checkPoint("start", solid, data.xStart.data.value, data.yStart.data.value, data.start.data.value, cameras, location, errors)
 		checkPoint("end", solid, data.xEnd.data.value, data.yEnd.data.value, data.end.data.value, cameras, location, errors)
 	} else if (data.kind === "timinggroup") {
