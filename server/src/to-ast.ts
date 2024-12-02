@@ -1,7 +1,7 @@
 import { DiagnosticSeverity } from "vscode-languageserver";
 import { CstChildrenDictionary, IToken, CstNode, ICstVisitor, CstNodeLocation } from "chevrotain"
 import { BaseAffVisitor } from "./parser"
-import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent, AFFTrackId, AFFInt, AFFColorId, AFFArcKind, AFFWord, affArcKinds, affTrackIds, affColorIds, AFFEffect, AFFBool, affBools, AFFCameraEvent, AFFCameraKind, affCameraKinds, AFFSceneControlEvent, AFFSceneControlKind, AFFTimingGroupEvent, AFFNestableItem, AFFTimingGroupKind } from "./types"
+import { AFFEvent, AFFItem, AFFFile, AFFMetadata, AFFMetadataEntry, AFFError, AFFValue, WithLocation, AFFTapEvent, AFFValues, AFFHoldEvent, AFFArctapEvent, AFFTimingEvent, AFFArcEvent, AFFTrackId, AFFInt, AFFColorId, AFFArcMovementKind, AFFWord, affArcKinds, affTrackIds, affColorIds, AFFEffect, AFFBool, affBools, AFFCameraEvent, AFFCameraKind, affCameraKinds, AFFSceneControlEvent, AFFSceneControlKind, AFFTimingGroupEvent, AFFNestableItem, AFFTimingGroupKind } from "./types"
 import { tokenTypes } from "./lexer";
 
 // This pass generate AST from CST.
@@ -340,8 +340,8 @@ const eventTransformer = {
 		const end = checkValueType(errors, "arc", "end", "int", values, 1)
 		const xStart = checkValueType(errors, "arc", "x-start", "float", values, 2)
 		const xEnd = checkValueType(errors, "arc", "x-end", "float", values, 3)
-		const rawArcKind = checkValueType(errors, "arc", "arc-kind", "word", values, 4)
-		const arcKind = parseValue.arcKind(errors, "arc", "arc-kind", rawArcKind)
+		const rawArcKind = checkValueType(errors, "arc", "arc-movement-kind", "word", values, 4)
+		const arcKind = parseValue.arcKind(errors, "arc", "arc-movement-kind", rawArcKind)
 		const yStart = checkValueType(errors, "arc", "y-start", "float", values, 5)
 		const yEnd = checkValueType(errors, "arc", "y-end", "float", values, 6)
 		const rawColorId = checkValueType(errors, "arc", "color-id", "int", values, 7)
@@ -544,7 +544,7 @@ const parseValue = {
 			return null
 		}
 	},
-	arcKind: (errors: AFFError[], eventKind: string, fieldName: string, word: WithLocation<AFFWord> | null): WithLocation<AFFArcKind> => {
+	arcKind: (errors: AFFError[], eventKind: string, fieldName: string, word: WithLocation<AFFWord> | null): WithLocation<AFFArcMovementKind> => {
 		if (word) {
 			const { data, location } = word
 			const wordValue = data.value
@@ -556,7 +556,7 @@ const parseValue = {
 				})
 				return null
 			}
-			return { data: { kind: "arc-kind", value: wordValue } as AFFArcKind, location }
+			return { data: { kind: "arc-movement-kind", value: wordValue } as AFFArcMovementKind, location }
 		} else {
 			return null
 		}

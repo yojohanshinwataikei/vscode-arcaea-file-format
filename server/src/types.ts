@@ -34,7 +34,7 @@ export interface AFFArcEvent {
 	end: WithLocation<AFFInt>,
 	xStart: WithLocation<AFFFloat>,
 	xEnd: WithLocation<AFFFloat>,
-	arcKind: WithLocation<AFFArcKind>,
+	arcKind: WithLocation<AFFArcMovementKind>,
 	yStart: WithLocation<AFFFloat>,
 	yEnd: WithLocation<AFFFloat>,
 	colorId: WithLocation<AFFColorId>,
@@ -125,8 +125,8 @@ export interface AFFEffect {
 	value: string
 }
 
-export interface AFFArcKind {
-	kind: "arc-kind",
+export interface AFFArcMovementKind {
+	kind: "arc-movement-kind",
 	value: "b" | "s" | "si" | "so" | "sisi" | "siso" | "soso" | "sosi"
 }
 export const affArcKinds = new Set(["b", "s", "si", "so", "sisi", "siso", "soso", "sosi"])
