@@ -73,11 +73,12 @@
 		},
 		"side": {
 			"type": "integer",
-			"description": "The side of the song, 0 for light, 1 for conflict, 2 for colorless",
+			"description": "The side of the song, 0 for light, 1 for conflict, 2 for colorless, 3 for lephon",
 			"enum": [
 				0,
 				1,
-				2
+				2,
+				3
 			]
 		},
 		"world_unlock": {
