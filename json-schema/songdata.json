@@ -13,7 +13,7 @@
 			"type": "number",
 			"description": "The numeric id of the song, used in link play to determine the available charts"
 		},
-		"deleted":{
+		"deleted": {
 			"type": "boolean",
 			"description": "Is this song deleted"
 		},
@@ -214,6 +214,10 @@
 						"type": "boolean",
 						"description": "Should the difficulty of the chart annotated with a plus sign, like 9+, 10+"
 					},
+					"legacy11": {
+						"type": "boolean",
+						"description": "Should the chart use a harder gauge, like all the chart with 11 or higher difficulties before 6.0.0"
+					},
 					"plusFingers": {
 						"description": "Should this charts be played with more than two fingers. This field is not longer used since the judging code can normally handle multiple fingers now",
 						"oneOf": [
@@ -313,8 +317,8 @@
 	],
 	"if": {
 		"properties": {
-			"deleted":{
-				"const":true
+			"deleted": {
+				"const": true
 			}
 		}
 	},

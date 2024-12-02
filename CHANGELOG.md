@@ -5,6 +5,7 @@
 - Support for new `scenecontrol` types
 - Check for non-positive duration `scenecontrol`
 - Support for `arc` with new line type
+- Update JSON validation for the `songlist` `packlist` `unlocks` files for the arcaea 6.0.x
 
 ## 0.13.1
 
