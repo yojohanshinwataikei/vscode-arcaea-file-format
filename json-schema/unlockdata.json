@@ -40,7 +40,7 @@
 			"properties": {
 				"type": {
 					"type": "integer",
-					"description": "The type of the unlock condition, 0 for fragments, 1 for grade on earlier charts, 2 for play on earlier charts, 3 for multiple grade on earlier charts, 4 for multiple selectable conditions, 5 for reaching a potential rating, 6 for clear of chart of specific rating, 7 for unlock of earlier charts, 8 for lamp on earlier charts, 101 for anomaly, 103 for a specific partner, 104 for online check in axiom of the end, 105 for using a specific partner in a specific state or not, 106 for unlocking another chart or not, 107 for selected songs with specific first letter, 108 for specific story read, 109 for puzzling play in specific rating class, 110 for special unlocking course, 111 for specific story read, 112 for puzzling song selecting"
+					"description": "The type of the unlock condition, 0 for fragments, 1 for grade on earlier charts, 2 for play on earlier charts, 3 for multiple grade on earlier charts, 4 for multiple selectable conditions, 5 for reaching a potential rating, 6 for clear of chart of specific rating, 7 for unlock of earlier charts, 8 for lamp on earlier charts, 9 for grade on chart of specific difficulty, 10 for story read, 101 for anomaly, 103 for a specific partner, 104 for online check in axiom of the end, 105 for using a specific partner in a specific state or not, 106 for unlocking another chart or not, 107 for selected songs with specific first letter, 108 for specific story read, 109 for puzzling play in specific rating class, 110 for special unlocking course, 111 for specific story read, 112 for puzzling song selecting"
 				}
 			},
 			"oneOf": [
@@ -289,6 +289,68 @@
 						"song_id",
 						"song_difficulty",
 						"lamp"
+					]
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 9
+						},
+						"count": {
+							"type": "integer",
+							"minimum": 0,
+							"description": "Number of charts of the rating required to be clear"
+						},
+						"difficulty": {
+							"type": "integer",
+							"description": "The rating class of the difficulty that needs to unlock, 0 for past, 1 for present, 2 for future, 3 for beyond, and 4 for eternal",
+							"enum": [
+								0,
+								1,
+								2,
+								3,
+								4
+							]
+						},
+						"grade": {
+							"type": "integer",
+							"description": "The require grade to the charts when cleared, 0 for no limit, 1 for C, 2 for B, 3 for A, 4 for AA, 5 for EX, 6 for EX+",
+							"enum": [
+								0,
+								1,
+								2,
+								3,
+								4,
+								5,
+								6
+							]
+						}
+					},
+					"required": [
+						"count",
+						"difficulty",
+						"grade"
+					]
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 10
+						},
+						"major": {
+							"type": "integer",
+							"minimum": 0,
+							"description": "The number id of the story series"
+						},
+						"minor": {
+							"type": "integer",
+							"minimum": 0,
+							"description": "The number id of the story entry in the series"
+						}
+					},
+					"required": [
+						"major",
+						"minor"
 					]
 				},
 				{
