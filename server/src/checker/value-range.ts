@@ -110,6 +110,7 @@ const checkItem = ({ data, location }: WithLocation<AFFItem>, errors: AFFError[]
 			})
 		}
 	} else if (data.kind === "scenecontrol") {
+		checkTimestamp(data.time, errors)
 		const kind = data.sceneControlKind.data.value
 		if (["enwidencamera", "enwidenlanes", "trackdisplay"].includes(kind)) {
 			const values = data.values;
