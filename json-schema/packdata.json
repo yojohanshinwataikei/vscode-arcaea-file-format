@@ -20,6 +20,26 @@
 				"collab"
 			]
 		},
+		"pack_parent": {
+			"type": "string",
+			"description": "The id of the parent pack of this pack"
+		},
+		"is_extend_pack": {
+			"type": "boolean",
+			"description": "Is this a world extend pack"
+		},
+		"is_active_extend_pack": {
+			"type": "boolean",
+			"description": "Is this world extend pack currently active one (and is not extend archive pack)"
+		},
+		"small_pack_image": {
+			"type": "boolean",
+			"description": "Is this pack use a smaller cover image (like memory archive)"
+		},
+		"cutout_pack_image": {
+			"type": "boolean",
+			"description": "Is this pack use a partially transparent cover image (so that the white background behind the cover image should be not shown)"
+		},
 		"cost": {
 			"type": "integer",
 			"description": "The price of this pack in memories, however from 3.0.0 this will be controlled by server instead of keep in packlist",
