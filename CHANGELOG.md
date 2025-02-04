@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.15.0
+
+- check for non negative timestamp for `scenecontrol` and `camera`
+
 ## 0.14.0
 
 - Support for new `scenecontrol` types

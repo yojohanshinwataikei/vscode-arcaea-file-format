@@ -102,6 +102,7 @@ const checkItem = ({ data, location }: WithLocation<AFFItem>, errors: AFFError[]
 			}
 		}
 	} else if (data.kind === "camera") {
+		checkTimestamp(data.time, errors)
 		if (data.duration.data.value < 0) {
 			errors.push({
 				message: `Camera event should have non negative duration`,
