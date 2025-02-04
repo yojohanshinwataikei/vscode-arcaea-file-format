@@ -1,8 +1,9 @@
 # Change Log
 
-## 0.15.0
+## 0.14.1
 
 - check for non negative timestamp for `scenecontrol` and `camera`
+- Update JSON validation for the `packlist` `unlocks` files
 
 ## 0.14.0
 
