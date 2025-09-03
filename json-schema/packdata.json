@@ -11,13 +11,24 @@
 		},
 		"section": {
 			"type": "string",
-			"description": "The section of the pack, used in pack selection view",
-			"enum": [
-				"archive",
-				"free",
-				"mainstory",
-				"sidestory",
-				"collab"
+			"description": "The section of the pack, used in pack selection view. The value used in this fields changed after 6.3.2",
+			"anyOf": [
+				{
+					"enum": [
+						"archive",
+						"free"
+					],
+					"deprecated": true
+				},
+				{
+					"enum": [
+						"arcaea",
+						"mainstory2",
+						"mainstory",
+						"sidestory",
+						"collab"
+					]
+				}
 			]
 		},
 		"pack_parent": {
