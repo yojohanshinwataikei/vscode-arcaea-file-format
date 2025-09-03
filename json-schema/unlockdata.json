@@ -40,7 +40,7 @@
 			"properties": {
 				"type": {
 					"type": "integer",
-					"description": "The type of the unlock condition, 0 for fragments, 1 for grade on earlier charts, 2 for play on earlier charts, 3 for multiple grade on earlier charts, 4 for multiple selectable conditions, 5 for reaching a potential rating, 6 for clear of chart of specific rating, 7 for unlock of earlier charts, 8 for lamp on earlier charts, 9 for grade on chart of specific difficulty, 10 for story read, 101 for generic anomaly (Grievous Lady/Fracture Ray/Tempestissimo/Infinite Strife,/World Ender/Pentiment/Arcana Eden/Testify/Designant./Astral Quantization), 103 for using a specific partner (Aegleseeker/Arghena), 104 for online check in axiom of the end (Infinite Strife,/World Ender/Pentiment/Arcana Eden/Testify/Loveless Dress/Callima Karma/Last), 105 for using a specific partner in a specific state or not (Last | Eternity), 106 for unlocking another chart or not (Last | Moment), 107 for selected songs with specific first letter (Magnolia), 108 for specific story read (Arghena), 109 for puzzling play in specific rating class (Arghena), 110 for special unlocking course (Arghena), 111 for specific story read (ALTER EGO), 112 for puzzling song selecting (ALTER EGO)"
+					"description": "The type of the unlock condition, 0 for fragments, 1 for grade on earlier charts, 2 for play on earlier charts, 3 for multiple grade on earlier charts, 4 for multiple selectable conditions, 5 for reaching a potential rating, 6 for clear of chart of specific rating, 7 for unlock of earlier charts, 8 for lamp on earlier charts, 9 for grade on chart of specific difficulty, 10 for story read, 80 for play on earlier charts that will hide the chart when 'hidden_util' is 'unlockconditions', 101 for generic anomaly (Grievous Lady/Fracture Ray/Tempestissimo/Infinite Strife,/World Ender/Pentiment/Arcana Eden/Testify/Designant./Astral Quantization), 103 for using a specific partner (Aegleseeker/Arghena), 104 for online check in axiom of the end (Infinite Strife,/World Ender/Pentiment/Arcana Eden/Testify/Loveless Dress/Callima Karma/Last), 105 for using a specific partner in a specific state or not (Last | Eternity), 106 for unlocking another chart or not (Last | Moment), 107 for selected songs with specific first letter (Magnolia), 108 for specific story read (Arghena), 109 for puzzling play in specific rating class (Arghena), 110 for special unlocking course (Arghena), 111 for specific story read (ALTER EGO), 112 for puzzling song selecting (ALTER EGO)"
 				}
 			},
 			"oneOf": [
@@ -351,6 +351,32 @@
 					"required": [
 						"major",
 						"minor"
+					]
+				},
+				{
+					"properties": {
+						"type": {
+							"const": 80
+						},
+						"song_id": {
+							"type": "string",
+							"description": "The id of the song needed to play specified in songlist file"
+						},
+						"song_difficulty": {
+							"type": "integer",
+							"description": "The rating class of the difficulty that needs to clear, 0 for past, 1 for present, 2 for future, 3 for beyond, and 4 for eternal",
+							"enum": [
+								0,
+								1,
+								2,
+								3,
+								4
+							]
+						}
+					},
+					"required": [
+						"song_id",
+						"song_difficulty"
 					]
 				},
 				{

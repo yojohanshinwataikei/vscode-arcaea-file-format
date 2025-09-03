@@ -264,12 +264,13 @@
 					},
 					"hidden_until": {
 						"type": "string",
-						"description": "The condition to reveal the hidden song, none for always visible, always for always hidden, difficulty for unlock of the difficulty, song for unlock of the song",
+						"description": "The condition to reveal the hidden song, none for always visible, always for always hidden, difficulty for unlock of the difficulty, song for unlock of the song, unlockconditions for satisfying specific unlock conditions",
 						"enum": [
 							"none",
 							"always",
 							"difficulty",
-							"song"
+							"song",
+							"unlockconditions"
 						]
 					},
 					"world_unlock": {
