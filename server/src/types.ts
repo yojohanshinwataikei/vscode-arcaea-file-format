@@ -40,6 +40,7 @@ export interface AFFArcEvent {
 	colorId: WithLocation<AFFColorId>,
 	effect: WithLocation<AFFEffect>,
 	lineKind: WithLocation<AFFArcLineKind>,
+	smoothness?: WithLocation<AFFFloat>,
 	arctaps?: WithLocation<WithLocation<AFFArctapEvent>[]>,
 }
 

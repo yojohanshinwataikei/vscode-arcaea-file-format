@@ -90,6 +90,15 @@ const checkItem = ({ data, location }: WithLocation<AFFItem>, errors: AFFError[]
 				location: data.colorId.location,
 			})
 		}
+		if (data.smoothness) {
+			if (data.smoothness.data.value < 1) {
+				errors.push({
+					message: `Arc smoothness with value less than 1 will be ignored`,
+					severity: DiagnosticSeverity.Warning,
+					location: data.smoothness.location,
+				})
+			}
+		}
 		if (data.arctaps) {
 			for (const arctap of data.arctaps.data) {
 				if (arctap.data.time.data.value < data.start.data.value || arctap.data.time.data.value > data.end.data.value) {

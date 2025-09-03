@@ -16,6 +16,9 @@ const checkItem = ({ data, location }: WithLocation<AFFItem>, errors: AFFError[]
 		checkFloat(data.xEnd, errors)
 		checkFloat(data.yStart, errors)
 		checkFloat(data.yEnd, errors)
+		if (data.smoothness) {
+			checkFloat(data.smoothness, errors)
+		}
 	} else if (data.kind === "camera") {
 		checkFloat(data.translationX, errors)
 		checkFloat(data.translationY, errors)

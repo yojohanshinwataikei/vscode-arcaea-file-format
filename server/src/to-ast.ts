@@ -333,7 +333,10 @@ const eventTransformer = {
 		tagLocation: CstNodeLocation,
 	): AFFArcEvent | null => {
 		rejectSegment(errors, "arc", segment, segmentLocation)
-		if (!checkValuesCount(errors, "arc", 10, values, valuesLocation)) {
+		if (!ensureValuesCount(errors, "arc", 10, values, valuesLocation)) {
+			return null
+		}
+		if (!limitValuesCount(errors, "arc", 11, values, valuesLocation)) {
 			return null
 		}
 		const start = checkValueType(errors, "arc", "start", "int", values, 0)
@@ -350,6 +353,10 @@ const eventTransformer = {
 		const effect = parseValue.effect(errors, "arc", "effect", rawEffect)
 		const rawLineKind = checkValueType(errors, "arc", "line-kind", "word", values, 9)
 		const lineKind = parseValue.arcLineKind(errors, "arc", "line-kind", rawLineKind)
+		let smoothness = undefined
+		if (values.length >= 11) {
+			smoothness = checkValueType(errors, "arc", "smoothness", "float", values, 10)
+		}
 		if (start === null || end === null ||
 			xStart === null || xEnd === null || curveKind === null ||
 			yStart === null || yEnd === null || colorId === null ||
@@ -357,7 +364,7 @@ const eventTransformer = {
 			return null
 		}
 		return {
-			kind: "arc", start, end, xStart, xEnd, curveKind, yStart, yEnd, colorId, effect, lineKind,
+			kind: "arc", start, end, xStart, xEnd, curveKind, yStart, yEnd, colorId, effect, lineKind, smoothness,
 			arctaps: subevents ? transformArcSubevents(errors, subevents, subeventsLocation) : undefined, tagLocation
 		}
 	},

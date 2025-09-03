@@ -2,6 +2,7 @@
 
 ## 0.15.0
 
+- Support for new smoothness parameter on `arc`
 - Update JSON validation for the `songlist` `packlist` `unlocks` files
 
 ## 0.14.1
